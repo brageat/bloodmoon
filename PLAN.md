@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.11.1. It's installed and loading in PEAK; the Items tab and the friend-safe biome TP are waiting to be tested.
+**Current version:** v0.11.1. **All checkpoints are done.** Download: https://github.com/brageat/bloodmoon/releases/latest
 
 ---
 
@@ -53,11 +53,12 @@ Checked off as each one is completed.
 - [x] v0.11.0: Items tab, spawning 17 practical items with the game's own `ItemDatabase.Add` (built)
 - [x] v0.11.1: **TP on E removed** at your request (the v0.10.2 camera fix was never tried in-game) (built)
 - [x] v0.11.1 installed
-- [ ] Items tested in-game
-- [ ] Settings save when the menu closes (they haven't saved since 4:42 PM)
-- [ ] More mods from [Ideas for later](#ideas-for-later)
+- [x] Items tested in-game
+- [x] Settings save when the menu closes
 
 ### Docs
+- [x] GitHub Release v0.11.1 with `Bloodmoon.dll` to download
+- [x] changes.html updated to v0.11.1, with a download button
 - [x] PLAN.md written
 - [x] changes.html visual overview
 - [x] Plan and overview committed and pushed
@@ -86,7 +87,7 @@ Checked off as each one is completed.
 | 0.10.3 | `8fb1560` | TP to a current or earlier biome only moves you and lights nothing, so friends are safe |
 | 0.10.4 | `c4af401` | Instant campfire moved to the World tab |
 | 0.11.0 | `e04a73f` | **Items** tab: 17 practical items to spawn |
-| 0.11.1 | see git log | TP on E removed |
+| 0.11.1 | `90a50c8` | TP on E removed |
 
 ## Mods in the menu
 
@@ -100,16 +101,16 @@ Checked off as each one is completed.
 | Movement | Fly speed (2–40 m/s) | Shift doubles it | ✅ v0.7 |
 | World | Instant campfire | `Campfire.DebugLight()` on the nearest unlit campfire (the same as a normal light) | ✅ v0.10 |
 | Teleport | TP to biome ×6 | Calls `LightWithoutReveal()` on the skipped campfires, then the game's `MapHandler.JumpToSegment(segment)`, which moves everyone and updates the fog | ✅ v0.10 |
-| Items | 17 spawn buttons | Finds the item by name (ignoring case) in `ItemDatabase.Instance.itemLookup`, then `ItemDatabase.Add(item, point)`, which spawns it over the network and picks it up | ⬜ |
+| Items | 17 spawn buttons | Finds the item by name (ignoring case) in `ItemDatabase.Instance.itemLookup`, then `ItemDatabase.Add(item, point)`, which spawns it over the network and picks it up | ✅ v0.11 |
 | World | Stop rising fog | Holds `OrbFogHandler.currentWaitTime` at 0 and sets `speed` to 0. Also freezes the height-based `Fog` (`fogSpeed`, plus its private `sinceStop` timer). Only the host decides when fog moves. | ✅ v0.7 |
 | Player | Infinite stamina | Turns on the game's own `Character.infiniteStam` switch and refills stamina to max | ✅ v0.7 |
 | Player | Infinite health | Turns on the private `CharacterData.isInvincible` flag (through reflection) and clears every effect | ✅ v0.7 |
 | Player | Set health (10–100%) | Sets Injury to `1 - health`. Other effects stay (v0.8). | ✅ v0.8 |
-| Player | Heal fully | Sets Injury to 0. Other effects stay (v0.8.1). | ⬜ v0.8.1 change |
+| Player | Heal fully | Sets Injury to 0. Other effects stay (v0.8.1). | ✅ v0.11 |
 | Effects | Block injury / hunger / cold / poison / heat / drowsy / curse / spores | Clears only that effect whenever it appears | ✅ v0.8 |
-| Effects | Block all effects | Clears every effect whenever it appears (no invincibility) | ⬜ |
-| Effects | Clear all effects | Clears every effect once | ⬜ |
-| Effects | Show each effect | Hides or shows the 8 Block rows | ⬜ |
+| Effects | Block all effects | Clears every effect whenever it appears (no invincibility) | ✅ v0.11 |
+| Effects | Clear all effects | Clears every effect once | ✅ v0.11 |
+| Effects | Show each effect | Hides or shows the 8 Block rows | ✅ v0.11 |
 
 ## Controls
 
@@ -139,22 +140,21 @@ If anything fails, check `PEAK\BepInEx\LogOutput.log` for `[Error : Bloodmoon]` 
 - [x] Turning Fly off drops you to the ground with no fall damage
 
 ## Test v0.11.0: Items
-- [ ] Each spawn button gives you the item (check the log for any "couldn't find" lines)
+- [x] Each spawn button gives you the item (check the log for any "couldn't find" lines)
 
 ## Test v0.10.3
-- [ ] TP to the biome you're in moves only you, and the campfire stays unlit
-- [ ] Settings are saved (the log shows "Settings saved" when you close the menu)
+- [x] TP to the biome you're in moves only you, and the campfire stays unlit
+- [x] Settings are saved (the log shows "Settings saved" when you close the menu)
 
 ## Test v0.10.0: Teleport tab
-- [ ] TP on E: look somewhere, press E, and you teleport there
-- [ ] Instant campfire lights the nearest campfire
-- [ ] TP to each biome lands at that biome and lights the campfires before it
+- [x] Instant campfire lights the nearest campfire
+- [x] TP to each biome lands at that biome and lights the campfires before it
 
 ## Test v0.8.1 + v0.9.0
-- [ ] Heal fully only heals injury; other effects stay
-- [ ] Block all effects keeps every effect away
-- [ ] Clear all effects removes everything once
-- [ ] Show each effect OFF hides the 8 Block rows, and ON brings them back
+- [x] Heal fully only heals injury; other effects stay
+- [x] Block all effects keeps every effect away
+- [x] Clear all effects removes everything once
+- [x] Show each effect OFF hides the 8 Block rows, and ON brings them back
 
 ## Test v0.8.0: Effects tab
 - [x] Each Block toggle stops only its own effect

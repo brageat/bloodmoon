@@ -15,22 +15,16 @@
     --red-deep: #3a0306;
     --text: #efefef;
     --muted: #8c8c8c;
-    --ok: #ff2933;
     --todo: #3a3a3a;
     --mono: ui-monospace, "Cascadia Code", Consolas, monospace;
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font: 15px/1.55 "Segoe UI", system-ui, sans-serif;
-  }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.55 "Segoe UI", system-ui, sans-serif; }
   .wrap { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
   h1, h2, h3 { margin: 0; line-height: 1.2; }
-  h2 {
-    font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
-    color: var(--red-bright); margin: 44px 0 14px;
-  }
+  h2 { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--red-bright); margin: 44px 0 14px; }
   p { margin: 0; }
+  a { color: #ff8a90; }
   code { font-family: var(--mono); font-size: .88em; color: #ffb3b6; }
   .muted { color: var(--muted); }
 
@@ -46,49 +40,68 @@
   }
   header h1 { font-size: 34px; letter-spacing: .08em; color: var(--red-bright); }
   header .sub { color: var(--muted); }
-  .badge {
-    display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px;
-    border: 1px solid var(--red); background: var(--red-deep); color: var(--text); margin-left: 8px;
-    vertical-align: middle; letter-spacing: 0;
+  .badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border: 1px solid var(--red); background: var(--red-deep); color: var(--text); margin-left: 8px; vertical-align: middle; letter-spacing: 0; }
+
+  /* download */
+  .download {
+    margin-top: 28px; padding: 24px; border: 2px solid var(--red);
+    background: linear-gradient(135deg, #1a0204, #070707 60%);
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px 28px; align-items: center;
   }
+  .download h2 { margin: 0 0 6px; font-size: 22px; letter-spacing: .02em; text-transform: none; color: var(--text); }
+  .dl-btn {
+    display: inline-flex; align-items: center; gap: 12px; text-decoration: none;
+    background: var(--red); color: #fff; font-weight: 800; font-size: 20px; letter-spacing: .02em;
+    padding: 18px 30px; border: 2px solid var(--red-bright); box-shadow: 0 0 28px rgba(255,41,51,.45);
+    transition: transform .08s ease, background .15s ease;
+  }
+  .dl-btn:hover { background: var(--red-bright); transform: translateY(-1px); }
+  .dl-btn:active { transform: translateY(1px); }
+  .dl-btn svg { width: 26px; height: 26px; flex: none; }
+  .dl-btn small { display: block; font-size: 12px; font-weight: 600; opacity: .85; letter-spacing: 0; }
+  .dl-side { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .dl-side a.alt { font-size: 13px; }
+  .steps3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; grid-column: 1 / -1; counter-reset: s; }
+  .step3 { background: rgba(0,0,0,.45); border: 1px solid var(--line); padding: 12px 14px; font-size: 14px; }
+  .step3::before { counter-increment: s; content: counter(s); display: inline-grid; place-items: center; width: 24px; height: 24px; background: var(--red); color: #fff; font-weight: 700; font-size: 13px; margin-right: 8px; }
+  .step3 b { display: inline; }
+  .step3 p { margin-top: 6px; color: var(--muted); font-size: 13px; }
 
   /* stats */
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 28px; }
   .stat { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--red); padding: 14px 16px; }
-  .stat b { display: block; font-size: 28px; color: var(--text); font-variant-numeric: tabular-nums; }
+  .stat b { display: block; font-size: 28px; font-variant-numeric: tabular-nums; }
   .stat span { color: var(--muted); font-size: 13px; }
 
-  /* progress */
+  /* checkpoints */
   .progress { background: var(--panel); border: 1px solid var(--line); padding: 18px; }
-  .bar { height: 10px; background: var(--todo); margin: 10px 0 16px; }
+  .done-banner { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 18px; color: var(--text); }
+  .done-banner .tick { width: 28px; height: 28px; background: var(--red); display: grid; place-items: center; flex: none; }
+  .done-banner .tick::after { content: ""; width: 7px; height: 13px; border: solid #fff; border-width: 0 3px 3px 0; transform: rotate(45deg) translate(-1px, -2px); }
+  .bar { height: 10px; background: var(--todo); margin: 12px 0 16px; }
   .bar i { display: block; height: 100%; background: var(--red); }
   .checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 6px 24px; }
   .checks h3 { font-size: 12px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin: 8px 0 4px; }
   .check { display: flex; gap: 10px; align-items: baseline; font-size: 14px; }
-  .box { width: 14px; height: 14px; flex: none; border: 1px solid var(--muted); position: relative; top: 2px; }
-  .done .box { background: var(--red); border-color: var(--red); }
-  .done .box::after { content: ""; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
-  .todo span { color: var(--muted); }
+  .box { width: 14px; height: 14px; flex: none; border: 1px solid var(--red); background: var(--red); position: relative; top: 2px; }
+  .box::after { content: ""; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
 
   /* timeline */
   .timeline { position: relative; padding-left: 28px; }
   .timeline::before { content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
-  .ver { position: relative; margin-bottom: 14px; background: var(--panel); border: 1px solid var(--line); padding: 14px 16px; }
-  .ver::before {
-    content: ""; position: absolute; left: -26px; top: 18px; width: 12px; height: 12px; border-radius: 50%;
-    background: var(--red); box-shadow: 0 0 0 4px var(--bg);
-  }
-  .ver.next::before { background: var(--bg); border: 2px solid var(--red); }
-  .ver-head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; margin-bottom: 6px; }
-  .ver-head b { font-size: 17px; }
+  .ver { position: relative; margin-bottom: 10px; background: var(--panel); border: 1px solid var(--line); padding: 12px 16px; }
+  .ver::before { content: ""; position: absolute; left: -26px; top: 16px; width: 12px; height: 12px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 4px var(--bg); }
+  .ver-head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .ver-head b { font-size: 16px; min-width: 64px; }
   .ver-head .tag { font-family: var(--mono); font-size: 12px; color: var(--muted); }
-  .ver ul { margin: 0; padding-left: 18px; }
-  .ver li { margin: 2px 0; }
-  .chip { font-size: 11px; font-weight: 700; padding: 1px 7px; background: var(--red-deep); color: #ffb3b6; border: 1px solid #5a0a0f; }
+  .ver p { margin-top: 4px; font-size: 14px; }
 
   /* menu mockup */
   .mock-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 18px; align-items: start; }
-  .mock { background: #050505; border: 2px solid var(--red); padding: 16px; font-size: 14px; max-width: 580px; }
+  .mock { background: #050505; border: 2px solid var(--red); padding: 16px; font-size: 14px; max-width: 580px; outline: none; min-width: 0; }
+  .mock-wrap > *, .mock-body > *, .mock-head > div { min-width: 0; }
+  .row-top span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mock:focus { box-shadow: 0 0 0 3px rgba(255,41,51,.35); }
   .mock-head { display: flex; align-items: center; gap: 12px; }
   .mock-head .moon { width: 44px; height: 44px; box-shadow: 0 0 18px 4px rgba(255,41,51,.35); }
   .mock-title { font-size: 22px; font-weight: 800; color: var(--red-bright); letter-spacing: .02em; }
@@ -101,6 +114,8 @@
   .tab small { color: #555; }
   .tab.on { background: var(--red); color: #fff; font-weight: 700; }
   .tab.on small { color: #fff; }
+  #rows { height: 300px; overflow: hidden; }
+  .more { text-align: center; color: var(--red-bright); font-weight: 700; font-size: 13px; height: 18px; }
   .row { background: #0d0d0d; padding: 8px 10px; margin: 3px 0; color: var(--muted); border-left: 3px solid transparent; cursor: pointer; }
   .row.on { background: #240305; border-left-color: var(--red-bright); color: var(--text); font-weight: 700; }
   .row-top { display: flex; justify-content: space-between; gap: 8px; }
@@ -117,23 +132,18 @@
   .desc { min-height: 40px; font-size: 13px; }
   .keys { text-align: center; color: var(--muted); font-size: 10px; letter-spacing: .03em; margin-top: 4px; }
   .mock-help { background: var(--panel); border: 1px solid var(--line); padding: 14px 16px; font-size: 14px; }
-  .mock-help kbd {
-    font-family: var(--mono); font-size: 12px; background: var(--panel-2); border: 1px solid #333;
-    border-bottom-width: 2px; padding: 1px 6px; color: var(--text);
-  }
+  .mock-help kbd { font-family: var(--mono); font-size: 12px; background: var(--panel-2); border: 1px solid #333; border-bottom-width: 2px; padding: 1px 6px; color: var(--text); }
   .mock-help div { margin: 6px 0; }
 
   /* architecture */
-  .arch { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; position: relative; }
+  .arch { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
   .node { background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--red); padding: 14px; position: relative; }
   .node h3 { font-size: 15px; margin-bottom: 4px; }
   .node .file { font-family: var(--mono); font-size: 12px; color: #ffb3b6; display: block; margin-bottom: 8px; }
   .node p { font-size: 13px; color: var(--muted); }
-  .node:not(:last-child)::after {
-    content: "→"; position: absolute; right: -14px; top: 50%; transform: translate(50%, -50%);
-    color: var(--red-bright); font-size: 18px; z-index: 1;
-  }
+  .node:not(:last-child)::after { content: "→"; position: absolute; right: -14px; top: 50%; transform: translate(50%, -50%); color: var(--red-bright); font-size: 18px; z-index: 1; }
   .modlist { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+  .chip { font-size: 11px; font-weight: 700; padding: 1px 7px; background: var(--red-deep); color: #ffb3b6; border: 1px solid #5a0a0f; }
 
   /* tables */
   .table-wrap { overflow-x: auto; border: 1px solid var(--line); }
@@ -141,14 +151,7 @@
   th { text-align: left; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--panel); padding: 10px 12px; border-bottom: 1px solid var(--line); }
   td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
   tr:last-child td { border-bottom: 0; }
-  .st { font-size: 12px; font-weight: 700; white-space: nowrap; }
-  .st.ok { color: var(--ok); }
-  .st.wait { color: var(--muted); }
-
-  /* next */
-  .steps { counter-reset: s; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
-  .step { background: var(--panel); border: 1px solid var(--line); padding: 14px; font-size: 14px; }
-  .step::before { counter-increment: s; content: counter(s); display: inline-grid; place-items: center; width: 24px; height: 24px; background: var(--red); color: #fff; font-weight: 700; font-size: 13px; margin-bottom: 8px; }
+  .st { font-size: 12px; font-weight: 700; white-space: nowrap; color: var(--red-bright); }
 
   footer { margin-top: 48px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 16px; }
 
@@ -156,12 +159,16 @@
     .mock-wrap { grid-template-columns: 1fr; }
     .arch { grid-template-columns: 1fr 1fr; }
     .node:nth-child(2)::after { display: none; }
+    .download { grid-template-columns: 1fr; }
+    .dl-side { align-items: stretch; }
+    .dl-btn { justify-content: center; }
   }
-  @media (max-width: 520px) {
-    .arch { grid-template-columns: 1fr; }
+  @media (max-width: 560px) {
+    .arch, .steps3 { grid-template-columns: 1fr; }
     .node:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -14px; transform: translate(50%, 50%); display: block; }
     .mock-body { grid-template-columns: 1fr; }
     header h1 { font-size: 28px; }
+    .dl-btn { font-size: 18px; padding: 16px 20px; }
   }
 </style>
 </head>
@@ -171,67 +178,46 @@
   <header>
     <div class="moon" aria-hidden="true"></div>
     <div>
-      <h1>BLOODMOON <span class="badge">v0.5.0</span></h1>
-      <p class="sub">Mod menu for PEAK: what changed, what's in it, and what's next</p>
+      <h1>BLOODMOON <span class="badge">v0.11.1</span></h1>
+      <p class="sub">Mod menu for PEAK: what's in it, how it was built, and how to get it</p>
     </div>
   </header>
 
+  <section class="download" id="download">
+    <div>
+      <h2>Download Bloodmoon</h2>
+      <p class="muted">One file: <code>Bloodmoon.dll</code> (38 KB), version 0.11.1. The repo is private, so you need to be logged in to GitHub as <b>brageat</b>.</p>
+    </div>
+    <div class="dl-side">
+      <a class="dl-btn" href="https://github.com/brageat/bloodmoon/releases/latest/download/Bloodmoon.dll">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6 10 6 6 6-6"/><path d="M4 20h16"/></svg>
+        <span>DOWNLOAD<small>Bloodmoon.dll · v0.11.1</small></span>
+      </a>
+      <a class="alt" href="https://github.com/brageat/bloodmoon/releases">All versions</a>
+    </div>
+    <div class="steps3">
+      <div class="step3"><b>Install BepInEx</b><p>Get <a href="https://thunderstore.io/c/peak/p/BepInEx/BepInExPack_PEAK/">BepInExPack_PEAK</a> and copy it into your PEAK folder. Launch the game once.</p></div>
+      <div class="step3"><b>Drop in the DLL</b><p>Put <code>Bloodmoon.dll</code> in <code>PEAK\BepInEx\plugins\Bloodmoon\</code>.</p></div>
+      <div class="step3"><b>Play</b><p>Start PEAK, join a game and press <b>Insert</b>.</p></div>
+    </div>
+  </section>
+
   <div class="stats">
-    <div class="stat"><b>5</b><span>versions released</span></div>
-    <div class="stat"><b>4</b><span>mod modules</span></div>
-    <div class="stat"><b>8</b><span>rows in the menu</span></div>
-    <div class="stat"><b>+917 / −315</b><span>lines changed across 13 files</span></div>
+    <div class="stat"><b>18</b><span>versions released</span></div>
+    <div class="stat"><b>8</b><span>mod modules</span></div>
+    <div class="stat"><b>46</b><span>rows across 6 tabs</span></div>
+    <div class="stat"><b>+2124 / −310</b><span>lines changed across 19 files</span></div>
   </div>
 
   <h2>Checkpoints</h2>
   <div class="progress">
-    <div id="progress-label" class="muted"></div>
+    <div class="done-banner"><span class="tick" aria-hidden="true"></span><span id="progress-label"></span></div>
     <div class="bar"><i id="progress-bar"></i></div>
     <div class="checks" id="checks"></div>
   </div>
 
   <h2>Version timeline</h2>
-  <div class="timeline">
-    <div class="ver">
-      <div class="ver-head"><b>v0.1.0</b><span class="tag">d626df5 · a816b11 · 0ed04a8</span></div>
-      <ul>
-        <li>First themed menu with a drawn blood moon, opened with <code>Insert</code></li>
-        <li>Speed multiplier slider using <code>movementModifier</code>, <span class="chip">tested in-game</span></li>
-        <li>README with requirements, setup and troubleshooting. Build fixed with the Photon reference.</li>
-      </ul>
-    </div>
-    <div class="ver">
-      <div class="ver-head"><b>v0.2.0</b><span class="tag">907a235 · 09402d8</span></div>
-      <ul>
-        <li><b>Keyboard-only</b> menu, so PEAK's hand cursor no longer appears</li>
-        <li>Errors logged through BepInEx, because Unity's log writer fails in PEAK</li>
-        <li>Building while the game is running warns instead of failing</li>
-      </ul>
-    </div>
-    <div class="ver">
-      <div class="ver-head"><b>v0.3.0</b><span class="tag">2bfbbe9</span></div>
-      <ul>
-        <li><b>Large menu</b> with a categories sidebar (<code>Tab</code>), item panel and description footer</li>
-        <li><b>Module system</b>: each mod is its own file</li>
-        <li><b>Black and red</b> theme</li>
-      </ul>
-    </div>
-    <div class="ver">
-      <div class="ver-head"><b>v0.4.0</b><span class="tag">eaaea00</span></div>
-      <ul><li>Infinite stamina, using the game's built-in <code>infiniteStam</code> plus a refill</li></ul>
-    </div>
-    <div class="ver">
-      <div class="ver-head"><b>v0.5.0</b><span class="tag">0ad725e</span></div>
-      <ul>
-        <li>Infinite health, Set health and Heal fully, which work through afflictions and <code>isInvincible</code></li>
-        <li>Climb speed using <code>climbSpeedMod</code>, plus a reset button</li>
-      </ul>
-    </div>
-    <div class="ver next">
-      <div class="ver-head"><b>Next</b><span class="tag">planned</span></div>
-      <ul><li>Test v0.5.0 in-game, then <b>Flying</b></li></ul>
-    </div>
-  </div>
+  <div class="timeline" id="timeline"></div>
 
   <h2>The menu (interactive preview)</h2>
   <div class="mock-wrap">
@@ -242,7 +228,7 @@
           <div class="mock-title">BLOODMOON</div>
           <div class="muted" style="font-size:11px">mod menu for PEAK</div>
         </div>
-        <span class="badge">v0.5.0</span>
+        <span class="badge">v0.11.1</span>
       </div>
       <div class="rule"></div>
       <div class="mock-body">
@@ -272,52 +258,22 @@
 
   <h2>How it fits together</h2>
   <div class="arch">
+    <div class="node"><h3>BepInEx</h3><span class="file">PEAK\BepInEx\</span><p>Loads <code>Bloodmoon.dll</code> when the game starts.</p></div>
+    <div class="node"><h3>Plugin</h3><span class="file">Plugin.cs</span><p>Lists the modules, watches <code>Insert</code>, runs each module every frame and physics step, saves settings and logs errors.</p></div>
     <div class="node">
-      <h3>BepInEx</h3>
-      <span class="file">PEAK\BepInEx\</span>
-      <p>Loads <code>Bloodmoon.dll</code> when the game starts.</p>
+      <h3>Modules</h3><span class="file">Modules/*.cs</span>
+      <p>Each mod adds its rows in <code>Init()</code> and does its work in <code>Tick()</code> / <code>FixedTick()</code>.</p>
+      <div class="modlist"><span class="chip">Speed</span><span class="chip">Climb</span><span class="chip">Fly</span><span class="chip">Stamina</span><span class="chip">Health</span><span class="chip">Teleport</span><span class="chip">Items</span><span class="chip">StopFog</span></div>
     </div>
-    <div class="node">
-      <h3>Plugin</h3>
-      <span class="file">Plugin.cs</span>
-      <p>Lists the modules, watches <code>Insert</code>, runs each module every frame and logs errors.</p>
-    </div>
-    <div class="node">
-      <h3>Modules</h3>
-      <span class="file">Modules/*.cs</span>
-      <p>Each mod adds its rows to the menu in <code>Init()</code> and does its work in <code>Tick()</code>.</p>
-      <div class="modlist"><span class="chip">Speed</span><span class="chip">Climb</span><span class="chip">Stamina</span><span class="chip">Health</span></div>
-    </div>
-    <div class="node">
-      <h3>Menu</h3>
-      <span class="file">Menu/*.cs</span>
-      <p>Draws the rows by type (slider, toggle, button), handles the keys and holds the theme.</p>
-    </div>
+    <div class="node"><h3>Menu</h3><span class="file">Menu/*.cs</span><p>Draws the rows by type (slider, toggle, button), fits as many as there's room for, handles the keys and holds the theme.</p></div>
   </div>
 
   <h2>Mods</h2>
   <div class="table-wrap">
     <table>
       <thead><tr><th>Tab</th><th>Mod</th><th>How it works</th><th>Status</th></tr></thead>
-      <tbody>
-        <tr><td>Movement</td><td>Speed multiplier</td><td>Sets <code>CharacterMovement.movementModifier</code> (0.5–5x)</td><td class="st ok">✔ Tested</td></tr>
-        <tr><td>Movement</td><td>Reset speed</td><td>Sets speed back to 1x</td><td class="st wait">Built, untested</td></tr>
-        <tr><td>Movement</td><td>Climb speed</td><td>Sets <code>CharacterClimbing.climbSpeedMod</code> and puts the game's value back at 1x</td><td class="st wait">Built, untested</td></tr>
-        <tr><td>Movement</td><td>Reset climb speed</td><td>Sets climb speed back to 1x</td><td class="st wait">Built, untested</td></tr>
-        <tr><td>Player</td><td>Infinite stamina</td><td>Turns on the game's own <code>Character.infiniteStam</code> and refills to max</td><td class="st wait">Built, untested</td></tr>
-        <tr><td>Player</td><td>Infinite health</td><td>Turns on the private <code>isInvincible</code> flag (through reflection) and clears harmful afflictions</td><td class="st wait">Built, untested</td></tr>
-        <tr><td>Player</td><td>Set health</td><td>Clears afflictions, then sets Injury to <code>1 − health</code> (10–100%)</td><td class="st wait">Built, untested</td></tr>
-        <tr><td>Player</td><td>Heal fully</td><td>Clears all afflictions once</td><td class="st wait">Built, untested</td></tr>
-      </tbody>
+      <tbody id="mods"></tbody>
     </table>
-  </div>
-
-  <h2>Next up: flying</h2>
-  <div class="steps">
-    <div class="step"><b>Menu rows</b><p class="muted">A <b>Fly</b> toggle and a <b>Fly speed</b> slider in the Movement tab.</p></div>
-    <div class="step"><b>No gravity</b><p class="muted">Turn off gravity on every ragdoll body part (<code>ragdoll.partList → Bodypart.rig</code>).</p></div>
-    <div class="step"><b>Steer</b><p class="muted">WASD moves relative to the camera, Space goes up, Ctrl goes down, and you hover when no key is pressed. Uses <code>CharacterInput</code>.</p></div>
-    <div class="step"><b>Safe landing</b><p class="muted">Keep the character counted as on the ground so landing doesn't do fall damage, and turn gravity back on when flying is off.</p></div>
   </div>
 
   <footer>
@@ -328,75 +284,132 @@
 <script>
   // ---- checkpoints (keep in sync with PLAN.md) ----
   const checkpoints = [
-    ["Setup", [
-      [true, ".NET SDK 8 installed"],
-      [true, "PEAK and BepInEx installed"],
-      [true, "Project on private GitHub"],
-      [true, "README with setup steps"],
-    ]],
-    ["Menu", [
-      [true, "v0.1.0 menu and speed slider"],
-      [true, "v0.2.0 keyboard-only controls"],
-      [true, "v0.3.0 large menu, modules, theme"],
-    ]],
-    ["Mods", [
-      [true, "Speed multiplier (tested)"],
-      [true, "Infinite stamina (built)"],
-      [true, "Health mods (built)"],
-      [true, "Climb speed (built)"],
-      [true, "v0.5.0 installed and loading"],
-      [false, "v0.5.0 tested in-game"],
-      [false, "Flying"],
-      [false, "More mods from the ideas list"],
-    ]],
-    ["Docs", [
-      [true, "PLAN.md written"],
-      [true, "changes.html visual overview"],
-      [true, "Plan and overview committed and pushed"],
-    ]],
+    ["Setup", [".NET SDK 8 installed", "PEAK and BepInEx installed", "Project on private GitHub", "README with setup steps"]],
+    ["Menu", ["Keyboard-only controls", "Large categorised menu and theme", "Module system", "Rows fit the space, long tabs scroll"]],
+    ["Mods", ["Speed and climb speed", "Flying", "Infinite stamina", "Health mods", "Effects tab (block each effect)", "Stop rising fog", "Teleport to biomes (friend-safe)", "Instant campfire", "Items tab (17 spawns)"]],
+    ["Docs", ["PLAN.md with checkpoints", "changes.html overview", "GitHub Release with the DLL", "Everything committed and pushed"]],
   ];
   const checksEl = document.getElementById("checks");
-  let done = 0, total = 0;
+  let total = 0;
   for (const [group, items] of checkpoints) {
     const col = document.createElement("div");
     col.innerHTML = `<h3>${group}</h3>`;
-    for (const [ok, text] of items) {
-      total++; if (ok) done++;
+    for (const text of items) {
+      total++;
       const row = document.createElement("div");
-      row.className = "check " + (ok ? "done" : "todo");
+      row.className = "check";
       row.innerHTML = `<i class="box"></i><span></span>`;
       row.querySelector("span").textContent = text;
       col.appendChild(row);
     }
     checksEl.appendChild(col);
   }
-  document.getElementById("progress-label").textContent = `${done} of ${total} checkpoints done (${Math.round(done / total * 100)}%)`;
-  document.getElementById("progress-bar").style.width = (done / total * 100) + "%";
+  document.getElementById("progress-label").textContent = `All ${total} checkpoints done`;
+  document.getElementById("progress-bar").style.width = "100%";
+
+  // ---- version timeline ----
+  const versions = [
+    ["v0.1.0", "d626df5 · 0ed04a8", "First themed menu and speed slider"],
+    ["v0.2.0", "907a235", "Keyboard-only menu, so PEAK's hand cursor never appears"],
+    ["v0.3.0", "2bfbbe9", "Large menu with categories, the module system and the black and red theme"],
+    ["v0.4.0", "eaaea00", "Infinite stamina"],
+    ["v0.5.0", "0ad725e", "Infinite health, Set health, Heal fully, Climb speed"],
+    ["v0.6.0", "2985201", "Flying and fly speed"],
+    ["v0.7.0", "1e93ec1", "Stop rising fog"],
+    ["v0.8.x", "bfb5bef · ef5436b", "Effects tab with a Block toggle per effect; Heal fully only heals injury"],
+    ["v0.9.x", "7c07799 · 64e9a03", "Block all effects, Show each effect (off by default)"],
+    ["v0.10.x", "3c98029 → c4af401", "Teleport tab, Instant campfire, rows fit the space, friend-safe biome TP"],
+    ["v0.11.0", "e04a73f", "Items tab: 17 practical items to spawn"],
+    ["v0.11.1", "90a50c8", "TP on E removed · first GitHub Release with a download"],
+  ];
+  const tl = document.getElementById("timeline");
+  for (const [v, tag, text] of versions) {
+    const el = document.createElement("div");
+    el.className = "ver";
+    el.innerHTML = `<div class="ver-head"><b></b><span class="tag"></span></div><p></p>`;
+    el.querySelector("b").textContent = v;
+    el.querySelector(".tag").textContent = tag;
+    el.querySelector("p").textContent = text;
+    tl.appendChild(el);
+  }
+
+  // ---- mods table ----
+  const mods = [
+    ["Movement", "Speed multiplier", "Sets <code>movementModifier</code> (0.5–5x)"],
+    ["Movement", "Climb speed", "Sets <code>climbSpeedMod</code> (0.5–5x)"],
+    ["Movement", "Fly + Fly speed", "Gravity off on every ragdoll part and velocity from WASD/Space/Ctrl/Shift; no fall damage"],
+    ["Player", "Infinite stamina", "The game's own <code>infiniteStam</code> plus a refill"],
+    ["Player", "Infinite health", "The private <code>isInvincible</code> flag, plus clearing every effect"],
+    ["Player", "Set health / Heal fully", "Changes injury only; other effects stay"],
+    ["Effects", "Block all / each effect", "Clears only the chosen effects whenever they appear"],
+    ["Effects", "Clear all effects", "Clears every effect once"],
+    ["Teleport", "TP to biome ×6", "Same or earlier biome: moves only you. Later biome: lights campfires and moves the lobby."],
+    ["Items", "17 spawn buttons", "The game's own <code>ItemDatabase.Add</code>: spawned for everyone and put in your hand"],
+    ["World", "Stop rising fog", "Holds the fog countdown at 0 and its speed at 0"],
+    ["World", "Instant campfire", "<code>Campfire.DebugLight()</code> on the nearest unlit campfire"],
+  ];
+  document.getElementById("mods").innerHTML = mods.map(([tab, mod, how]) =>
+    `<tr><td>${tab}</td><td>${mod}</td><td>${how}</td><td class="st">✔ Works</td></tr>`).join("");
 
   // ---- interactive menu preview (same behaviour as BloodmoonMenu.cs) ----
-  const categories = ["Movement", "Player", "World", "Visuals", "Misc"];
-  const items = [
-    { cat: 0, type: "slider", name: "Speed multiplier", desc: "How fast your character moves. 1x is normal.", v: 1, min: .5, max: 5, step: .25, fmt: v => v.toFixed(2) + "x" },
-    { cat: 0, type: "button", name: "Reset speed", desc: "Put your speed back to normal (1x).", press: () => items[0].v = 1 },
-    { cat: 0, type: "slider", name: "Climb speed", desc: "How fast you climb walls. 1x is normal.", v: 1, min: .5, max: 5, step: .25, fmt: v => v.toFixed(2) + "x" },
-    { cat: 0, type: "button", name: "Reset climb speed", desc: "Put climbing speed back to normal (1x).", press: () => items[2].v = 1 },
-    { cat: 1, type: "toggle", name: "Infinite stamina", desc: "Sprint, jump and climb forever without running out of stamina.", v: false },
-    { cat: 1, type: "toggle", name: "Infinite health", desc: "Blocks damage, and instantly clears injury, hunger, cold, poison, heat, drowsiness, curse and spores.", v: false },
-    { cat: 1, type: "slider", name: "Set health", desc: "Sets your health right away: clears afflictions, then adds injury to match. 100% is full health.", v: 100, min: 10, max: 100, step: 10, fmt: v => Math.round(v) + "%" },
-    { cat: 1, type: "button", name: "Heal fully", desc: "Clears all damage once, back to full health.", press: () => items[6].v = 100 },
-  ];
-  let cat = 0, sel = 0;
-  const visible = () => items.filter(i => i.cat === cat);
+  const categories = ["Movement", "Player", "Effects", "Teleport", "Items", "World", "Visuals", "Misc"];
+  const slider = (cat, name, desc, v, min, max, step, fmt) => ({ cat, type: "slider", name, desc, v, min, max, step, fmt });
+  const toggle = (cat, name, desc, extra = {}) => ({ cat, type: "toggle", name, desc, v: false, ...extra });
+  const button = (cat, name, desc, press = () => {}) => ({ cat, type: "button", name, desc, press });
+  const x = v => v.toFixed(2) + "x";
+  const items = [];
+  items.push(
+    slider(0, "Speed multiplier", "How fast your character moves. 1x is normal.", 1, .5, 5, .25, x),
+    button(0, "Reset speed", "Put your speed back to normal (1x).", () => items[0].v = 1),
+    slider(0, "Climb speed", "How fast you climb walls. 1x is normal.", 1, .5, 5, .25, x),
+    button(0, "Reset climb speed", "Put climbing speed back to normal (1x).", () => items[2].v = 1),
+    toggle(0, "Fly", "WASD to move where you look, Space to go up, Ctrl to go down, Shift to go faster."),
+    slider(0, "Fly speed", "How fast you fly. Hold Shift while flying for double speed.", 12, 2, 40, 2, v => Math.round(v) + " m/s"),
+    toggle(1, "Infinite stamina", "Sprint, jump and climb forever without running out of stamina."),
+    toggle(1, "Infinite health", "Blocks all damage and clears every effect."),
+    slider(1, "Set health", "Sets how injured you are: 100% = no injury. Other effects stay.", 100, 10, 100, 10, v => Math.round(v) + "%"),
+    button(1, "Heal fully", "Heals all injury once. Your other effects stay."),
+  );
+  const showEach = toggle(2, "Show each effect", "Shows or hides the separate Block toggles below.");
+  items.push(
+    toggle(2, "Block all effects", "Keeps every effect away."),
+    button(2, "Clear all effects", "Clears injury, hunger, cold, poison, heat, drowsiness, curse and spores once."),
+    showEach,
+  );
+  for (const e of ["injury", "hunger", "cold", "poison", "heat", "drowsy", "curse", "spores"])
+    items.push(toggle(2, "Block " + e, `Stops ${e}, and clears it if you already have it.`, { shown: () => showEach.v }));
+  for (const b of ["Beach", "Tropics", "Alpine / Mesa", "Caldera", "The Kiln", "Peak"])
+    items.push(button(3, "TP to " + b, `Current or earlier biome: moves only you to the ${b} campfire. Later biome: moves everyone.`));
+  for (const it of ["Strange gem", "Dynamite", "Scout effigy", "First aid kit", "Cure-all", "Energy drink", "Rope spool", "Rope cannon", "Chain launcher", "Climbing spike", "Rescue claw", "Magic bean", "Cloud fungus", "Flare", "Lantern", "Portable stove", "Backpack"])
+    items.push(button(4, it, `Spawns a ${it.toLowerCase()} in your hand.`));
+  items.push(
+    toggle(5, "Stop rising fog", "Freezes the rising fog and holds its countdown at zero."),
+    button(5, "Instant campfire", "Instantly lights the nearest unlit campfire."),
+  );
+
+  let cat = 0, sel = 0, top = 0;
+  const visible = () => items.filter(i => i.cat === cat && (!i.shown || i.shown()));
+  const rowH = it => it.type === "slider" ? 58 : 40;
+
+  function fitFrom(vis, start) {
+    let used = start > 0 ? 20 : 0, end = start;
+    while (end < vis.length) {
+      const need = rowH(vis[end]) + (end < vis.length - 1 ? 20 : 0);
+      if (end > start && used + need > 300) break;
+      used += rowH(vis[end]); end++;
+    }
+    return end;
+  }
 
   function render() {
     const tabs = document.getElementById("tabs");
     tabs.innerHTML = "";
     categories.forEach((name, i) => {
-      const n = items.filter(it => it.cat === i).length;
+      const n = items.filter(it => it.cat === i && (!it.shown || it.shown())).length;
       const el = document.createElement("div");
       el.className = "tab" + (i === cat ? " on" : "");
       el.innerHTML = `<span>${name}</span>${n ? `<small>${n}</small>` : ""}`;
-      el.onclick = () => { cat = i; sel = 0; render(); };
+      el.onclick = () => { cat = i; sel = 0; top = 0; render(); };
       tabs.appendChild(el);
     });
 
@@ -404,23 +417,34 @@
     const rows = document.getElementById("rows");
     rows.innerHTML = "";
     const vis = visible();
-    if (!vis.length) rows.innerHTML = `<div class="empty">Nothing here yet. New mods will show up in this tab.</div>`;
-    vis.forEach((it, i) => {
+    sel = Math.min(sel, Math.max(0, vis.length - 1));
+    if (!vis.length) { rows.innerHTML = `<div class="empty">Nothing here yet. New mods will show up in this tab.</div>`; document.getElementById("desc").textContent = ""; return; }
+
+    if (sel < top) top = sel;
+    while (top < sel && sel >= fitFrom(vis, top)) top++;
+    while (top > 0 && fitFrom(vis, top - 1) === vis.length) top--;
+    const end = fitFrom(vis, top);
+
+    if (top > 0) rows.insertAdjacentHTML("beforeend", `<div class="more">▲  ${top} more above</div>`);
+    for (let i = top; i < end; i++) {
+      const it = vis[i];
       const el = document.createElement("div");
       el.className = "row" + (i === sel ? " on" : "");
       let right = "";
       if (it.type === "slider") right = `<span class="val">${it.fmt(it.v)}</span>`;
       if (it.type === "toggle") right = `<span class="pill ${it.v ? "on" : "off"}">${it.v ? "ON" : "OFF"}</span>`;
       if (it.type === "button" && i === sel) right = `<span class="enter">ENTER</span>`;
-      el.innerHTML = `<div class="row-top"><span>${it.name}</span>${right}</div>`;
+      el.innerHTML = `<div class="row-top"><span></span>${right}</div>`;
+      el.querySelector("span").textContent = it.name;
       if (it.type === "slider") {
         const t = (it.v - it.min) / (it.max - it.min) * 100;
-        el.innerHTML += `<div class="track"><i style="width:${t}%"></i><b style="left:${t}%"></b></div>`;
+        el.insertAdjacentHTML("beforeend", `<div class="track"><i style="width:${t}%"></i><b style="left:${t}%"></b></div>`);
       }
       el.onclick = () => { if (sel === i) activate(it, 0, true); sel = i; render(); };
       rows.appendChild(el);
-    });
-    document.getElementById("desc").textContent = vis.length ? vis[sel].desc : "";
+    }
+    if (end < vis.length) rows.insertAdjacentHTML("beforeend", `<div class="more">▼  ${vis.length - end} more below</div>`);
+    document.getElementById("desc").textContent = vis[sel].desc;
   }
 
   function activate(it, dir, enter) {
@@ -431,7 +455,7 @@
 
   document.getElementById("mock").addEventListener("keydown", e => {
     const vis = visible();
-    if (e.key === "Tab") { cat = (cat + (e.shiftKey ? -1 : 1) + categories.length) % categories.length; sel = 0; }
+    if (e.key === "Tab") { cat = (cat + (e.shiftKey ? -1 : 1) + categories.length) % categories.length; sel = 0; top = 0; }
     else if (!vis.length) return;
     else if (e.key === "ArrowUp") sel = (sel - 1 + vis.length) % vis.length;
     else if (e.key === "ArrowDown") sel = (sel + 1) % vis.length;
