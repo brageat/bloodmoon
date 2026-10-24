@@ -13,5 +13,8 @@ namespace Bloodmoon
 
         // Runs every frame, whether or not the menu is open
         public virtual void Tick() { }
+
+        // Runs every physics step. Use this for anything that pushes rigidbodies around.
+        public virtual void FixedTick() { }
     }
 }
