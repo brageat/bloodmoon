@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.8.0 (Effects tab). It's built but not yet installed. Everything up to v0.7.0 is tested and working.
+**Current version:** v0.8.0 (Effects tab). It's installed and loading in PEAK. Everything up to v0.7.0 is tested and working.
 
 ---
 
@@ -35,7 +35,8 @@ Checked off as each one is completed.
 - [x] v0.7.0 installed (log: 6 modules loaded)
 - [x] v0.7.0 tested in-game: fog stays still (the "fog rises" message still shows)
 - [x] v0.8.0: Effects tab with one Block toggle per effect, Set health only changes injury, menu scrolling (built)
-- [ ] v0.8.0 installed and tested in-game
+- [x] v0.8.0 installed (log: loaded)
+- [ ] v0.8.0 tested in-game
 - [ ] More mods from [Ideas for later](#ideas-for-later)
 
 ### Docs
