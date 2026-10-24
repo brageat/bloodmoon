@@ -59,8 +59,8 @@ namespace Bloodmoon
             {
                 Category = Category.Player,
                 Name = "Heal fully",
-                Description = "Clears injury and every other effect once, back to full health.",
-                OnPress = () => { health.Value = 100f; HealFully(); },
+                Description = "Heals all injury once. Your other effects stay. To clear those, use the Effects tab.",
+                OnPress = () => { health.Value = 100f; SetHealth(100f); },
             });
 
             for (int i = 0; i < Effects.Length; i++)
@@ -75,6 +75,14 @@ namespace Bloodmoon
                     Entry = blocks[i],
                 });
             }
+
+            items.Add(new ButtonItem
+            {
+                Category = Category.Effects,
+                Name = "Clear all effects",
+                Description = "Clears injury, hunger, cold, poison, heat, drowsiness, curse and spores once.",
+                OnPress = ClearAll,
+            });
         }
 
         public override void Tick()
@@ -120,7 +128,7 @@ namespace Bloodmoon
             character.refs.afflictions.SetStatus(STATUSTYPE.Injury, 1f - percent / 100f, true);
         }
 
-        private static void HealFully()
+        private static void ClearAll()
         {
             var character = Character.localCharacter;
             if (character == null) return;

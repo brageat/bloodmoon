@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.8.0 (Effects tab). It's installed and loading in PEAK. Everything up to v0.7.0 is tested and working.
+**Current version:** v0.8.1. It's built but not yet installed. Everything up to v0.8.0 is tested and working.
 
 ---
 
@@ -36,7 +36,9 @@ Checked off as each one is completed.
 - [x] v0.7.0 tested in-game: fog stays still (the "fog rises" message still shows)
 - [x] v0.8.0: Effects tab with one Block toggle per effect, Set health only changes injury, menu scrolling (built)
 - [x] v0.8.0 installed (log: loaded)
-- [ ] v0.8.0 tested in-game
+- [x] v0.8.0 tested in-game: Effects tab, Set health and scrolling work
+- [x] v0.8.1: Heal fully only heals injury; new Clear all effects button in the Effects tab (built)
+- [ ] v0.8.1 installed and tested in-game
 - [ ] More mods from [Ideas for later](#ideas-for-later)
 
 ### Docs
@@ -58,7 +60,8 @@ Checked off as each one is completed.
 | 0.5.0 | `0ad725e` | Infinite health, Set health, Heal fully (Player). Climb speed and its reset (Movement). |
 | 0.6.0 | `2985201` | Flying and fly speed (Movement). Modules can now run code on every physics step (`FixedTick`). |
 | 0.7.0 | `1e93ec1` | Stop rising fog (World) |
-| 0.8.0 | see git log | **Effects** tab: a Block toggle per effect, so players can pick which effects to stop. Set health only changes injury now. Long tabs scroll. |
+| 0.8.0 | `bfb5bef` | **Effects** tab: a Block toggle per effect, so players can pick which effects to stop. Set health only changes injury now. Long tabs scroll. |
+| 0.8.1 | see git log | Heal fully only heals injury. Clearing everything moved to a new **Clear all effects** button (Effects). |
 
 ## Mods in the menu
 
@@ -73,9 +76,10 @@ Checked off as each one is completed.
 | World | Stop rising fog | Holds `OrbFogHandler.currentWaitTime` at 0 and sets `speed` to 0. Also freezes the height-based `Fog` (`fogSpeed`, plus its private `sinceStop` timer). Only the host decides when fog moves. | ✅ v0.7 |
 | Player | Infinite stamina | Turns on the game's own `Character.infiniteStam` switch and refills stamina to max | ✅ v0.7 |
 | Player | Infinite health | Turns on the private `CharacterData.isInvincible` flag (through reflection) and clears every effect | ✅ v0.7 |
-| Player | Set health (10–100%) | Sets Injury to `1 - health`. Other effects stay (v0.8). | ⬜ v0.8 change |
-| Player | Heal fully | Clears every effect once | ✅ v0.7 |
-| Effects | Block injury / hunger / cold / poison / heat / drowsy / curse / spores | Clears only that effect whenever it appears | ⬜ |
+| Player | Set health (10–100%) | Sets Injury to `1 - health`. Other effects stay (v0.8). | ✅ v0.8 |
+| Player | Heal fully | Sets Injury to 0. Other effects stay (v0.8.1). | ⬜ v0.8.1 change |
+| Effects | Block injury / hunger / cold / poison / heat / drowsy / curse / spores | Clears only that effect whenever it appears | ✅ v0.8 |
+| Effects | Clear all effects | Clears every effect once | ⬜ |
 
 ## Controls
 
@@ -105,9 +109,9 @@ If anything fails, check `PEAK\BepInEx\LogOutput.log` for `[Error : Bloodmoon]` 
 - [x] Turning Fly off drops you to the ground with no fall damage
 
 ## Test v0.8.0: Effects tab
-- [ ] Each Block toggle stops only its own effect
-- [ ] Set health changes injury without clearing other effects
-- [ ] Effects tab scrolls (8 rows, 5 shown) with "more above/below" hints
+- [x] Each Block toggle stops only its own effect
+- [x] Set health changes injury without clearing other effects
+- [x] Effects tab scrolls (8 rows, 5 shown) with "more above/below" hints
 
 ## Test v0.7.0: stop rising fog
 - [x] With it on, the fog countdown never runs out and the fog doesn't close in

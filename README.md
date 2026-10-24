@@ -20,8 +20,9 @@ A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 | Player | Infinite stamina | Never run out of stamina while sprinting, jumping or climbing |
 | Player | Infinite health | Blocks all damage and clears every effect (the all-in-one switch) |
 | Player | Set health | 10% to 100%. Only changes injury; other effects stay |
-| Player | Heal fully | Clears injury and every other effect once |
+| Player | Heal fully | Heals all injury once. Other effects stay. |
 | Effects | Block injury / hunger / cold / poison / heat / drowsy / curse / spores | A separate toggle for each effect. It stops that one effect and leaves the others alone. |
+| Effects | Clear all effects | Clears every effect once |
 
 PEAK has no HP bar. Damage comes as afflictions that fill up the stamina bar, and you pass out when it's full, so the health mods work on those.
 
