@@ -12,6 +12,7 @@ A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 |----------|-----|--------------|
 | Movement | Speed multiplier | 0.5x to 5x in 0.25 steps, saved between sessions |
 | Movement | Reset speed | Puts speed back to 1x |
+| Player | Infinite stamina | Never run out of stamina while sprinting, jumping or climbing |
 
 ### Controls
 | Key | Action |
