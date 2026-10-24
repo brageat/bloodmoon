@@ -15,6 +15,8 @@ namespace Bloodmoon
 
         private ConfigEntry<bool> enabled;
         private ConfigEntry<float> speed;
+        private ConfigEntry<bool> noclip;
+        private bool collisionOff;
 
         private readonly List<Rigidbody> gravityDisabled = new List<Rigidbody>();
         private bool flying;
@@ -44,6 +46,15 @@ namespace Bloodmoon
                 Min = 2f, Max = 40f, Step = 2f,
                 Format = "0", Suffix = " m/s",
             });
+
+            noclip = config.Bind("Movement", "Noclip", false, "Fly through walls and terrain while flying");
+            items.Add(new ToggleItem
+            {
+                Category = Category.Movement,
+                Name = "Noclip (while flying)",
+                Description = "While flying, you pass through walls, rocks and the ground. Collision comes back when you stop flying or turn this off.",
+                Entry = noclip,
+            });
         }
 
         public override void FixedTick()
@@ -53,6 +64,7 @@ namespace Bloodmoon
             {
                 gravityDisabled.Clear();
                 flying = false;
+                collisionOff = false;
                 return;
             }
 
@@ -66,6 +78,14 @@ namespace Bloodmoon
                 Land();
                 flying = false;
                 graceUntil = Time.time + LandingGrace;
+            }
+
+            // Noclip only while actually flying; collision always comes back afterwards
+            bool wantOff = flying && noclip.Value;
+            if (wantOff != collisionOff)
+            {
+                character.refs.ragdoll.ToggleCollision(!wantOff);
+                collisionOff = wantOff;
             }
 
             // While flying (and briefly after) the game must not think we're falling

@@ -25,6 +25,7 @@ No need to build anything to just play. The build steps below are only for chang
 | Movement | Reset climb speed | Puts climbing speed back to 1x |
 | Movement | Fly | WASD moves where you look, Space goes up, Ctrl goes down, Shift doubles speed, and you hover when you let go. No fall damage while flying or for 2 s after. Always starts off. |
 | Movement | Fly speed | 2 to 40 m/s |
+| Movement | Noclip (while flying) | Fly through walls, rocks and the ground. Collision comes back when you stop flying. |
 | World | Instant campfire | Lights the nearest unlit campfire instantly, with no holding and no waiting for everyone |
 | Teleport | TP to Beach / Tropics / Alpine-Mesa / Caldera / The Kiln / Peak | **Current or earlier biome:** teleports only you to that biome's campfire and lights nothing, so friends aren't affected. **Later biome:** lights the skipped campfires and uses the game's segment jump, which **moves everyone in the lobby** (host only). |
 | Items | Spawn, grouped: **Scout statue** (Healing, Infinite stamina and Super jump amulets, Scout's Honor), **Endgame** (Strange gem, Dynamite, Scout effigy), **Healing** (First aid kit, Cure-all, Energy drink), **Climbing** (Rope spool, Rope cannon, Chain launcher, Climbing spike, Rescue claw, Magic bean, Cloud fungus), **Utility** (Flare, Lantern, Portable stove, Backpack) | Uses the game's own `ItemDatabase.Add`, so everyone sees the item, and puts it in your hand (or in front of you if your hands are full) |
