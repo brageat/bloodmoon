@@ -29,15 +29,20 @@ namespace Bloodmoon
         {
             allItems = items;
             categoryCounts = new int[categories.Length];
-            foreach (var item in items) categoryCounts[(int)item.Category]++;
             RefreshVisible();
         }
 
+        // Rows can hide themselves (IsShown), so this runs every frame
         private void RefreshVisible()
         {
             visible.Clear();
+            Array.Clear(categoryCounts, 0, categoryCounts.Length);
             foreach (var item in allItems)
+            {
+                if (item.IsShown != null && !item.IsShown()) continue;
+                categoryCounts[(int)item.Category]++;
                 if (item.Category == Current) visible.Add(item);
+            }
             selected = Mathf.Clamp(selected, 0, Mathf.Max(0, visible.Count - 1));
         }
 
@@ -45,6 +50,8 @@ namespace Bloodmoon
 
         public void HandleInput(Keyboard kb)
         {
+            RefreshVisible();
+
             if (kb.tabKey.wasPressedThisFrame)
             {
                 int step = kb.shiftKey.isPressed ? -1 : 1;
@@ -100,6 +107,7 @@ namespace Bloodmoon
         public void Draw()
         {
             EnsureStyles();
+            if (Event.current.type == EventType.Layout) RefreshVisible(); // same rows for Layout and Repaint
             windowRect = GUILayout.Window(WindowId, windowRect, DrawWindow, GUIContent.none, window,
                 GUILayout.Width(Width), GUILayout.Height(Height));
         }

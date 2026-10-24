@@ -30,6 +30,8 @@ namespace Bloodmoon
 
         private ConfigEntry<bool> godMode;
         private ConfigEntry<float> health;
+        private ConfigEntry<bool> blockAll;
+        private ConfigEntry<bool> showEach;
         private readonly ConfigEntry<bool>[] blocks = new ConfigEntry<bool>[Effects.Length];
         private bool applied;
 
@@ -63,6 +65,31 @@ namespace Bloodmoon
                 OnPress = () => { health.Value = 100f; SetHealth(100f); },
             });
 
+            blockAll = config.Bind("Effects", "BlockAll", false, "Block every effect");
+            showEach = config.Bind("Effects", "ShowEachEffect", true, "Show the separate Block toggles");
+
+            items.Add(new ToggleItem
+            {
+                Category = Category.Effects,
+                Name = "Block all effects",
+                Description = "Keeps every effect away. Unlike Infinite health, hits still land for a moment before being cleared.",
+                Entry = blockAll,
+            });
+            items.Add(new ButtonItem
+            {
+                Category = Category.Effects,
+                Name = "Clear all effects",
+                Description = "Clears injury, hunger, cold, poison, heat, drowsiness, curse and spores once.",
+                OnPress = ClearAll,
+            });
+            items.Add(new ToggleItem
+            {
+                Category = Category.Effects,
+                Name = "Show each effect",
+                Description = "Shows or hides the separate Block toggles below, to keep this tab short.",
+                Entry = showEach,
+            });
+
             for (int i = 0; i < Effects.Length; i++)
             {
                 var (_, name, what) = Effects[i];
@@ -73,16 +100,9 @@ namespace Bloodmoon
                     Name = "Block " + name.ToLowerInvariant(),
                     Description = $"Stops {what}, and clears it if you already have it. Other effects still work.",
                     Entry = blocks[i],
+                    IsShown = () => showEach.Value,
                 });
             }
-
-            items.Add(new ButtonItem
-            {
-                Category = Category.Effects,
-                Name = "Clear all effects",
-                Description = "Clears injury, hunger, cold, poison, heat, drowsiness, curse and spores once.",
-                OnPress = ClearAll,
-            });
         }
 
         public override void Tick()
@@ -104,7 +124,7 @@ namespace Bloodmoon
             }
 
             for (int i = 0; i < Effects.Length; i++)
-                if (godMode.Value || blocks[i].Value)
+                if (godMode.Value || blockAll.Value || blocks[i].Value)
                     Clear(afflictions, Effects[i].type);
         }
 

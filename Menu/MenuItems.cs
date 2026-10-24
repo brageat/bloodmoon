@@ -13,6 +13,7 @@ namespace Bloodmoon
         public Category Category;
         public string Name;
         public string Description;
+        public Func<bool> IsShown; // optional: hide this row when it returns false
     }
 
     // Left/Right changes the value in steps

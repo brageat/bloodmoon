@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.8.1. It's built but not yet installed. Everything up to v0.8.0 is tested and working.
+**Current version:** v0.9.0. It's installed but not yet tested. Everything up to v0.8.0 is tested and working.
 
 ---
 
@@ -38,7 +38,10 @@ Checked off as each one is completed.
 - [x] v0.8.0 installed (log: loaded)
 - [x] v0.8.0 tested in-game: Effects tab, Set health and scrolling work
 - [x] v0.8.1: Heal fully only heals injury; new Clear all effects button in the Effects tab (built)
-- [ ] v0.8.1 installed and tested in-game
+- [x] v0.8.1 installed
+- [x] v0.9.0: Block all effects toggle, Show each effect toggle (hides the 8 Block rows), rows can hide themselves (built)
+- [x] v0.9.0 installed
+- [ ] v0.8.1 + v0.9.0 tested in-game
 - [ ] More mods from [Ideas for later](#ideas-for-later)
 
 ### Docs
@@ -61,7 +64,8 @@ Checked off as each one is completed.
 | 0.6.0 | `2985201` | Flying and fly speed (Movement). Modules can now run code on every physics step (`FixedTick`). |
 | 0.7.0 | `1e93ec1` | Stop rising fog (World) |
 | 0.8.0 | `bfb5bef` | **Effects** tab: a Block toggle per effect, so players can pick which effects to stop. Set health only changes injury now. Long tabs scroll. |
-| 0.8.1 | see git log | Heal fully only heals injury. Clearing everything moved to a new **Clear all effects** button (Effects). |
+| 0.8.1 | `ef5436b` | Heal fully only heals injury. Clearing everything moved to a new **Clear all effects** button (Effects). |
+| 0.9.0 | see git log | **Block all effects** toggle, plus a **Show each effect** toggle that hides the 8 separate Block rows. Menu rows can now hide themselves (`MenuItem.IsShown`). |
 
 ## Mods in the menu
 
@@ -79,7 +83,9 @@ Checked off as each one is completed.
 | Player | Set health (10–100%) | Sets Injury to `1 - health`. Other effects stay (v0.8). | ✅ v0.8 |
 | Player | Heal fully | Sets Injury to 0. Other effects stay (v0.8.1). | ⬜ v0.8.1 change |
 | Effects | Block injury / hunger / cold / poison / heat / drowsy / curse / spores | Clears only that effect whenever it appears | ✅ v0.8 |
+| Effects | Block all effects | Clears every effect whenever it appears (no invincibility) | ⬜ |
 | Effects | Clear all effects | Clears every effect once | ⬜ |
+| Effects | Show each effect | Hides or shows the 8 Block rows | ⬜ |
 
 ## Controls
 
@@ -107,6 +113,12 @@ If anything fails, check `PEAK\BepInEx\LogOutput.log` for `[Error : Bloodmoon]` 
 - [x] WASD follows the camera, Space goes up, Ctrl goes down, Shift is faster
 - [x] Letting go of all keys makes you hover
 - [x] Turning Fly off drops you to the ground with no fall damage
+
+## Test v0.8.1 + v0.9.0
+- [ ] Heal fully only heals injury; other effects stay
+- [ ] Block all effects keeps every effect away
+- [ ] Clear all effects removes everything once
+- [ ] Show each effect OFF hides the 8 Block rows, and ON brings them back
 
 ## Test v0.8.0: Effects tab
 - [x] Each Block toggle stops only its own effect
