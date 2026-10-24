@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (public since v0.13.0)
 
-**Current version:** v1.0.1 (fly drift fix). It's built but not yet installed.
+**Current version:** **v1.0.1**. Released, every feature is tested and working, and all checkpoints are done.
 
 ---
 
@@ -63,7 +63,8 @@ Checked off as each one is completed.
 - [x] Bug found: flying drifts upward. Fixed in v1.0.1 with a height hold (built)
 - [x] v1.0.1 installed (it loads in PEAK)
 - [x] Bug found: update check got 403 (GitHub's 60-an-hour limit, used up on a shared VPN address). Fixed: it falls back to the releases page (built)
-- [ ] Fly drift fix tested in-game, then publish the 1.0.1 release
+- [x] Fly drift fix tested in-game: works
+- [x] Release 1.0.1 published
 - [x] v0.12.1: Noclip toggle under Fly, using the game's `ragdoll.ToggleCollision` (built)
 - [x] v0.13.0: Update checker (Misc tab, a notice at startup, a line in the menu header) (built and installed)
 - [x] Repo made public, so the update check works and anyone can download
@@ -107,7 +108,7 @@ Checked off as each one is completed.
 | 0.12.1 | `42509d9` | Noclip (while flying) |
 | 0.13.0 | `537d890` | Update checker: GitHub latest release, startup notice, Misc tab |
 | **1.0.0** | `fc82cdd` | First stable version (same features as 0.13.0) |
-| 1.0.1 | see git log | Fix: flying no longer drifts upward (height hold). Update check falls back to the releases page when GitHub's API rate limit is hit. |
+| 1.0.1 | `ddc7b4f` | Fix: flying no longer drifts upward (height hold). Update check falls back to the releases page when GitHub's API rate limit is hit. |
 
 ## Mods in the menu
 
