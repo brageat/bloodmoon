@@ -30,7 +30,7 @@ Checked off as each one is completed.
 - [ ] v0.5.0 tested in-game (see [the test list](#now-test-v050-in-game))
 - [x] v0.6.0: Flying (built)
 - [x] v0.6.0 installed (loading in PEAK)
-- [ ] v0.6.0 tested in-game
+- [x] v0.6.0 tested in-game: flying works
 - [x] v0.7.0: Stop rising fog (built)
 - [x] v0.7.0 installed (log: 6 modules loaded)
 - [ ] v0.7.0 tested in-game
@@ -64,7 +64,7 @@ Checked off as each one is completed.
 | Movement | Reset speed | Sets speed back to 1x | ⬜ |
 | Movement | Climb speed (0.5–5x) | Sets `CharacterClimbing.climbSpeedMod`, and puts the game's value back at 1x | ⬜ |
 | Movement | Reset climb speed | Sets climb speed back to 1x | ⬜ |
-| Movement | Fly | Turns gravity off on every ragdoll body part (`Bodypart.Rig`) and sets their velocity from WASD, Space, Ctrl and Shift each physics step. Resets `sinceGrounded` and `fallSeconds` so there's no fall damage. | ⬜ |
+| Movement | Fly | Turns gravity off on every ragdoll body part (`Bodypart.Rig`) and sets their velocity from WASD, Space, Ctrl and Shift each physics step. Resets `sinceGrounded` and `fallSeconds` so there's no fall damage. | ✅ v0.6 |
 | Movement | Fly speed (2–40 m/s) | Shift doubles it | ⬜ |
 | World | Stop rising fog | Holds `OrbFogHandler.currentWaitTime` at 0 and sets `speed` to 0. Also freezes the height-based `Fog` (`fogSpeed`, plus its private `sinceStop` timer). Only the host decides when fog moves. | ⬜ |
 | Player | Infinite stamina | Turns on the game's own `Character.infiniteStam` switch and refills stamina to max | ⬜ |
