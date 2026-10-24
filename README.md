@@ -12,7 +12,7 @@ A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 No need to build anything to just play. The build steps below are only for changing the code.
 
 ## Features
-- Large menu with a procedurally drawn blood moon, a sidebar of categories (Movement, Player, Effects, Teleport, Items, World, Visuals, Misc) and a description of whichever row is selected. Long tabs scroll to follow your selection.
+- Large menu with a procedurally drawn blood moon, a sidebar of categories (Movement, Player, Effects, Teleport, Items, World; empty tabs are hidden until a mod uses them) and a description of whichever row is selected. Long tabs scroll to follow your selection.
 - **Keyboard only**, so the mouse cursor never appears.
 - Each mod is its own module, so adding new ones is easy (see [Adding a new mod](#adding-a-new-mod)).
 

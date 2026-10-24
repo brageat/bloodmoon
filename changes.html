@@ -178,7 +178,7 @@
   <header>
     <div class="moon" aria-hidden="true"></div>
     <div>
-      <h1>BLOODMOON <span class="badge">v0.11.1</span></h1>
+      <h1>BLOODMOON <span class="badge">v0.11.2</span></h1>
       <p class="sub">Mod menu for PEAK: what's in it, how it was built, and how to get it</p>
     </div>
   </header>
@@ -186,12 +186,12 @@
   <section class="download" id="download">
     <div>
       <h2>Download Bloodmoon</h2>
-      <p class="muted">One file: <code>Bloodmoon.dll</code> (38 KB), version 0.11.1. The repo is private, so you need to be logged in to GitHub as <b>brageat</b>.</p>
+      <p class="muted">One file: <code>Bloodmoon.dll</code> (38 KB), version 0.11.2. The repo is private, so you need to be logged in to GitHub as <b>brageat</b>.</p>
     </div>
     <div class="dl-side">
       <a class="dl-btn" href="https://github.com/brageat/bloodmoon/releases/latest/download/Bloodmoon.dll">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6 10 6 6 6-6"/><path d="M4 20h16"/></svg>
-        <span>DOWNLOAD<small>Bloodmoon.dll · v0.11.1</small></span>
+        <span>DOWNLOAD<small>Bloodmoon.dll · v0.11.2</small></span>
       </a>
       <a class="alt" href="https://github.com/brageat/bloodmoon/releases">All versions</a>
     </div>
@@ -203,7 +203,7 @@
   </section>
 
   <div class="stats">
-    <div class="stat"><b>18</b><span>versions released</span></div>
+    <div class="stat"><b>19</b><span>versions released</span></div>
     <div class="stat"><b>8</b><span>mod modules</span></div>
     <div class="stat"><b>46</b><span>rows across 6 tabs</span></div>
     <div class="stat"><b>+2124 / −310</b><span>lines changed across 19 files</span></div>
@@ -228,7 +228,7 @@
           <div class="mock-title">BLOODMOON</div>
           <div class="muted" style="font-size:11px">mod menu for PEAK</div>
         </div>
-        <span class="badge">v0.11.1</span>
+        <span class="badge">v0.11.2</span>
       </div>
       <div class="rule"></div>
       <div class="mock-body">
@@ -321,6 +321,7 @@
     ["v0.10.x", "3c98029 → c4af401", "Teleport tab, Instant campfire, rows fit the space, friend-safe biome TP"],
     ["v0.11.0", "e04a73f", "Items tab: 17 practical items to spawn"],
     ["v0.11.1", "90a50c8", "TP on E removed · first GitHub Release with a download"],
+    ["v0.11.2", "latest", "Empty tabs are hidden until a mod uses them"],
   ];
   const tl = document.getElementById("timeline");
   for (const [v, tag, text] of versions) {
@@ -352,7 +353,7 @@
     `<tr><td>${tab}</td><td>${mod}</td><td>${how}</td><td class="st">✔ Works</td></tr>`).join("");
 
   // ---- interactive menu preview (same behaviour as BloodmoonMenu.cs) ----
-  const categories = ["Movement", "Player", "Effects", "Teleport", "Items", "World", "Visuals", "Misc"];
+  const allCategories = ["Movement", "Player", "Effects", "Teleport", "Items", "World", "Visuals", "Misc"];
   const slider = (cat, name, desc, v, min, max, step, fmt) => ({ cat, type: "slider", name, desc, v, min, max, step, fmt });
   const toggle = (cat, name, desc, extra = {}) => ({ cat, type: "toggle", name, desc, v: false, ...extra });
   const button = (cat, name, desc, press = () => {}) => ({ cat, type: "button", name, desc, press });
@@ -387,6 +388,10 @@
     button(5, "Instant campfire", "Instantly lights the nearest unlit campfire."),
   );
 
+  // Like the game: only tabs that have rows (Visuals and Misc come back when a mod uses them)
+  const usedIdx = allCategories.map((_, i) => i).filter(i => items.some(it => it.cat === i));
+  const categories = usedIdx.map(i => allCategories[i]);
+  items.forEach(it => it.cat = usedIdx.indexOf(it.cat));
   let cat = 0, sel = 0, top = 0;
   const visible = () => items.filter(i => i.cat === cat && (!i.shown || i.shown()));
   const rowH = it => it.type === "slider" ? 58 : 40;

@@ -16,7 +16,7 @@ namespace Bloodmoon
         private Rect windowRect = new Rect(40, 40, Width, Height);
 
         private readonly List<MenuItem> allItems;
-        private readonly Category[] categories = (Category[])Enum.GetValues(typeof(Category));
+        private readonly Category[] categories; // only tabs that have at least one row
         private readonly int[] categoryCounts;
         private readonly List<MenuItem> visible = new List<MenuItem>();
         private int categoryIndex;
@@ -27,6 +27,13 @@ namespace Bloodmoon
         public BloodmoonMenu(List<MenuItem> items)
         {
             allItems = items;
+
+            // Empty tabs are hidden; they show up again as soon as a module adds a row to them
+            var used = new List<Category>();
+            foreach (Category c in Enum.GetValues(typeof(Category)))
+                if (items.Exists(i => i.Category == c)) used.Add(c);
+            categories = used.ToArray();
+
             categoryCounts = new int[categories.Length];
             RefreshVisible();
         }
@@ -39,7 +46,8 @@ namespace Bloodmoon
             foreach (var item in allItems)
             {
                 if (item.IsShown != null && !item.IsShown()) continue;
-                categoryCounts[(int)item.Category]++;
+                int tab = Array.IndexOf(categories, item.Category);
+                if (tab >= 0) categoryCounts[tab]++;
                 if (item.Category == Current) visible.Add(item);
             }
             selected = Mathf.Clamp(selected, 0, Mathf.Max(0, visible.Count - 1));

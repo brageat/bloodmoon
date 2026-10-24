@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.11.1. **All checkpoints are done.** Download: https://github.com/brageat/bloodmoon/releases/latest
+**Current version:** v0.11.2. **All checkpoints are done.** Download: https://github.com/brageat/bloodmoon/releases/latest
 
 ---
 
@@ -53,6 +53,7 @@ Checked off as each one is completed.
 - [x] v0.11.0: Items tab, spawning 17 practical items with the game's own `ItemDatabase.Add` (built)
 - [x] v0.11.1: **TP on E removed** at your request (the v0.10.2 camera fix was never tried in-game) (built)
 - [x] v0.11.1 installed
+- [x] v0.11.2: empty tabs (Visuals, Misc) are hidden, and come back automatically when a mod uses them (built, released)
 - [x] Items tested in-game
 - [x] Settings save when the menu closes
 
@@ -88,6 +89,7 @@ Checked off as each one is completed.
 | 0.10.4 | `c4af401` | Instant campfire moved to the World tab |
 | 0.11.0 | `e04a73f` | **Items** tab: 17 practical items to spawn |
 | 0.11.1 | `90a50c8` | TP on E removed |
+| 0.11.2 | see git log | Empty tabs are hidden until a mod adds a row to them |
 
 ## Mods in the menu
 
