@@ -72,6 +72,8 @@ Checked off as each one is completed.
 - [x] **v1.0.0** released, the first stable version
 
 ### Docs
+- [x] Releases ship as **Bloodmoon.zip** (folders already set up, plus a HOW TO INSTALL.txt) because browsers warn less about zips. Download button and README point at the zip.
+- [x] Clear step-by-step download and install instructions in the README, on the page and in the zip
 - [x] Repo renamed to `brageat/bloodmoon-peak`, with a PEAK description and 10 search topics so people can find it. Old links redirect.
 - [x] GitHub Release v0.11.1 with `Bloodmoon.dll` to download
 - [x] changes.html updated to v0.11.1, with a download button

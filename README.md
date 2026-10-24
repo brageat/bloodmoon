@@ -2,12 +2,33 @@
 
 A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 
-## ⬇ Download
-**[Download Bloodmoon.dll (latest)](https://github.com/brageat/bloodmoon-peak/releases/latest/download/Bloodmoon.dll)** · [all versions](https://github.com/brageat/bloodmoon-peak/releases)
+## ⬇ Download and install
 
-1. Install [BepInExPack_PEAK](https://thunderstore.io/c/peak/p/BepInEx/BepInExPack_PEAK/) into your PEAK folder, then launch the game once.
-2. Put `Bloodmoon.dll` in `PEAK\BepInEx\plugins\Bloodmoon\`.
-3. Start PEAK, join a game and press **Insert**.
+### **[⬇ Download Bloodmoon.zip](https://github.com/brageat/bloodmoon-peak/releases/latest/download/Bloodmoon.zip)**
+Always the newest version, about 23 KB. [All versions](https://github.com/brageat/bloodmoon-peak/releases)
+
+> **Browser warning?** Chrome or Edge may say the file "isn't commonly downloaded". That only means the mod is new and not many people have downloaded it yet. Click **Keep** (in Chrome, open the downloads list, then **⋯ → Keep**).
+
+### Step 1: Install BepInEx (one time only)
+BepInEx is the mod loader that lets PEAK load mods.
+1. Go to **[BepInExPack_PEAK on Thunderstore](https://thunderstore.io/c/peak/p/BepInEx/BepInExPack_PEAK/)** and click **Manual Download**.
+2. Open your **PEAK folder**: in Steam, right-click **PEAK → Manage → Browse local files**.
+3. Open the BepInEx zip, go into its `BepInExPack_PEAK` folder, and copy **everything inside it** into your PEAK folder (next to `PEAK.exe`).
+4. Start PEAK once, then close it. BepInEx finishes setting itself up.
+
+### Step 2: Install Bloodmoon
+1. Download **Bloodmoon.zip** (the link above).
+2. Open the zip and drag its **`BepInEx`** folder into your PEAK folder. If Windows asks to merge or replace, click **Yes**.
+3. Check that this file exists: `PEAK\BepInEx\plugins\Bloodmoon\Bloodmoon.dll`
+
+### Step 3: Play
+Start PEAK, join a game and press **Insert** to open the menu.
+
+### Updating
+When a new version is out, Bloodmoon shows a red notice at the top of the screen. **Close PEAK**, download the new zip, and do Step 2 again. Click **Yes** to replace the old file.
+
+### Uninstalling
+Delete the folder `PEAK\BepInEx\plugins\Bloodmoon\`.
 
 No need to build anything to just play. The build steps below are only for changing the code.
 
