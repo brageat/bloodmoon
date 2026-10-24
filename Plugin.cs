@@ -11,7 +11,7 @@ namespace Bloodmoon
     {
         public const string Guid = "com.brageat.bloodmoon";
         public const string Name = "Bloodmoon";
-        public const string Version = "0.4.0";
+        public const string Version = "0.5.0";
 
         internal static ManualLogSource Log;
         internal static ConfigEntry<Key> ToggleKey;
@@ -20,7 +20,9 @@ namespace Bloodmoon
         private readonly List<Module> Modules = new List<Module>
         {
             new SpeedModule(),
+            new ClimbModule(),
             new StaminaModule(),
+            new HealthModule(),
         };
 
         private BloodmoonMenu menu;

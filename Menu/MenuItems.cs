@@ -22,14 +22,17 @@ namespace Bloodmoon
         public float Min, Max, Step;
         public string Format = "0.00";
         public string Suffix = "";
+        public Action<float> OnChanged; // optional: run something when the player changes the value
 
         public string Display => Entry.Value.ToString(Format) + Suffix;
         public float Fraction => Mathf.InverseLerp(Min, Max, Entry.Value);
 
         public void Nudge(int dir)
         {
-            float v = Mathf.Round((Entry.Value + dir * Step) / Step) * Step;
-            Entry.Value = Mathf.Clamp(v, Min, Max);
+            float v = Mathf.Clamp(Mathf.Round((Entry.Value + dir * Step) / Step) * Step, Min, Max);
+            if (Mathf.Approximately(v, Entry.Value)) return;
+            Entry.Value = v;
+            OnChanged?.Invoke(v);
         }
     }
 
