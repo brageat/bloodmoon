@@ -13,7 +13,7 @@ namespace Bloodmoon
     {
         public override string Name => "Updates";
 
-        private const string ReleasesPage = "https://github.com/brageat/bloodmoon/releases/latest";
+        private const string ReleasesPage = "https://github.com/brageat/bloodmoon-peak/releases/latest";
 
         // Read by the menu header and the startup notice
         public static string LatestVersion { get; private set; }
@@ -29,7 +29,7 @@ namespace Bloodmoon
         {
             checkOnStart = config.Bind("Updates", "CheckOnStart", true, "Check for a new Bloodmoon version when the game starts");
             apiUrl = config.Bind("Updates", "ReleaseApiUrl",
-                "https://api.github.com/repos/brageat/bloodmoon/releases/latest",
+                "https://api.github.com/repos/brageat/bloodmoon-peak/releases/latest",
                 "GitHub API address of the latest release");
 
             statusRow = new ButtonItem

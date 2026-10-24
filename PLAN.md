@@ -1,7 +1,7 @@
 # Bloodmoon: Plan
 
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
-Repo: https://github.com/brageat/bloodmoon (public since v0.13.0)
+Repo: https://github.com/brageat/bloodmoon-peak (public since v0.13.0)
 
 **Current version:** **v1.0.1**. Released, every feature is tested and working, and all checkpoints are done.
 
@@ -72,6 +72,7 @@ Checked off as each one is completed.
 - [x] **v1.0.0** released, the first stable version
 
 ### Docs
+- [x] Repo renamed to `brageat/bloodmoon-peak`, with a PEAK description and 10 search topics so people can find it. Old links redirect.
 - [x] GitHub Release v0.11.1 with `Bloodmoon.dll` to download
 - [x] changes.html updated to v0.11.1, with a download button
 - [x] PLAN.md written

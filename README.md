@@ -3,7 +3,7 @@
 A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 
 ## ⬇ Download
-**[Download Bloodmoon.dll (latest)](https://github.com/brageat/bloodmoon/releases/latest/download/Bloodmoon.dll)** · [all versions](https://github.com/brageat/bloodmoon/releases)
+**[Download Bloodmoon.dll (latest)](https://github.com/brageat/bloodmoon-peak/releases/latest/download/Bloodmoon.dll)** · [all versions](https://github.com/brageat/bloodmoon-peak/releases)
 
 1. Install [BepInExPack_PEAK](https://thunderstore.io/c/peak/p/BepInEx/BepInExPack_PEAK/) into your PEAK folder, then launch the game once.
 2. Put `Bloodmoon.dll` in `PEAK\BepInEx\plugins\Bloodmoon\`.
