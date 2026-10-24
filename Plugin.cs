@@ -11,7 +11,7 @@ namespace Bloodmoon
     {
         public const string Guid = "com.brageat.bloodmoon";
         public const string Name = "Bloodmoon";
-        public const string Version = "0.10.1";
+        public const string Version = "0.10.2";
 
         internal static ManualLogSource Log;
         internal static ConfigEntry<Key> ToggleKey;
@@ -60,7 +60,7 @@ namespace Bloodmoon
                 if (ToggleKey.Value != Key.None && kb[ToggleKey.Value].wasPressedThisFrame)
                 {
                     menu.Open = !menu.Open;
-                    if (!menu.Open) Config.Save();
+                    if (!menu.Open) SaveSettings();
                 }
 
                 if (menu.Open)
@@ -91,6 +91,16 @@ namespace Bloodmoon
             if (!menu.Open) return;
             try { menu.Draw(); }
             catch (System.Exception e) { LogOnce("menu", e); }
+        }
+
+        private void SaveSettings()
+        {
+            try
+            {
+                Config.Save();
+                Log.LogInfo("Settings saved");
+            }
+            catch (System.Exception e) { LogOnce("save", e); }
         }
 
         // Unity's own log writer fails in PEAK, so errors must go through our logger or they vanish

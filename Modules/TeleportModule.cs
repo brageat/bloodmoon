@@ -69,7 +69,11 @@ namespace Bloodmoon
             var character = Character.localCharacter;
             if (character == null) return;
             if (TryGetLookPoint(character, out Vector3 point))
+            {
                 Warp(character, point);
+                Plugin.Log.LogInfo($"TP to {point}");
+            }
+            else Plugin.Log.LogInfo("TP: nothing in range where you're looking");
         }
 
         // ---- teleport to where you look ----
@@ -77,10 +81,15 @@ namespace Bloodmoon
         private static bool TryGetLookPoint(Character character, out Vector3 point)
         {
             point = default;
-            var cam = Camera.main;
-            if (cam == null) return false;
 
-            var ray = new Ray(cam.transform.position, cam.transform.forward);
+            // PEAK's camera isn't tagged MainCamera (Camera.main is null), so use its own MainCamera,
+            // aimed along the character's look direction
+            var mainCam = MainCamera.instance;
+            Vector3 origin = mainCam != null ? mainCam.transform.position : character.Center + Vector3.up * 0.6f;
+            Vector3 dir = character.data.lookDirection;
+            if (dir.sqrMagnitude < 0.01f) return false;
+
+            var ray = new Ray(origin, dir.normalized);
             var hits = Physics.RaycastAll(ray, MaxLookDistance, ~0, QueryTriggerInteraction.Ignore);
             float best = float.MaxValue;
             bool found = false;
@@ -129,14 +138,23 @@ namespace Bloodmoon
             if (!MapHandler.Exists) return;
 
             // Light every campfire before the target that the jump would skip, without the "reveal" cutscene
+            // (one broken campfire must not stop the jump, so each is guarded)
             for (int i = 0; i < (int)target; i++)
             {
-                var root = MapHandler.GetCampfireRoot(i);
-                var fire = root != null ? root.GetComponentInChildren<Campfire>(true) : null;
-                if (fire != null && !fire.Lit) fire.LightWithoutReveal();
+                try
+                {
+                    var root = MapHandler.GetCampfireRoot(i);
+                    var fire = root != null ? root.GetComponentInChildren<Campfire>(true) : null;
+                    if (fire != null && !fire.Lit) fire.LightWithoutReveal();
+                }
+                catch (System.Exception e)
+                {
+                    Plugin.Log.LogWarning($"TP to biome: couldn't light campfire {i}: {e.Message}");
+                }
             }
 
             MapHandler.JumpToSegment(target);
+            Plugin.Log.LogInfo($"TP to biome: jumped to {target}");
         }
     }
 }

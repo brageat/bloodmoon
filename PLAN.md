@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.10.1. It's built but not yet installed (PEAK is running v0.10.0). Everything up to v0.9.0 is tested and working.
+**Current version:** v0.10.2. It's built but not yet installed. Everything works except TP on E (the fix is waiting to be tested).
 
 ---
 
@@ -46,8 +46,11 @@ Checked off as each one is completed.
 - [x] v0.9.1 installed
 - [x] v0.10.0: Teleport tab with TP on E, Instant campfire and TP to each biome (built and installed)
 - [x] v0.10.1: menu fits as many rows as there's room for (Movement shows all 6); bigger ▲/▼ "more" text (built)
-- [ ] v0.10.1 installed
-- [ ] v0.10.0 Teleport tab tested in-game
+- [x] v0.10.0 tested: Instant campfire and TP to biomes work; **TP on E didn't work**
+- [x] v0.10.2: TP on E fix (PEAK's camera isn't `Camera.main`, so it now uses `MainCamera.instance` + look direction), TP-to-biome campfire guard, settings-save logging (built)
+- [ ] v0.10.2 installed
+- [ ] TP on E tested in-game
+- [ ] Settings save when the menu closes (they haven't saved since 4:42 PM)
 - [ ] More mods from [Ideas for later](#ideas-for-later)
 
 ### Docs
@@ -74,7 +77,8 @@ Checked off as each one is completed.
 | 0.9.0 | `7c07799` | **Block all effects** toggle, plus a **Show each effect** toggle that hides the 8 separate Block rows. Menu rows can now hide themselves (`MenuItem.IsShown`). |
 | 0.9.1 | `64e9a03` | Show each effect is off by default |
 | 0.10.0 | `3c98029` | **Teleport** tab: TP on E, Instant campfire, TP to each biome |
-| 0.10.1 | see git log | Rows fill the available height, measured from real row sizes, instead of a fixed 5. Bigger ▲/▼ "more" hints. |
+| 0.10.1 | `f06d1ec` | Rows fill the available height, measured from real row sizes, instead of a fixed 5. Bigger ▲/▼ "more" hints. |
+| 0.10.2 | see git log | TP on E fix (camera), guard for each campfire in TP to biome, logging for TP and settings saves |
 
 ## Mods in the menu
 
@@ -86,9 +90,9 @@ Checked off as each one is completed.
 | Movement | Reset climb speed | Sets climb speed back to 1x | ✅ v0.7 |
 | Movement | Fly | Turns gravity off on every ragdoll body part (`Bodypart.Rig`) and sets their velocity from WASD, Space, Ctrl and Shift each physics step. Resets `sinceGrounded` and `fallSeconds` so there's no fall damage. | ✅ v0.6 |
 | Movement | Fly speed (2–40 m/s) | Shift doubles it | ✅ v0.7 |
-| Teleport | TP on E | Raycasts from the camera (skipping your own body) and calls the game's `WarpPlayerRPC` for everyone | ⬜ |
-| Teleport | Instant campfire | `Campfire.DebugLight()` on the nearest unlit campfire (the same as a normal light) | ⬜ |
-| Teleport | TP to biome ×6 | Calls `LightWithoutReveal()` on the skipped campfires, then the game's `MapHandler.JumpToSegment(segment)`, which moves everyone and updates the fog | ⬜ |
+| Teleport | TP on E | Raycasts from the camera (skipping your own body) and calls the game's `WarpPlayerRPC` for everyone | ❌ v0.10, fix in v0.10.2 |
+| Teleport | Instant campfire | `Campfire.DebugLight()` on the nearest unlit campfire (the same as a normal light) | ✅ v0.10 |
+| Teleport | TP to biome ×6 | Calls `LightWithoutReveal()` on the skipped campfires, then the game's `MapHandler.JumpToSegment(segment)`, which moves everyone and updates the fog | ✅ v0.10 |
 | World | Stop rising fog | Holds `OrbFogHandler.currentWaitTime` at 0 and sets `speed` to 0. Also freezes the height-based `Fog` (`fogSpeed`, plus its private `sinceStop` timer). Only the host decides when fog moves. | ✅ v0.7 |
 | Player | Infinite stamina | Turns on the game's own `Character.infiniteStam` switch and refills stamina to max | ✅ v0.7 |
 | Player | Infinite health | Turns on the private `CharacterData.isInvincible` flag (through reflection) and clears every effect | ✅ v0.7 |
