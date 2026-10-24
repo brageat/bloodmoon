@@ -3,7 +3,7 @@
 A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 
 ## Features
-- Large menu with a procedurally drawn blood moon, a sidebar of categories (Movement, Player, Effects, Teleport, World, Visuals, Misc) and a description of whichever row is selected. Long tabs scroll to follow your selection.
+- Large menu with a procedurally drawn blood moon, a sidebar of categories (Movement, Player, Effects, Teleport, Items, World, Visuals, Misc) and a description of whichever row is selected. Long tabs scroll to follow your selection.
 - **Keyboard only**, so the mouse cursor never appears.
 - Each mod is its own module, so adding new ones is easy (see [Adding a new mod](#adding-a-new-mod)).
 
@@ -19,6 +19,7 @@ A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 | Teleport | TP on E (where you look) | While on, **E** teleports you to the spot you're looking at (up to 1000 m). E still interacts too. Change the key with `TeleportKey` in the config. |
 | World | Instant campfire | Lights the nearest unlit campfire instantly, with no holding and no waiting for everyone |
 | Teleport | TP to Beach / Tropics / Alpine-Mesa / Caldera / The Kiln / Peak | **Current or earlier biome:** teleports only you to that biome's campfire and lights nothing, so friends aren't affected. **Later biome:** lights the skipped campfires and uses the game's segment jump, which **moves everyone in the lobby** (host only). |
+| Items | Spawn: Strange gem, Dynamite, Scout effigy, First aid kit, Cure-all, Energy drink, Rope spool, Rope cannon, Chain launcher, Climbing spike, Rescue claw, Magic bean, Cloud fungus, Flare, Lantern, Portable stove, Backpack | Uses the game's own `ItemDatabase.Add`, so everyone sees the item, and puts it in your hand (or in front of you if your hands are full) |
 | World | Stop rising fog | Freezes the rising fog and holds its countdown at 0. Works solo or as host. Turning it off restarts the countdown. |
 | Player | Infinite stamina | Never run out of stamina while sprinting, jumping or climbing |
 | Player | Infinite health | Blocks all damage and clears every effect (the all-in-one switch) |

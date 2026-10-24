@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.10.4. It's built but not yet installed. Everything works except TP on E (the fix is waiting to be tested).
+**Current version:** v0.11.0 (Items tab). It's built but not yet installed. Everything works except TP on E (the fix is waiting to be tested).
 
 ---
 
@@ -50,7 +50,9 @@ Checked off as each one is completed.
 - [x] v0.10.2: TP on E fix (PEAK's camera isn't `Camera.main`, so it now uses `MainCamera.instance` + look direction), TP-to-biome campfire guard, settings-save logging (built)
 - [x] v0.10.3: TP to a current or earlier biome moves only you to its campfire and lights nothing, so friends aren't left in the fog. Only later biomes do the full lobby jump. (built)
 - [x] v0.10.4: Instant campfire moved to the World tab (built)
-- [ ] v0.10.4 installed
+- [x] v0.11.0: Items tab, spawning 17 practical items with the game's own `ItemDatabase.Add` (built)
+- [ ] v0.11.0 installed
+- [ ] Items tested in-game
 - [ ] TP on E tested in-game
 - [ ] Settings save when the menu closes (they haven't saved since 4:42 PM)
 - [ ] More mods from [Ideas for later](#ideas-for-later)
@@ -82,7 +84,8 @@ Checked off as each one is completed.
 | 0.10.1 | `f06d1ec` | Rows fill the available height, measured from real row sizes, instead of a fixed 5. Bigger ▲/▼ "more" hints. |
 | 0.10.2 | `58e3b73` | TP on E fix (camera), guard for each campfire in TP to biome, logging for TP and settings saves |
 | 0.10.3 | `8fb1560` | TP to a current or earlier biome only moves you and lights nothing, so friends are safe |
-| 0.10.4 | see git log | Instant campfire moved to the World tab |
+| 0.10.4 | `c4af401` | Instant campfire moved to the World tab |
+| 0.11.0 | see git log | **Items** tab: 17 practical items to spawn |
 
 ## Mods in the menu
 
@@ -97,6 +100,7 @@ Checked off as each one is completed.
 | Teleport | TP on E | Raycasts from the camera (skipping your own body) and calls the game's `WarpPlayerRPC` for everyone | ❌ v0.10, fix in v0.10.2 |
 | World | Instant campfire | `Campfire.DebugLight()` on the nearest unlit campfire (the same as a normal light) | ✅ v0.10 |
 | Teleport | TP to biome ×6 | Calls `LightWithoutReveal()` on the skipped campfires, then the game's `MapHandler.JumpToSegment(segment)`, which moves everyone and updates the fog | ✅ v0.10 |
+| Items | 17 spawn buttons | Finds the item by name (ignoring case) in `ItemDatabase.Instance.itemLookup`, then `ItemDatabase.Add(item, point)`, which spawns it over the network and picks it up | ⬜ |
 | World | Stop rising fog | Holds `OrbFogHandler.currentWaitTime` at 0 and sets `speed` to 0. Also freezes the height-based `Fog` (`fogSpeed`, plus its private `sinceStop` timer). Only the host decides when fog moves. | ✅ v0.7 |
 | Player | Infinite stamina | Turns on the game's own `Character.infiniteStam` switch and refills stamina to max | ✅ v0.7 |
 | Player | Infinite health | Turns on the private `CharacterData.isInvincible` flag (through reflection) and clears every effect | ✅ v0.7 |
@@ -133,6 +137,9 @@ If anything fails, check `PEAK\BepInEx\LogOutput.log` for `[Error : Bloodmoon]` 
 - [x] WASD follows the camera, Space goes up, Ctrl goes down, Shift is faster
 - [x] Letting go of all keys makes you hover
 - [x] Turning Fly off drops you to the ground with no fall damage
+
+## Test v0.11.0: Items
+- [ ] Each spawn button gives you the item (check the log for any "couldn't find" lines)
 
 ## Test v0.10.3
 - [ ] TP on E teleports you to where you look
