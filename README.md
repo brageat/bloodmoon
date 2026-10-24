@@ -16,6 +16,7 @@ A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 | Movement | Reset climb speed | Puts climbing speed back to 1x |
 | Movement | Fly | WASD moves where you look, Space goes up, Ctrl goes down, Shift doubles speed, and you hover when you let go. No fall damage while flying or for 2 s after. Always starts off. |
 | Movement | Fly speed | 2 to 40 m/s |
+| World | Stop rising fog | Freezes the rising fog and holds its countdown at 0. Works solo or as host. Turning it off restarts the countdown. |
 | Player | Infinite stamina | Never run out of stamina while sprinting, jumping or climbing |
 | Player | Infinite health | Blocks damage and instantly clears injury, hunger, cold, poison, heat, drowsiness, curse and spores |
 | Player | Set health | 10% to 100%. Clears afflictions, then adds injury to match the chosen health |

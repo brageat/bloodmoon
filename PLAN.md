@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.6.0 (flying). It's built, but not yet installed or tested in-game.
+**Current version:** v0.7.0 (stop rising fog). It's built, but not yet installed or tested in-game.
 
 ---
 
@@ -30,6 +30,8 @@ Checked off as each one is completed.
 - [ ] v0.5.0 tested in-game (see [the test list](#now-test-v050-in-game))
 - [x] v0.6.0: Flying (built)
 - [ ] v0.6.0 installed and tested in-game
+- [x] v0.7.0: Stop rising fog (built)
+- [ ] v0.7.0 installed and tested in-game
 - [ ] More mods from [Ideas for later](#ideas-for-later)
 
 ### Docs
@@ -49,7 +51,8 @@ Checked off as each one is completed.
 | 0.3.0 | `2bfbbe9` | **Large menu**: categories sidebar, description footer, **module system**, black and red theme |
 | 0.4.0 | `eaaea00` | Infinite stamina (Player) |
 | 0.5.0 | `0ad725e` | Infinite health, Set health, Heal fully (Player). Climb speed and its reset (Movement). |
-| 0.6.0 | see git log | Flying and fly speed (Movement). Modules can now run code on every physics step (`FixedTick`). |
+| 0.6.0 | `2985201` | Flying and fly speed (Movement). Modules can now run code on every physics step (`FixedTick`). |
+| 0.7.0 | see git log | Stop rising fog (World) |
 
 ## Mods in the menu
 
@@ -61,6 +64,7 @@ Checked off as each one is completed.
 | Movement | Reset climb speed | Sets climb speed back to 1x | ⬜ |
 | Movement | Fly | Turns gravity off on every ragdoll body part (`Bodypart.Rig`) and sets their velocity from WASD, Space, Ctrl and Shift each physics step. Resets `sinceGrounded` and `fallSeconds` so there's no fall damage. | ⬜ |
 | Movement | Fly speed (2–40 m/s) | Shift doubles it | ⬜ |
+| World | Stop rising fog | Holds `OrbFogHandler.currentWaitTime` at 0 and sets `speed` to 0. Also freezes the height-based `Fog` (`fogSpeed`, plus its private `sinceStop` timer). Only the host decides when fog moves. | ⬜ |
 | Player | Infinite stamina | Turns on the game's own `Character.infiniteStam` switch and refills stamina to max | ⬜ |
 | Player | Infinite health | Turns on the private `CharacterData.isInvincible` flag (through reflection) and clears harmful afflictions | ⬜ |
 | Player | Set health (10–100%) | Clears afflictions, then sets Injury to `1 - health` | ⬜ |
@@ -92,6 +96,10 @@ If anything fails, check `PEAK\BepInEx\LogOutput.log` for `[Error : Bloodmoon]` 
 - [ ] WASD follows the camera, Space goes up, Ctrl goes down, Shift is faster
 - [ ] Letting go of all keys makes you hover
 - [ ] Turning Fly off drops you to the ground with no fall damage
+
+## Test v0.7.0: stop rising fog
+- [ ] With it on, the fog countdown never runs out and the fog doesn't close in
+- [ ] Turning it off makes the fog move again after a full countdown
 
 ## Flying: how it was built (Movement tab)
 How the game works (checked in `Assembly-CSharp`):
