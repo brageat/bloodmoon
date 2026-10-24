@@ -1,14 +1,26 @@
 # Bloodmoon
 
-A blood-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
+A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 
 ## Features
-- Themed menu with a procedurally drawn blood moon. **Insert** opens and closes it.
-- **Keyboard only**, so the mouse cursor never appears:
-  - **Up/Down** selects a row
-  - **Left/Right** changes the value (hold to repeat)
-  - **Enter** presses the selected button
-- **Speed multiplier**, from 0.5x to 5x in 0.25 steps, saved between sessions.
+- Large menu with a procedurally drawn blood moon, a sidebar of categories (Movement, Player, World, Visuals, Misc) and a description of whichever row is selected.
+- **Keyboard only**, so the mouse cursor never appears.
+- Each mod is its own module, so adding new ones is easy (see [Adding a new mod](#adding-a-new-mod)).
+
+### Mods
+| Category | Mod | What it does |
+|----------|-----|--------------|
+| Movement | Speed multiplier | 0.5x to 5x in 0.25 steps, saved between sessions |
+| Movement | Reset speed | Puts speed back to 1x |
+
+### Controls
+| Key | Action |
+|-----|--------|
+| **Insert** | Open / close the menu |
+| **Tab** / **Shift+Tab** | Next / previous category |
+| **Up / Down** | Select a row |
+| **Left / Right** | Change a slider (hold to repeat), or turn a toggle off/on |
+| **Enter** | Press a button, or flip a toggle |
 
 ---
 
@@ -57,7 +69,7 @@ dotnet build -c Release
 This builds against the game's own DLLs, then **copies `Bloodmoon.dll` into `PEAK\BepInEx\plugins\Bloodmoon\` automatically**.
 
 ### 5. Play
-Launch PEAK, join a game and press **Insert**. Use the arrow keys to change the speed.
+Launch PEAK, join a game and press **Insert**. See [Controls](#controls).
 
 ---
 
@@ -66,7 +78,8 @@ Launch PEAK, join a game and press **Insert**. Use the arrow keys to change the 
 |---------|-----|
 | `No .NET SDKs were found` | Do step 1, then open a **new** terminal. |
 | `Could not find ... BepInEx.dll` or `Assembly-CSharp.dll` | BepInEx isn't installed, the game hasn't been launched once, or `GameDir` is wrong (steps 2 and 3). |
-| Build error mentioning `movementModifier` or `refs` | A PEAK update renamed something the speed code uses. Check `SpeedHack.cs` against the current game code. |
+| Build error mentioning `movementModifier` or `refs` | A PEAK update renamed something the speed code uses. Check `Modules/SpeedModule.cs` against the current game code. |
+| `Couldn't install Bloodmoon.dll. Close PEAK first` | The game locks the DLL while it's running. Close PEAK and build again. |
 | Menu doesn't appear | Check `PEAK\BepInEx\LogOutput.log` for a "Bloodmoon ... has risen" line. If it isn't there, the plugin didn't load. |
 
 ## Config
@@ -78,10 +91,22 @@ Delete `PEAK\BepInEx\plugins\Bloodmoon\`. To remove all mods, also delete `BepIn
 ## Project layout
 | File | What it does |
 |------|--------------|
-| `Plugin.cs` | Entry point: settings, the toggle key, and error logging |
-| `BloodmoonMenu.cs` | Keyboard navigation, the menu layout and theme, and the procedural textures |
-| `SpeedHack.cs` | Applies the speed multiplier to your character |
+| `Plugin.cs` | Entry point: the list of modules, the toggle key and error logging |
+| `Menu/BloodmoonMenu.cs` | Keyboard navigation and the menu layout |
+| `Menu/MenuItems.cs` | Categories and row types: slider, toggle, button |
+| `Menu/Theme.cs` | Black and red colours plus the procedural textures (moon, bars, highlights) |
+| `Modules/Module.cs` | Base class every mod builds on |
+| `Modules/SpeedModule.cs` | The speed multiplier mod |
 | `Bloodmoon.csproj` | Build settings, references to the game's DLLs and the auto-copy into plugins |
+
+## Adding a new mod
+1. Create a file in `Modules/`, e.g. `Modules/FlyModule.cs`, with a class that extends `Module`:
+   - In `Init()`, bind its config values and add its rows to the menu (`SliderItem`, `ToggleItem` or `ButtonItem`), each with a `Category`.
+   - In `Tick()`, do the actual work. It runs every frame.
+2. Add `new FlyModule(),` to the `Modules` list in `Plugin.cs`.
+3. Build. The rows appear in their category automatically.
+
+`Modules/SpeedModule.cs` is a complete example to copy from.
 
 ## Notes
 - Speed works by setting `Character.localCharacter.refs.movement.movementModifier`. At 1x the mod doesn't touch it.

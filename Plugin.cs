@@ -11,11 +11,16 @@ namespace Bloodmoon
     {
         public const string Guid = "com.brageat.bloodmoon";
         public const string Name = "Bloodmoon";
-        public const string Version = "0.2.0";
+        public const string Version = "0.3.0";
 
         internal static ManualLogSource Log;
         internal static ConfigEntry<Key> ToggleKey;
-        internal static ConfigEntry<float> SpeedMultiplier;
+
+        // Every mod in the menu. Add new modules here.
+        private readonly List<Module> Modules = new List<Module>
+        {
+            new SpeedModule(),
+        };
 
         private BloodmoonMenu menu;
 
@@ -26,11 +31,16 @@ namespace Bloodmoon
             // Save manually when the menu closes instead of on every change
             Config.SaveOnConfigSet = false;
             ToggleKey = Config.Bind("General", "ToggleKey", Key.Insert, "Key that opens/closes the menu");
-            SpeedMultiplier = Config.Bind("Movement", "SpeedMultiplier", 1f,
-                new ConfigDescription("Movement speed multiplier", new AcceptableValueRange<float>(0.5f, 5f)));
 
-            menu = new BloodmoonMenu();
-            Log.LogInfo($"{Name} {Version} has risen. Press {ToggleKey.Value} to open.");
+            var items = new List<MenuItem>();
+            foreach (var module in Modules)
+            {
+                try { module.Init(Config, items); }
+                catch (System.Exception e) { LogOnce(module.Name, e); }
+            }
+
+            menu = new BloodmoonMenu(items);
+            Log.LogInfo($"{Name} {Version} has risen with {Modules.Count} module(s). Press {ToggleKey.Value} to open.");
         }
 
         private void Update()
@@ -51,8 +61,11 @@ namespace Bloodmoon
                 }
             }
 
-            try { SpeedHack.Tick(SpeedMultiplier.Value); }
-            catch (System.Exception e) { LogOnce("speed", e); }
+            foreach (var module in Modules)
+            {
+                try { module.Tick(); }
+                catch (System.Exception e) { LogOnce(module.Name, e); }
+            }
         }
 
         private void OnGUI()
