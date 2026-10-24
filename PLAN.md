@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (public since v0.13.0)
 
-**Current version:** **v1.0.0**, the first stable version. Public, released, and the update check works. Grouped Items, statue amulets and noclip are waiting to be tested.
+**Current version:** **v1.0.0**, the first stable version. **Every feature is tested and working, and all checkpoints are done.**
 
 ---
 
@@ -59,7 +59,7 @@ Checked off as each one is completed.
 
 - [x] v0.12.0: Items tab grouped (Scout statue, Endgame, Healing, Climbing, Utility) with the 3 statue amulets and Scout's Honor added (built)
 - [x] v0.12.0 + v0.12.1 installed (in v0.13.0)
-- [ ] Grouped Items, statue amulets and noclip tested in-game
+- [x] Grouped Items, statue amulets and noclip tested in-game: all work
 - [x] v0.12.1: Noclip toggle under Fly, using the game's `ragdoll.ToggleCollision` (built)
 - [x] v0.13.0: Update checker (Misc tab, a notice at startup, a line in the menu header) (built and installed)
 - [x] Repo made public, so the update check works and anyone can download
