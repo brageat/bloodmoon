@@ -12,8 +12,7 @@ namespace Bloodmoon
 
         private const int WindowId = 0xB100D;
         private const float Width = 580, Height = 500, SidebarWidth = 150;
-        private const int MaxVisibleRows = 5; // longer tabs scroll to follow the selection
-        private int scrollTop;
+        private int scrollTop; // first row shown; long tabs scroll to follow the selection
         private Rect windowRect = new Rect(40, 40, Width, Height);
 
         private readonly List<MenuItem> allItems;
@@ -173,15 +172,13 @@ namespace Bloodmoon
                 GUILayout.Label("Nothing here yet. New mods will show up in this tab.", muted);
             }
 
-            // Keep the selected row inside the visible window
-            if (selected < scrollTop) scrollTop = selected;
-            if (selected >= scrollTop + MaxVisibleRows) scrollTop = selected - MaxVisibleRows + 1;
-            scrollTop = Mathf.Clamp(scrollTop, 0, Mathf.Max(0, visible.Count - MaxVisibleRows));
-            int end = Mathf.Min(visible.Count, scrollTop + MaxVisibleRows);
+            // Show as many rows as fit; scroll only when the tab really is too long.
+            // Only change the window during Layout so Layout and Repaint draw the same rows.
+            if (Event.current.type == EventType.Layout) UpdateScroll();
 
-            if (scrollTop > 0) GUILayout.Label($"+{scrollTop} more above", more);
+            if (scrollTop > 0) GUILayout.Label($"▲  {scrollTop} more above", more);
 
-            for (int i = scrollTop; i < end; i++)
+            for (int i = scrollTop; i < scrollEnd && i < visible.Count; i++)
             {
                 bool lit = i == selected;
                 switch (visible[i])
@@ -190,12 +187,56 @@ namespace Bloodmoon
                     case ToggleItem t: DrawToggle(t, lit); break;
                     case ButtonItem b: DrawButton(b, lit); break;
                 }
+                // Measure the real row height so the fitting is exact next frame
+                if (Event.current.type == EventType.Repaint)
+                    rowHeights[visible[i]] = GUILayoutUtility.GetLastRect().height + RowMargin;
             }
 
-            if (end < visible.Count) GUILayout.Label($"+{visible.Count - end} more below", more);
+            if (scrollEnd < visible.Count) GUILayout.Label($"▼  {visible.Count - scrollEnd} more below", more);
 
             GUILayout.FlexibleSpace();
             GUILayout.EndVertical();
+
+            if (Event.current.type == EventType.Repaint)
+                rowsAreaHeight = GUILayoutUtility.GetLastRect().height - SectionHeight;
+        }
+
+        // ---- fitting rows into the available height ----
+
+        private const float RowMargin = 4f;       // row style margin top + bottom
+        private const float SectionHeight = 26f;  // the tab title above the rows
+        private const float MoreHeight = 20f;     // a "more above/below" line
+        private float rowsAreaHeight = 300f;      // measured each repaint
+        private int scrollEnd;
+        private readonly Dictionary<MenuItem, float> rowHeights = new Dictionary<MenuItem, float>();
+
+        private float RowHeight(MenuItem item) =>
+            rowHeights.TryGetValue(item, out float h) ? h : (item is SliderItem ? 58f : 40f);
+
+        // Index just past the last row that fits when starting at `start`
+        private int FitFrom(int start)
+        {
+            float used = start > 0 ? MoreHeight : 0f;
+            int end = start;
+            while (end < visible.Count)
+            {
+                bool moreAfter = end < visible.Count - 1;
+                float need = RowHeight(visible[end]) + (moreAfter ? MoreHeight : 0f);
+                if (end > start && used + need > rowsAreaHeight) break;
+                used += RowHeight(visible[end]);
+                end++;
+            }
+            return end;
+        }
+
+        private void UpdateScroll()
+        {
+            scrollTop = Mathf.Clamp(scrollTop, 0, Mathf.Max(0, visible.Count - 1));
+            if (selected < scrollTop) scrollTop = selected;
+            while (scrollTop < selected && selected >= FitFrom(scrollTop)) scrollTop++;
+            // Don't leave empty space at the bottom when rows above could fit
+            while (scrollTop > 0 && FitFrom(scrollTop - 1) == visible.Count) scrollTop--;
+            scrollEnd = FitFrom(scrollTop);
         }
 
         private void DrawSlider(SliderItem item, bool lit)
@@ -283,9 +324,10 @@ namespace Bloodmoon
             hint = Text(10, Theme.RedBright, FontStyle.Bold);
             muted = Text(12, Theme.Muted);
             muted.wordWrap = true;
-            more = Text(10, Theme.Red, FontStyle.Bold);
+            more = Text(13, Theme.RedBright, FontStyle.Bold);
             more.alignment = TextAnchor.MiddleCenter;
-            more.margin = new RectOffset(0, 0, 2, 2);
+            more.fixedHeight = 18;
+            more.margin = new RectOffset(0, 0, 1, 1);
             description = Text(12, Theme.Text);
             description.wordWrap = true;
             description.fixedHeight = 34;

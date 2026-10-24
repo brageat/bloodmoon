@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.10.0 (Teleport tab). It's installed but not yet tested. Everything up to v0.9.0 is tested and working.
+**Current version:** v0.10.1. It's built but not yet installed (PEAK is running v0.10.0). Everything up to v0.9.0 is tested and working.
 
 ---
 
@@ -45,7 +45,9 @@ Checked off as each one is completed.
 - [x] v0.9.1: Show each effect is off by default (built)
 - [x] v0.9.1 installed
 - [x] v0.10.0: Teleport tab with TP on E, Instant campfire and TP to each biome (built and installed)
-- [ ] v0.10.0 tested in-game
+- [x] v0.10.1: menu fits as many rows as there's room for (Movement shows all 6); bigger ▲/▼ "more" text (built)
+- [ ] v0.10.1 installed
+- [ ] v0.10.0 Teleport tab tested in-game
 - [ ] More mods from [Ideas for later](#ideas-for-later)
 
 ### Docs
@@ -71,7 +73,8 @@ Checked off as each one is completed.
 | 0.8.1 | `ef5436b` | Heal fully only heals injury. Clearing everything moved to a new **Clear all effects** button (Effects). |
 | 0.9.0 | `7c07799` | **Block all effects** toggle, plus a **Show each effect** toggle that hides the 8 separate Block rows. Menu rows can now hide themselves (`MenuItem.IsShown`). |
 | 0.9.1 | `64e9a03` | Show each effect is off by default |
-| 0.10.0 | see git log | **Teleport** tab: TP on E, Instant campfire, TP to each biome |
+| 0.10.0 | `3c98029` | **Teleport** tab: TP on E, Instant campfire, TP to each biome |
+| 0.10.1 | see git log | Rows fill the available height, measured from real row sizes, instead of a fixed 5. Bigger ▲/▼ "more" hints. |
 
 ## Mods in the menu
 
