@@ -1,7 +1,7 @@
+using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Bloodmoon
@@ -11,21 +11,19 @@ namespace Bloodmoon
     {
         public const string Guid = "com.brageat.bloodmoon";
         public const string Name = "Bloodmoon";
-        public const string Version = "0.1.0";
+        public const string Version = "0.2.0";
 
         internal static ManualLogSource Log;
         internal static ConfigEntry<Key> ToggleKey;
         internal static ConfigEntry<float> SpeedMultiplier;
 
         private BloodmoonMenu menu;
-        private CursorLockMode prevLock;
-        private bool prevVisible;
 
         private void Awake()
         {
             Log = Logger;
 
-            // Save manually when the menu closes instead of on every slider tick
+            // Save manually when the menu closes instead of on every change
             Config.SaveOnConfigSet = false;
             ToggleKey = Config.Bind("General", "ToggleKey", Key.Insert, "Key that opens/closes the menu");
             SpeedMultiplier = Config.Bind("Movement", "SpeedMultiplier", 1f,
@@ -38,38 +36,37 @@ namespace Bloodmoon
         private void Update()
         {
             var kb = Keyboard.current;
-            if (kb != null && ToggleKey.Value != Key.None && kb[ToggleKey.Value].wasPressedThisFrame)
-                SetOpen(!menu.Open);
+            if (kb != null)
+            {
+                if (ToggleKey.Value != Key.None && kb[ToggleKey.Value].wasPressedThisFrame)
+                {
+                    menu.Open = !menu.Open;
+                    if (!menu.Open) Config.Save();
+                }
 
-            SpeedHack.Tick(SpeedMultiplier.Value);
+                if (menu.Open)
+                {
+                    try { menu.HandleInput(kb); }
+                    catch (System.Exception e) { LogOnce("input", e); }
+                }
+            }
+
+            try { SpeedHack.Tick(SpeedMultiplier.Value); }
+            catch (System.Exception e) { LogOnce("speed", e); }
         }
 
-        private void LateUpdate()
+        private void OnGUI()
         {
-            // The game re-locks the cursor every frame, so keep freeing it while the menu is up
-            if (menu.Open)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
+            if (!menu.Open) return;
+            try { menu.Draw(); }
+            catch (System.Exception e) { LogOnce("menu", e); }
         }
 
-        private void OnGUI() => menu.Draw();
-
-        private void SetOpen(bool open)
+        // Unity's own log writer fails in PEAK, so errors must go through our logger or they vanish
+        private readonly HashSet<string> loggedErrors = new HashSet<string>();
+        private void LogOnce(string where, System.Exception e)
         {
-            if (open)
-            {
-                prevLock = Cursor.lockState;
-                prevVisible = Cursor.visible;
-            }
-            else
-            {
-                Cursor.lockState = prevLock;
-                Cursor.visible = prevVisible;
-                Config.Save();
-            }
-            menu.Open = open;
+            if (loggedErrors.Add(where)) Log.LogError($"[{where}] {e}");
         }
     }
 }

@@ -28,8 +28,9 @@
   <!-- After each build, drop the DLL straight into the game's plugins folder -->
   <Target Name="CopyToPlugins" AfterTargets="Build" Condition="Exists('$(GameDir)\BepInEx\plugins')">
     <MakeDir Directories="$(PluginDir)" />
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginDir)" />
-    <Message Importance="high" Text="Bloodmoon -> $(PluginDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginDir)" Retries="0" ContinueOnError="true" />
+    <Message Importance="high" Condition="'$(MSBuildLastTaskResult)' == 'true'" Text="Bloodmoon -> $(PluginDir)" />
+    <Warning Condition="'$(MSBuildLastTaskResult)' != 'true'" Text="Couldn't install Bloodmoon.dll. Close PEAK first (the game locks the file), then build again." />
   </Target>
 
 </Project>

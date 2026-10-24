@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace Bloodmoon
 {
@@ -9,21 +12,72 @@ namespace Bloodmoon
         private const int WindowId = 0xB100D;
         private Rect windowRect = new Rect(40, 40, 320, 0);
 
+        // Menu rows, navigated with the arrow keys
+        private const int RowSpeed = 0, RowReset = 1, RowCount = 2;
+        private int selected;
+
+        private const float SpeedStep = 0.25f, SpeedMin = 0.5f, SpeedMax = 5f;
+
         // Palette
         private static readonly Color Night = new Color(0.06f, 0.01f, 0.02f, 0.96f);
         private static readonly Color Panel = new Color(0.12f, 0.02f, 0.03f, 1f);
+        private static readonly Color PanelLit = new Color(0.22f, 0.03f, 0.05f, 1f);
         private static readonly Color Blood = new Color(0.62f, 0.03f, 0.07f, 1f);
         private static readonly Color BloodBright = new Color(0.94f, 0.13f, 0.17f, 1f);
         private static readonly Color Bone = new Color(0.94f, 0.87f, 0.85f, 1f);
         private static readonly Color Ash = new Color(0.62f, 0.44f, 0.45f, 1f);
 
+        // ---- input ----
+
+        public void HandleInput(Keyboard kb)
+        {
+            if (Repeat(kb.upArrowKey)) selected = (selected + RowCount - 1) % RowCount;
+            if (Repeat(kb.downArrowKey)) selected = (selected + 1) % RowCount;
+
+            switch (selected)
+            {
+                case RowSpeed:
+                    int dir = (Repeat(kb.rightArrowKey) ? 1 : 0) - (Repeat(kb.leftArrowKey) ? 1 : 0);
+                    if (dir != 0)
+                    {
+                        float v = Mathf.Round((Plugin.SpeedMultiplier.Value + dir * SpeedStep) / SpeedStep) * SpeedStep;
+                        Plugin.SpeedMultiplier.Value = Mathf.Clamp(v, SpeedMin, SpeedMax);
+                    }
+                    break;
+
+                case RowReset:
+                    if (kb.enterKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame)
+                        Plugin.SpeedMultiplier.Value = 1f;
+                    break;
+            }
+        }
+
+        // True on the first press, then repeatedly while the key is held
+        private readonly Dictionary<KeyControl, float> nextRepeat = new Dictionary<KeyControl, float>();
+        private bool Repeat(KeyControl key)
+        {
+            float now = Time.unscaledTime;
+            if (key.wasPressedThisFrame)
+            {
+                nextRepeat[key] = now + 0.35f;
+                return true;
+            }
+            if (key.isPressed && nextRepeat.TryGetValue(key, out float t) && now >= t)
+            {
+                nextRepeat[key] = now + 0.08f;
+                return true;
+            }
+            return false;
+        }
+
+        // ---- drawing ----
+
         private bool stylesReady;
-        private GUIStyle window, title, subtitle, section, label, value, slider, thumb, button, footer, divider;
-        private Texture2D moon;
+        private GUIStyle window, title, subtitle, section, label, labelLit, value, hint, footer, divider, row, rowLit;
+        private Texture2D moon, trackTex, fillTex, thumbTex, thumbLitTex;
 
         public void Draw()
         {
-            if (!Open) return;
             EnsureStyles();
             windowRect = GUILayout.Window(WindowId, windowRect, DrawWindow, GUIContent.none, window);
         }
@@ -41,27 +95,44 @@ namespace Bloodmoon
             GUILayout.EndHorizontal();
             Divider();
 
-            // Movement
             GUILayout.Label("MOVEMENT", section);
+
+            // Speed row
+            bool lit = selected == RowSpeed;
+            GUILayout.BeginVertical(lit ? rowLit : row);
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Speed multiplier", label);
+            GUILayout.Label("Speed multiplier", lit ? labelLit : label);
             GUILayout.FlexibleSpace();
             GUILayout.Label($"{Plugin.SpeedMultiplier.Value:0.00}x", value);
             GUILayout.EndHorizontal();
+            DrawBar(Plugin.SpeedMultiplier.Value, lit);
+            GUILayout.EndVertical();
 
-            float speed = GUILayout.HorizontalSlider(Plugin.SpeedMultiplier.Value, 0.5f, 5f, slider, thumb);
-            speed = Mathf.Round(speed * 20f) / 20f; // snap to 0.05
-            if (!Mathf.Approximately(speed, Plugin.SpeedMultiplier.Value))
-                Plugin.SpeedMultiplier.Value = speed;
-
-            GUILayout.Space(6);
-            if (GUILayout.Button("Reset to 1x", button))
-                Plugin.SpeedMultiplier.Value = 1f;
+            // Reset row
+            lit = selected == RowReset;
+            GUILayout.BeginHorizontal(lit ? rowLit : row);
+            GUILayout.Label("Reset to 1x", lit ? labelLit : label);
+            GUILayout.FlexibleSpace();
+            if (lit) GUILayout.Label("ENTER", hint);
+            GUILayout.EndHorizontal();
 
             Divider();
-            GUILayout.Label($"{Plugin.ToggleKey.Value} to hide  ·  drag to move", footer);
+            GUILayout.Label("Up/Down select  ·  Left/Right adjust", footer);
+            GUILayout.Label($"Enter press  ·  {Plugin.ToggleKey.Value} hide", footer);
+        }
 
-            GUI.DragWindow();
+        // Read-only slider: dark track, red fill, round thumb
+        private void DrawBar(float speed, bool lit)
+        {
+            Rect r = GUILayoutUtility.GetRect(10, 14, GUILayout.ExpandWidth(true));
+            float t = Mathf.InverseLerp(SpeedMin, SpeedMax, speed);
+
+            var track = new Rect(r.x, r.y + 5, r.width, 4);
+            GUI.DrawTexture(track, trackTex);
+            GUI.DrawTexture(new Rect(track.x, track.y, track.width * t, track.height), fillTex);
+
+            float x = Mathf.Lerp(r.x, r.xMax - 14, t);
+            GUI.DrawTexture(new Rect(x, r.y, 14, 14), lit ? thumbLitTex : thumbTex);
         }
 
         private void Divider() => GUILayout.Box(GUIContent.none, divider);
@@ -82,35 +153,16 @@ namespace Bloodmoon
             subtitle = Text(11, Ash);
             section = Text(11, Blood, FontStyle.Bold);
             section.margin = new RectOffset(0, 0, 4, 6);
-            label = Text(13, Bone);
+            label = Text(13, Ash);
+            labelLit = Text(13, Bone, FontStyle.Bold);
             value = Text(13, BloodBright, FontStyle.Bold);
+            hint = Text(10, BloodBright, FontStyle.Bold);
             footer = Text(10, Ash);
             footer.alignment = TextAnchor.MiddleCenter;
 
-            slider = new GUIStyle
-            {
-                fixedHeight = 14,
-                border = new RectOffset(2, 2, 0, 0),
-                margin = new RectOffset(0, 0, 6, 4),
-            };
-            slider.normal.background = TrackTex(Panel, Blood);
-
-            thumb = new GUIStyle { fixedWidth = 14, fixedHeight = 14 };
-            thumb.normal.background = CircleTex(14, BloodBright, Blood);
-            thumb.hover.background = thumb.active.background = CircleTex(14, Bone, BloodBright);
-
-            button = new GUIStyle(GUI.skin.button)
-            {
-                fontSize = 12,
-                fontStyle = FontStyle.Bold,
-                fixedHeight = 26,
-                border = new RectOffset(2, 2, 2, 2),
-            };
-            button.normal.background = BorderedTex(Panel, Blood);
-            button.hover.background = BorderedTex(new Color(0.22f, 0.03f, 0.05f), BloodBright);
-            button.active.background = BorderedTex(Blood, BloodBright);
-            button.normal.textColor = Bone;
-            button.hover.textColor = button.active.textColor = Color.white;
+            row = new GUIStyle { padding = new RectOffset(10, 8, 6, 6), margin = new RectOffset(0, 0, 2, 2) };
+            rowLit = new GUIStyle(row) { border = new RectOffset(3, 0, 0, 0) };
+            rowLit.normal.background = RowTex(PanelLit, BloodBright);
 
             divider = new GUIStyle
             {
@@ -120,6 +172,10 @@ namespace Bloodmoon
             };
             divider.normal.background = SolidTex(new Color(Blood.r, Blood.g, Blood.b, 0.6f));
 
+            trackTex = SolidTex(Panel);
+            fillTex = SolidTex(Blood);
+            thumbTex = CircleTex(14, BloodBright, Blood);
+            thumbLitTex = CircleTex(14, Bone, BloodBright);
             moon = MoonTex(80);
         }
 
@@ -162,19 +218,15 @@ namespace Bloodmoon
             return t;
         }
 
-        // Thin bar centred vertically in a 14px-tall texture
-        private static Texture2D TrackTex(Color fill, Color edge)
+        // Highlighted row: fill with a bright accent bar down the left edge
+        private static Texture2D RowTex(Color fill, Color accent)
         {
-            const int w = 8, h = 14;
-            var t = NewTex(w, h);
+            const int n = 8;
+            var t = NewTex(n, n);
             t.filterMode = FilterMode.Point;
-            for (int y = 0; y < h; y++)
-                for (int x = 0; x < w; x++)
-                {
-                    bool inBar = y >= 5 && y <= 8;
-                    bool isEdge = y == 5 || y == 8 || x == 0 || x == w - 1;
-                    t.SetPixel(x, y, !inBar ? Color.clear : isEdge ? edge : fill);
-                }
+            for (int y = 0; y < n; y++)
+                for (int x = 0; x < n; x++)
+                    t.SetPixel(x, y, x < 3 ? accent : fill);
             t.Apply();
             return t;
         }

@@ -1,10 +1,14 @@
-# Bloodmoon
+﻿# Bloodmoon
 
 A blood-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 
 ## Features
-- Draggable themed menu with a procedurally drawn blood moon. **Insert** opens and closes it.
-- **Speed multiplier** slider, from 0.5x to 5x, saved between sessions.
+- Themed menu with a procedurally drawn blood moon. **Insert** opens and closes it.
+- **Keyboard only**, so the mouse cursor never appears:
+  - **Up/Down** selects a row
+  - **Left/Right** changes the value (hold to repeat)
+  - **Enter** presses the selected button
+- **Speed multiplier**, from 0.5x to 5x in 0.25 steps, saved between sessions.
 
 ---
 
@@ -12,7 +16,7 @@ A blood-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 
 | # | What | Where to get it | How to check it's working |
 |---|------|-----------------|---------------------------|
-| 1 | **Windows PC** | – | – |
+| 1 | **Windows PC** | â€“ | â€“ |
 | 2 | **PEAK** (Steam) | Steam store | The game launches |
 | 3 | **.NET SDK 8** or newer | `winget install Microsoft.DotNet.SDK.8` or https://dotnet.microsoft.com/download | `dotnet --list-sdks` shows `8.x` |
 | 4 | **BepInEx 5 for PEAK** (`BepInExPack_PEAK`) | https://thunderstore.io/c/peak/p/BepInEx/BepInExPack_PEAK/ | A `BepInEx\plugins` folder exists in the PEAK folder after you launch the game |
@@ -32,7 +36,7 @@ dotnet --list-sdks
 1. Download `BepInExPack_PEAK` from the Thunderstore link above using **Manual Download**.
 2. Open the zip and go into its `BepInExPack_PEAK` folder.
 3. Copy everything in there (`BepInEx`, `winhttp.dll`, `doorstop_config.ini` and `.doorstop_version`) into the PEAK folder, next to `PEAK.exe`.
-   The default location is `C:\Program Files (x86)\Steam\steamapps\common\PEAK`, or in Steam: right-click PEAK → Manage → Browse local files.
+   The default location is `C:\Program Files (x86)\Steam\steamapps\common\PEAK`, or in Steam: right-click PEAK â†’ Manage â†’ Browse local files.
 4. **Launch PEAK once, then close it.** BepInEx finishes setting itself up on that launch.
 
 ### 3. Tell the project where PEAK is (only if it isn't in the default location)
@@ -53,7 +57,7 @@ dotnet build -c Release
 This builds against the game's own DLLs, then **copies `Bloodmoon.dll` into `PEAK\BepInEx\plugins\Bloodmoon\` automatically**.
 
 ### 5. Play
-Launch PEAK, join a game and press **Insert**.
+Launch PEAK, join a game and press **Insert**. Use the arrow keys to change the speed.
 
 ---
 
@@ -74,8 +78,8 @@ Delete `PEAK\BepInEx\plugins\Bloodmoon\`. To remove all mods, also delete `BepIn
 ## Project layout
 | File | What it does |
 |------|--------------|
-| `Plugin.cs` | Entry point: settings, the toggle key and freeing the cursor while the menu is open |
-| `BloodmoonMenu.cs` | The menu layout and theme, including the procedural textures |
+| `Plugin.cs` | Entry point: settings, the toggle key, and error logging |
+| `BloodmoonMenu.cs` | Keyboard navigation, the menu layout and theme, and the procedural textures |
 | `SpeedHack.cs` | Applies the speed multiplier to your character |
 | `Bloodmoon.csproj` | Build settings, references to the game's DLLs and the auto-copy into plugins |
 
