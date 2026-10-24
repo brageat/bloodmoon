@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.7.0 (stop rising fog). It's installed and loading in PEAK, but not yet tested in-game.
+**Current version:** v0.7.0. Every mod is tested and working in-game.
 
 ---
 
@@ -27,7 +27,7 @@ Checked off as each one is completed.
 - [x] v0.5.0: Infinite health, Set health, Heal fully (built)
 - [x] v0.5.0: Climb speed (built)
 - [x] v0.5.0 installed and loading in PEAK (the log shows 4 modules)
-- [ ] v0.5.0 tested in-game (see [the test list](#now-test-v050-in-game))
+- [x] v0.5.0 tested in-game: climb speed, stamina and all health mods work
 - [x] v0.6.0: Flying (built)
 - [x] v0.6.0 installed (loading in PEAK)
 - [x] v0.6.0 tested in-game: flying works
@@ -61,16 +61,16 @@ Checked off as each one is completed.
 | Tab | Mod | How it works | Tested in-game |
 |-----|-----|--------------|----------------|
 | Movement | Speed multiplier (0.5–5x) | Sets `CharacterMovement.movementModifier` | ✅ v0.1 |
-| Movement | Reset speed | Sets speed back to 1x | ⬜ |
-| Movement | Climb speed (0.5–5x) | Sets `CharacterClimbing.climbSpeedMod`, and puts the game's value back at 1x | ⬜ |
-| Movement | Reset climb speed | Sets climb speed back to 1x | ⬜ |
+| Movement | Reset speed | Sets speed back to 1x | ✅ v0.7 |
+| Movement | Climb speed (0.5–5x) | Sets `CharacterClimbing.climbSpeedMod`, and puts the game's value back at 1x | ✅ v0.7 |
+| Movement | Reset climb speed | Sets climb speed back to 1x | ✅ v0.7 |
 | Movement | Fly | Turns gravity off on every ragdoll body part (`Bodypart.Rig`) and sets their velocity from WASD, Space, Ctrl and Shift each physics step. Resets `sinceGrounded` and `fallSeconds` so there's no fall damage. | ✅ v0.6 |
-| Movement | Fly speed (2–40 m/s) | Shift doubles it | ⬜ |
+| Movement | Fly speed (2–40 m/s) | Shift doubles it | ✅ v0.7 |
 | World | Stop rising fog | Holds `OrbFogHandler.currentWaitTime` at 0 and sets `speed` to 0. Also freezes the height-based `Fog` (`fogSpeed`, plus its private `sinceStop` timer). Only the host decides when fog moves. | ✅ v0.7 |
-| Player | Infinite stamina | Turns on the game's own `Character.infiniteStam` switch and refills stamina to max | ⬜ |
-| Player | Infinite health | Turns on the private `CharacterData.isInvincible` flag (through reflection) and clears harmful afflictions | ⬜ |
-| Player | Set health (10–100%) | Clears afflictions, then sets Injury to `1 - health` | ⬜ |
-| Player | Heal fully | Clears afflictions once | ⬜ |
+| Player | Infinite stamina | Turns on the game's own `Character.infiniteStam` switch and refills stamina to max | ✅ v0.7 |
+| Player | Infinite health | Turns on the private `CharacterData.isInvincible` flag (through reflection) and clears harmful afflictions | ✅ v0.7 |
+| Player | Set health (10–100%) | Clears afflictions, then sets Injury to `1 - health` | ✅ v0.7 |
+| Player | Heal fully | Clears afflictions once | ✅ v0.7 |
 
 ## Controls
 
@@ -85,23 +85,23 @@ Checked off as each one is completed.
 ---
 
 ## Now: test v0.5.0 in-game
-- [ ] Speed and climb speed both change how fast you move
-- [ ] Infinite stamina: sprint and climb without the bar draining
-- [ ] Infinite health: hunger, cold and falls don't hurt. Check whether a huge fall still knocks you out for a moment.
-- [ ] Set health: ← and → change the stamina bar right away
-- [ ] Heal fully clears everything
+- [x] Speed and climb speed both change how fast you move
+- [x] Infinite stamina: sprint and climb without the bar draining
+- [x] Infinite health: hunger, cold and falls don't hurt. Check whether a huge fall still knocks you out for a moment.
+- [x] Set health: ← and → change the stamina bar right away
+- [x] Heal fully clears everything
 
 If anything fails, check `PEAK\BepInEx\LogOutput.log` for `[Error : Bloodmoon]` lines.
 
 ## Test v0.6.0: flying
-- [ ] Turning Fly on makes you float instead of falling
-- [ ] WASD follows the camera, Space goes up, Ctrl goes down, Shift is faster
-- [ ] Letting go of all keys makes you hover
-- [ ] Turning Fly off drops you to the ground with no fall damage
+- [x] Turning Fly on makes you float instead of falling
+- [x] WASD follows the camera, Space goes up, Ctrl goes down, Shift is faster
+- [x] Letting go of all keys makes you hover
+- [x] Turning Fly off drops you to the ground with no fall damage
 
 ## Test v0.7.0: stop rising fog
-- [ ] With it on, the fog countdown never runs out and the fog doesn't close in
-- [ ] Turning it off makes the fog move again after a full countdown
+- [x] With it on, the fog countdown never runs out and the fog doesn't close in
+- [x] Turning it off makes the fog move again after a full countdown
 
 ## Flying: how it was built (Movement tab)
 How the game works (checked in `Assembly-CSharp`):
