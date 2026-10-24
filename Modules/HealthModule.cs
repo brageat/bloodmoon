@@ -66,7 +66,7 @@ namespace Bloodmoon
             });
 
             blockAll = config.Bind("Effects", "BlockAll", false, "Block every effect");
-            showEach = config.Bind("Effects", "ShowEachEffect", true, "Show the separate Block toggles");
+            showEach = config.Bind("Effects", "ShowEachEffect", false, "Show the separate Block toggles");
 
             items.Add(new ToggleItem
             {

@@ -41,7 +41,9 @@ Checked off as each one is completed.
 - [x] v0.8.1 installed
 - [x] v0.9.0: Block all effects toggle, Show each effect toggle (hides the 8 Block rows), rows can hide themselves (built)
 - [x] v0.9.0 installed
-- [ ] v0.8.1 + v0.9.0 tested in-game
+- [x] v0.9.0 Effects toggles work in-game
+- [x] v0.9.1: Show each effect is off by default (built)
+- [ ] v0.9.1 installed
 - [ ] More mods from [Ideas for later](#ideas-for-later)
 
 ### Docs

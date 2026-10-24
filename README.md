@@ -24,7 +24,7 @@ A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 | Effects | Block injury / hunger / cold / poison / heat / drowsy / curse / spores | A separate toggle for each effect. It stops that one effect and leaves the others alone. |
 | Effects | Block all effects | One switch that keeps every effect away (lighter than Infinite health) |
 | Effects | Clear all effects | Clears every effect once |
-| Effects | Show each effect | Shows or hides the separate Block toggles, to keep the tab short |
+| Effects | Show each effect | Shows or hides the separate Block toggles. Off by default, so the tab stays short. |
 
 PEAK has no HP bar. Damage comes as afflictions that fill up the stamina bar, and you pass out when it's full, so the health mods work on those.
 
