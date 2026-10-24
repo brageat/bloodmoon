@@ -47,10 +47,22 @@ namespace Bloodmoon
             {
                 if (item.IsShown != null && !item.IsShown()) continue;
                 int tab = Array.IndexOf(categories, item.Category);
-                if (tab >= 0) categoryCounts[tab]++;
+                if (tab >= 0 && !(item is SectionItem)) categoryCounts[tab]++;
                 if (item.Category == Current) visible.Add(item);
             }
             selected = Mathf.Clamp(selected, 0, Mathf.Max(0, visible.Count - 1));
+            selected = Selectable(selected, 1);
+        }
+
+        // The nearest row from `index` (moving in `step` direction, wrapping) that isn't a heading
+        private int Selectable(int index, int step)
+        {
+            for (int n = 0; n < visible.Count; n++)
+            {
+                int i = ((index + n * step) % visible.Count + visible.Count) % visible.Count;
+                if (!(visible[i] is SectionItem)) return i;
+            }
+            return 0;
         }
 
         // ---- input ----
@@ -70,8 +82,8 @@ namespace Bloodmoon
 
             if (visible.Count == 0) return;
 
-            if (Repeat(kb.upArrowKey)) selected = (selected - 1 + visible.Count) % visible.Count;
-            if (Repeat(kb.downArrowKey)) selected = (selected + 1) % visible.Count;
+            if (Repeat(kb.upArrowKey)) selected = Selectable((selected - 1 + visible.Count) % visible.Count, -1);
+            if (Repeat(kb.downArrowKey)) selected = Selectable((selected + 1) % visible.Count, 1);
 
             int dir = (Repeat(kb.rightArrowKey) ? 1 : 0) - (Repeat(kb.leftArrowKey) ? 1 : 0);
             bool enter = kb.enterKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame;
@@ -194,6 +206,7 @@ namespace Bloodmoon
                     case SliderItem s: DrawSlider(s, lit); break;
                     case ToggleItem t: DrawToggle(t, lit); break;
                     case ButtonItem b: DrawButton(b, lit); break;
+                    case SectionItem h: GUILayout.Label(h.Name.ToUpperInvariant(), sectionRow); break;
                 }
                 // Measure the real row height so the fitting is exact next frame
                 if (Event.current.type == EventType.Repaint)
@@ -219,7 +232,7 @@ namespace Bloodmoon
         private readonly Dictionary<MenuItem, float> rowHeights = new Dictionary<MenuItem, float>();
 
         private float RowHeight(MenuItem item) =>
-            rowHeights.TryGetValue(item, out float h) ? h : (item is SliderItem ? 58f : 40f);
+            rowHeights.TryGetValue(item, out float h) ? h : (item is SliderItem ? 58f : item is SectionItem ? 24f : 40f);
 
         // Index just past the last row that fits when starting at `start`
         private int FitFrom(int start)
@@ -240,7 +253,9 @@ namespace Bloodmoon
         private void UpdateScroll()
         {
             scrollTop = Mathf.Clamp(scrollTop, 0, Mathf.Max(0, visible.Count - 1));
-            if (selected < scrollTop) scrollTop = selected;
+            // Scrolling up onto a group's first row also shows the group's heading
+            int want = selected > 0 && visible[selected - 1] is SectionItem ? selected - 1 : selected;
+            if (want < scrollTop) scrollTop = want;
             while (scrollTop < selected && selected >= FitFrom(scrollTop)) scrollTop++;
             // Don't leave empty space at the bottom when rows above could fit
             while (scrollTop > 0 && FitFrom(scrollTop - 1) == visible.Count) scrollTop--;
@@ -302,6 +317,7 @@ namespace Bloodmoon
         // ---- styles ----
 
         private bool stylesReady;
+        private GUIStyle sectionRow;
         private GUIStyle window, title, subtitle, badge, section, label, labelLit, value, hint, muted, more, description, footer, divider;
         private GUIStyle sidebar, tab, tabLit, tabText, tabTextLit, count, row, rowLit, pillOn, pillOff;
         private Texture2D moon, trackTex, fillTex, thumbTex, thumbLitTex;
@@ -326,6 +342,8 @@ namespace Bloodmoon
             badge.normal.background = Theme.Bordered(Theme.RedDeep, Theme.Red);
             section = Text(11, Theme.Red, FontStyle.Bold);
             section.margin = new RectOffset(0, 0, 2, 8);
+            sectionRow = Text(11, Theme.RedBright, FontStyle.Bold);
+            sectionRow.margin = new RectOffset(2, 0, 8, 2);
             label = Text(14, Theme.Muted);
             labelLit = Text(14, Theme.Text, FontStyle.Bold);
             value = Text(14, Theme.RedBright, FontStyle.Bold);

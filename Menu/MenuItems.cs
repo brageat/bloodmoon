@@ -48,4 +48,9 @@ namespace Bloodmoon
     {
         public Action OnPress;
     }
+
+    // A small heading that groups the rows under it. Can't be selected; the arrow keys skip it.
+    internal sealed class SectionItem : MenuItem
+    {
+    }
 }

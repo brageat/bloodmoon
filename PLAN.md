@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.11.2. **All checkpoints are done.** Download: https://github.com/brageat/bloodmoon/releases/latest
+**Current version:** v0.12.0 (grouped Items tab + scout statue amulets). It's built but not yet installed.
 
 ---
 
@@ -57,6 +57,11 @@ Checked off as each one is completed.
 - [x] Items tested in-game
 - [x] Settings save when the menu closes
 
+- [x] v0.12.0: Items tab grouped (Scout statue, Endgame, Healing, Climbing, Utility) with the 3 statue amulets and Scout's Honor added (built)
+- [ ] v0.12.0 installed and tested
+- [ ] Noclip for fly
+- [ ] Update checker
+
 ### Docs
 - [x] GitHub Release v0.11.1 with `Bloodmoon.dll` to download
 - [x] changes.html updated to v0.11.1, with a download button
@@ -89,7 +94,8 @@ Checked off as each one is completed.
 | 0.10.4 | `c4af401` | Instant campfire moved to the World tab |
 | 0.11.0 | `e04a73f` | **Items** tab: 17 practical items to spawn |
 | 0.11.1 | `90a50c8` | TP on E removed |
-| 0.11.2 | see git log | Empty tabs are hidden until a mod adds a row to them |
+| 0.11.2 | `a2d36c9` | Empty tabs are hidden until a mod adds a row to them |
+| 0.12.0 | see git log | Items tab grouped under headings; added the 3 scout statue amulets and Scout's Honor; menus can have section headings |
 
 ## Mods in the menu
 

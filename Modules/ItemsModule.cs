@@ -10,40 +10,63 @@ namespace Bloodmoon
     {
         public override string Name => "Items";
 
-        // (name in the game files, name shown in the menu, what it's for)
-        private static readonly (string file, string label, string what)[] Items =
+        // Groups of (name in the game files, name shown in the menu, what it's for)
+        private static readonly (string heading, (string file, string label, string what)[] items)[] Groups =
         {
-            ("Strange gem", "Strange gem", "the gem for the end of the run"),
-            ("Dynamite", "Dynamite", "blows things up. Throw it fast!"),
-            ("ScoutEffigy", "Scout effigy", "brings a dead friend back"),
-            ("FirstAidKit", "First aid kit", "heals injury"),
-            ("Cure-All", "Cure-all", "clears every bad effect"),
-            ("Energy Drink", "Energy drink", "a burst of extra stamina"),
-            ("RopeSpool", "Rope spool", "a rope you can lay down a wall"),
-            ("RopeShooter", "Rope cannon", "shoots a rope up a wall"),
-            ("ChainShooter", "Chain launcher", "shoots a chain between two points"),
-            ("ClimbingSpike", "Climbing spike", "a piton to rest on mid-climb"),
-            ("RescueHook", "Rescue claw", "pulls a friend to you"),
-            ("MagicBean", "Magic bean", "grows a vine you can climb"),
-            ("CloudFungus", "Cloud fungus", "makes a cloud platform to stand on"),
-            ("Flare", "Flare", "lights up the area"),
-            ("Lantern", "Lantern", "light and warmth"),
-            ("PortableStovetopItem", "Portable stove", "a campfire you can carry, for warmth and cooking"),
-            ("Backpack", "Backpack", "extra inventory slots"),
+            ("Scout statue", new[]
+            {
+                ("Amulet_Healing", "Healing amulet", "one of the amulets for the scout statue; its gem heals you"),
+                ("Amulet_InfiniteStamina", "Infinite stamina amulet", "one of the amulets for the scout statue; its gem gives endless stamina"),
+                ("Amulet_SuperJump", "Super jump amulet", "one of the amulets for the scout statue; its gem lets you jump higher"),
+                ("ScoutsHonor", "Scout's Honor", "what the scout statue gives you once every amulet is in. Skip straight to it"),
+            }),
+            ("Endgame", new[]
+            {
+                ("Strange gem", "Strange gem", "the gem for the end of the run"),
+                ("Dynamite", "Dynamite", "blows things up. Throw it fast!"),
+                ("ScoutEffigy", "Scout effigy", "brings a dead friend back"),
+            }),
+            ("Healing", new[]
+            {
+                ("FirstAidKit", "First aid kit", "heals injury"),
+                ("Cure-All", "Cure-all", "clears every bad effect"),
+                ("Energy Drink", "Energy drink", "a burst of extra stamina"),
+            }),
+            ("Climbing", new[]
+            {
+                ("RopeSpool", "Rope spool", "a rope you can lay down a wall"),
+                ("RopeShooter", "Rope cannon", "shoots a rope up a wall"),
+                ("ChainShooter", "Chain launcher", "shoots a chain between two points"),
+                ("ClimbingSpike", "Climbing spike", "a piton to rest on mid-climb"),
+                ("RescueHook", "Rescue claw", "pulls a friend to you"),
+                ("MagicBean", "Magic bean", "grows a vine you can climb"),
+                ("CloudFungus", "Cloud fungus", "makes a cloud platform to stand on"),
+            }),
+            ("Utility", new[]
+            {
+                ("Flare", "Flare", "lights up the area"),
+                ("Lantern", "Lantern", "light and warmth"),
+                ("PortableStovetopItem", "Portable stove", "a campfire you can carry, for warmth and cooking"),
+                ("Backpack", "Backpack", "extra inventory slots"),
+            }),
         };
 
         public override void Init(ConfigFile config, List<MenuItem> items)
         {
-            foreach (var (file, label, what) in Items)
+            foreach (var (heading, group) in Groups)
             {
-                string name = file;
-                items.Add(new ButtonItem
+                items.Add(new SectionItem { Category = Category.Items, Name = heading });
+                foreach (var (file, label, what) in group)
                 {
-                    Category = Category.Items,
-                    Name = label,
-                    Description = $"Spawns a {label.ToLowerInvariant()} in your hand ({what}). If your hands are full, it lands in front of you.",
-                    OnPress = () => Spawn(name),
-                });
+                    string name = file;
+                    items.Add(new ButtonItem
+                    {
+                        Category = Category.Items,
+                        Name = label,
+                        Description = $"Spawns a {label} in your hand ({what}). If your hands are full, it lands in front of you.",
+                        OnPress = () => Spawn(name),
+                    });
+                }
             }
         }
 
