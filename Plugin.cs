@@ -11,12 +11,13 @@ namespace Bloodmoon
     {
         public const string Guid = "com.brageat.bloodmoon";
         public const string Name = "Bloodmoon";
-        public const string Version = "0.12.1";
+        public const string Version = "0.13.0";
 
         internal static ManualLogSource Log;
         internal static ConfigEntry<Key> ToggleKey;
         internal static bool MenuOpen => instance != null && instance.menu != null && instance.menu.Open;
         private static Plugin instance;
+        internal static UnityEngine.MonoBehaviour Runner => instance; // for modules that need coroutines
 
         // Every mod in the menu. Add new modules here.
         private readonly List<Module> Modules = new List<Module>
@@ -29,6 +30,7 @@ namespace Bloodmoon
             new TeleportModule(),
             new ItemsModule(),
             new StopFogModule(),
+            new UpdateModule(),
         };
 
         private BloodmoonMenu menu;
@@ -89,9 +91,42 @@ namespace Bloodmoon
 
         private void OnGUI()
         {
-            if (!menu.Open) return;
-            try { menu.Draw(); }
+            try
+            {
+                if (menu.Open) menu.Draw();
+                else DrawUpdateNotice();
+            }
             catch (System.Exception e) { LogOnce("menu", e); }
+        }
+
+        // A short red notice at the top of the screen when a new version is out
+        private const float NoticeSeconds = 12f;
+        private float noticeUntil = -1f;
+        private UnityEngine.GUIStyle noticeStyle;
+
+        private void DrawUpdateNotice()
+        {
+            if (!UpdateModule.UpdateAvailable) return;
+            if (noticeUntil < 0f) noticeUntil = UnityEngine.Time.unscaledTime + NoticeSeconds;
+            if (UnityEngine.Time.unscaledTime > noticeUntil) return;
+
+            if (noticeStyle == null)
+            {
+                noticeStyle = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.box)
+                {
+                    fontSize = 15,
+                    fontStyle = UnityEngine.FontStyle.Bold,
+                    alignment = UnityEngine.TextAnchor.MiddleCenter,
+                    padding = new UnityEngine.RectOffset(16, 16, 10, 10),
+                    border = new UnityEngine.RectOffset(2, 2, 2, 2),
+                };
+                noticeStyle.normal.background = Theme.Bordered(Theme.Black, Theme.Red);
+                noticeStyle.normal.textColor = Theme.RedBright;
+            }
+
+            var text = $"BLOODMOON UPDATE: v{UpdateModule.LatestVersion} is out (you have v{Version}). Open the menu ({ToggleKey.Value}) > Misc to download.";
+            var size = noticeStyle.CalcSize(new UnityEngine.GUIContent(text));
+            UnityEngine.GUI.Box(new UnityEngine.Rect((UnityEngine.Screen.width - size.x) / 2f, 20f, size.x, size.y), text, noticeStyle);
         }
 
         private void SaveSettings()

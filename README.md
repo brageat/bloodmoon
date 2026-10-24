@@ -12,7 +12,7 @@ A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 No need to build anything to just play. The build steps below are only for changing the code.
 
 ## Features
-- Large menu with a procedurally drawn blood moon, a sidebar of categories (Movement, Player, Effects, Teleport, Items, World; empty tabs are hidden until a mod uses them) and a description of whichever row is selected. Long tabs scroll to follow your selection.
+- Large menu with a procedurally drawn blood moon, a sidebar of categories (Movement, Player, Effects, Teleport, Items, World, Misc; empty tabs are hidden until a mod uses them) and a description of whichever row is selected. Long tabs scroll to follow your selection.
 - **Keyboard only**, so the mouse cursor never appears.
 - Each mod is its own module, so adding new ones is easy (see [Adding a new mod](#adding-a-new-mod)).
 
@@ -27,6 +27,8 @@ No need to build anything to just play. The build steps below are only for chang
 | Movement | Fly speed | 2 to 40 m/s |
 | Movement | Noclip (while flying) | Fly through walls, rocks and the ground. Collision comes back when you stop flying. |
 | World | Instant campfire | Lights the nearest unlit campfire instantly, with no holding and no waiting for everyone |
+| Misc | Update status | Checks GitHub's latest release when the game starts. If there's a newer version, a red notice shows at the top of the screen and in the menu header. Enter opens the download page. |
+| Misc | Check for updates | Asks GitHub again |
 | Teleport | TP to Beach / Tropics / Alpine-Mesa / Caldera / The Kiln / Peak | **Current or earlier biome:** teleports only you to that biome's campfire and lights nothing, so friends aren't affected. **Later biome:** lights the skipped campfires and uses the game's segment jump, which **moves everyone in the lobby** (host only). |
 | Items | Spawn, grouped: **Scout statue** (Healing, Infinite stamina and Super jump amulets, Scout's Honor), **Endgame** (Strange gem, Dynamite, Scout effigy), **Healing** (First aid kit, Cure-all, Energy drink), **Climbing** (Rope spool, Rope cannon, Chain launcher, Climbing spike, Rescue claw, Magic bean, Cloud fungus), **Utility** (Flare, Lantern, Portable stove, Backpack) | Uses the game's own `ItemDatabase.Add`, so everyone sees the item, and puts it in your hand (or in front of you if your hands are full) |
 | World | Stop rising fog | Freezes the rising fog and holds its countdown at 0. Works solo or as host. Turning it off restarts the countdown. |
@@ -111,6 +113,8 @@ Launch PEAK, join a game and press **Insert**. See [Controls](#controls).
 | Menu doesn't appear | Check `PEAK\BepInEx\LogOutput.log` for a "Bloodmoon ... has risen" line. If it isn't there, the plugin didn't load. |
 
 ## Config
+**Update check:** it reads `ReleaseApiUrl` (GitHub's latest-release API for this repo). While the repo is private, GitHub won't answer, so the menu says "couldn't check". It starts working as soon as the release is public.
+
 `PEAK\BepInEx\config\com.brageat.bloodmoon.cfg` is created on first launch. You can change the toggle key and the default speed there.
 
 ## Uninstall

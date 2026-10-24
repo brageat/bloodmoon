@@ -155,6 +155,7 @@ namespace Bloodmoon
             GUILayout.Space(4);
             GUILayout.Label("BLOODMOON", title);
             GUILayout.Label("mod menu for PEAK", subtitle);
+            if (UpdateModule.UpdateAvailable) GUILayout.Label($"Update v{UpdateModule.LatestVersion} is out! See Misc.", hint);
             GUILayout.EndVertical();
             GUILayout.FlexibleSpace();
             GUILayout.BeginVertical();
