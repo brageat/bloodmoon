@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (public since v0.13.0)
 
-**Current version:** v0.13.0. Public, released, and the update check works. Grouped Items, statue amulets and noclip are waiting to be tested.
+**Current version:** **v1.0.0**, the first stable version. Public, released, and the update check works. Grouped Items, statue amulets and noclip are waiting to be tested.
 
 ---
 
@@ -63,7 +63,8 @@ Checked off as each one is completed.
 - [x] v0.12.1: Noclip toggle under Fly, using the game's `ragdoll.ToggleCollision` (built)
 - [x] v0.13.0: Update checker (Misc tab, a notice at startup, a line in the menu header) (built and installed)
 - [x] Repo made public, so the update check works and anyone can download
-- [x] Release v0.13.0 published (the download button gives v0.13.0)
+- [x] Release v0.13.0 published
+- [x] **v1.0.0** released, the first stable version
 
 ### Docs
 - [x] GitHub Release v0.11.1 with `Bloodmoon.dll` to download
@@ -100,7 +101,8 @@ Checked off as each one is completed.
 | 0.11.2 | `a2d36c9` | Empty tabs are hidden until a mod adds a row to them |
 | 0.12.0 | `956a1e2` | Items tab grouped under headings; added the 3 scout statue amulets and Scout's Honor; menus can have section headings |
 | 0.12.1 | `42509d9` | Noclip (while flying) |
-| 0.13.0 | see git log | Update checker: GitHub latest release, startup notice, Misc tab |
+| 0.13.0 | `537d890` | Update checker: GitHub latest release, startup notice, Misc tab |
+| **1.0.0** | see git log | First stable version (same features as 0.13.0) |
 
 ## Mods in the menu
 
