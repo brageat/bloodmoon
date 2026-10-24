@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.9.1. It's built but not yet installed. Everything up to v0.9.0 is tested and working.
+**Current version:** v0.10.0 (Teleport tab). It's installed but not yet tested. Everything up to v0.9.0 is tested and working.
 
 ---
 
@@ -43,7 +43,9 @@ Checked off as each one is completed.
 - [x] v0.9.0 installed
 - [x] v0.9.0 Effects toggles work in-game
 - [x] v0.9.1: Show each effect is off by default (built)
-- [ ] v0.9.1 installed
+- [x] v0.9.1 installed
+- [x] v0.10.0: Teleport tab with TP on E, Instant campfire and TP to each biome (built and installed)
+- [ ] v0.10.0 tested in-game
 - [ ] More mods from [Ideas for later](#ideas-for-later)
 
 ### Docs
@@ -67,7 +69,9 @@ Checked off as each one is completed.
 | 0.7.0 | `1e93ec1` | Stop rising fog (World) |
 | 0.8.0 | `bfb5bef` | **Effects** tab: a Block toggle per effect, so players can pick which effects to stop. Set health only changes injury now. Long tabs scroll. |
 | 0.8.1 | `ef5436b` | Heal fully only heals injury. Clearing everything moved to a new **Clear all effects** button (Effects). |
-| 0.9.0 | see git log | **Block all effects** toggle, plus a **Show each effect** toggle that hides the 8 separate Block rows. Menu rows can now hide themselves (`MenuItem.IsShown`). |
+| 0.9.0 | `7c07799` | **Block all effects** toggle, plus a **Show each effect** toggle that hides the 8 separate Block rows. Menu rows can now hide themselves (`MenuItem.IsShown`). |
+| 0.9.1 | `64e9a03` | Show each effect is off by default |
+| 0.10.0 | see git log | **Teleport** tab: TP on E, Instant campfire, TP to each biome |
 
 ## Mods in the menu
 
@@ -79,6 +83,9 @@ Checked off as each one is completed.
 | Movement | Reset climb speed | Sets climb speed back to 1x | ✅ v0.7 |
 | Movement | Fly | Turns gravity off on every ragdoll body part (`Bodypart.Rig`) and sets their velocity from WASD, Space, Ctrl and Shift each physics step. Resets `sinceGrounded` and `fallSeconds` so there's no fall damage. | ✅ v0.6 |
 | Movement | Fly speed (2–40 m/s) | Shift doubles it | ✅ v0.7 |
+| Teleport | TP on E | Raycasts from the camera (skipping your own body) and calls the game's `WarpPlayerRPC` for everyone | ⬜ |
+| Teleport | Instant campfire | `Campfire.DebugLight()` on the nearest unlit campfire (the same as a normal light) | ⬜ |
+| Teleport | TP to biome ×6 | Calls `LightWithoutReveal()` on the skipped campfires, then the game's `MapHandler.JumpToSegment(segment)`, which moves everyone and updates the fog | ⬜ |
 | World | Stop rising fog | Holds `OrbFogHandler.currentWaitTime` at 0 and sets `speed` to 0. Also freezes the height-based `Fog` (`fogSpeed`, plus its private `sinceStop` timer). Only the host decides when fog moves. | ✅ v0.7 |
 | Player | Infinite stamina | Turns on the game's own `Character.infiniteStam` switch and refills stamina to max | ✅ v0.7 |
 | Player | Infinite health | Turns on the private `CharacterData.isInvincible` flag (through reflection) and clears every effect | ✅ v0.7 |
@@ -115,6 +122,11 @@ If anything fails, check `PEAK\BepInEx\LogOutput.log` for `[Error : Bloodmoon]` 
 - [x] WASD follows the camera, Space goes up, Ctrl goes down, Shift is faster
 - [x] Letting go of all keys makes you hover
 - [x] Turning Fly off drops you to the ground with no fall damage
+
+## Test v0.10.0: Teleport tab
+- [ ] TP on E: look somewhere, press E, and you teleport there
+- [ ] Instant campfire lights the nearest campfire
+- [ ] TP to each biome lands at that biome and lights the campfires before it
 
 ## Test v0.8.1 + v0.9.0
 - [ ] Heal fully only heals injury; other effects stay

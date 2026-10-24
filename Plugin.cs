@@ -11,10 +11,12 @@ namespace Bloodmoon
     {
         public const string Guid = "com.brageat.bloodmoon";
         public const string Name = "Bloodmoon";
-        public const string Version = "0.9.1";
+        public const string Version = "0.10.0";
 
         internal static ManualLogSource Log;
         internal static ConfigEntry<Key> ToggleKey;
+        internal static bool MenuOpen => instance != null && instance.menu != null && instance.menu.Open;
+        private static Plugin instance;
 
         // Every mod in the menu. Add new modules here.
         private readonly List<Module> Modules = new List<Module>
@@ -24,6 +26,7 @@ namespace Bloodmoon
             new FlyModule(),
             new StaminaModule(),
             new HealthModule(),
+            new TeleportModule(),
             new StopFogModule(),
         };
 
@@ -32,6 +35,7 @@ namespace Bloodmoon
         private void Awake()
         {
             Log = Logger;
+            instance = this;
 
             // Save manually when the menu closes instead of on every change
             Config.SaveOnConfigSet = false;
