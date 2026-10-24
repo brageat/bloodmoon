@@ -61,7 +61,9 @@ Checked off as each one is completed.
 - [x] v0.12.0 + v0.12.1 installed (in v0.13.0)
 - [x] Grouped Items, statue amulets and noclip tested in-game: all work
 - [x] Bug found: flying drifts upward. Fixed in v1.0.1 with a height hold (built)
-- [ ] v1.0.1 installed and tested; release published
+- [x] v1.0.1 installed (it loads in PEAK)
+- [x] Bug found: update check got 403 (GitHub's 60-an-hour limit, used up on a shared VPN address). Fixed: it falls back to the releases page (built)
+- [ ] Fly drift fix tested in-game, then publish the 1.0.1 release
 - [x] v0.12.1: Noclip toggle under Fly, using the game's `ragdoll.ToggleCollision` (built)
 - [x] v0.13.0: Update checker (Misc tab, a notice at startup, a line in the menu header) (built and installed)
 - [x] Repo made public, so the update check works and anyone can download
@@ -105,7 +107,7 @@ Checked off as each one is completed.
 | 0.12.1 | `42509d9` | Noclip (while flying) |
 | 0.13.0 | `537d890` | Update checker: GitHub latest release, startup notice, Misc tab |
 | **1.0.0** | `fc82cdd` | First stable version (same features as 0.13.0) |
-| 1.0.1 | see git log | Fix: flying no longer drifts upward (height hold) |
+| 1.0.1 | see git log | Fix: flying no longer drifts upward (height hold). Update check falls back to the releases page when GitHub's API rate limit is hit. |
 
 ## Mods in the menu
 

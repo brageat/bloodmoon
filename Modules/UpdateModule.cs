@@ -67,33 +67,34 @@ namespace Bloodmoon
             checking = true;
             statusRow.Name = "Update: checking…";
 
-            using (var req = UnityWebRequest.Get(apiUrl.Value))
+            // 1) GitHub's API. It only allows 60 checks an hour per internet address, which a
+            //    shared address (VPN, school) can use up, so...
+            string found = null, apiError = null;
+            yield return Fetch(apiUrl.Value, "application/vnd.github+json",
+                text => found = Match(text, "\"tag_name\"\\s*:\\s*\"v?([0-9][0-9.]*)\""),
+                err => apiError = err);
+
+            // 2) ...fall back to the normal releases page, which redirects to the newest tag
+            if (found == null)
             {
-                req.SetRequestHeader("User-Agent", "Bloodmoon/" + Plugin.Version); // GitHub requires one
-                req.SetRequestHeader("Accept", "application/vnd.github+json");
-                req.timeout = 15;
-                yield return req.SendWebRequest();
+                Plugin.Log.LogInfo($"Update check: API failed ({apiError}), trying the releases page");
+                string pageError = null;
+                yield return Fetch(ReleasesPage, "text/html",
+                    text => found = Match(text, "/releases/tag/v?([0-9][0-9.]*)"),
+                    err => pageError = err);
 
-                if (req.result != UnityWebRequest.Result.Success)
+                if (found == null)
                 {
-                    // A private repo answers 404 to anyone not logged in
-                    string why = req.responseCode == 404 ? "release not public" : req.error;
                     statusRow.Name = "Update: couldn't check";
-                    statusRow.Description = $"Couldn't reach the latest release ({why}). Press Enter to open the download page.";
-                    Plugin.Log.LogInfo($"Update check failed: {req.responseCode} {req.error}");
+                    statusRow.Description = $"Couldn't reach GitHub ({pageError ?? apiError ?? "no version found"}). Press Enter to open the download page.";
+                    Plugin.Log.LogInfo($"Update check failed: {pageError ?? apiError}");
                     checking = false;
                     yield break;
                 }
+            }
 
-                var match = Regex.Match(req.downloadHandler.text, "\"tag_name\"\\s*:\\s*\"v?([0-9][^\"]*)\"");
-                if (!match.Success)
-                {
-                    statusRow.Name = "Update: couldn't check";
-                    checking = false;
-                    yield break;
-                }
-
-                LatestVersion = match.Groups[1].Value;
+            {
+                LatestVersion = found;
                 UpdateAvailable = IsNewer(LatestVersion, Plugin.Version);
 
                 if (UpdateAvailable)
@@ -110,6 +111,26 @@ namespace Bloodmoon
                 }
             }
             checking = false;
+        }
+
+        private static IEnumerator Fetch(string url, string accept, Action<string> onText, Action<string> onError)
+        {
+            using (var req = UnityWebRequest.Get(url))
+            {
+                req.SetRequestHeader("User-Agent", "Bloodmoon/" + Plugin.Version); // GitHub requires one
+                req.SetRequestHeader("Accept", accept);
+                req.timeout = 15;
+                yield return req.SendWebRequest();
+
+                if (req.result == UnityWebRequest.Result.Success) onText(req.downloadHandler.text);
+                else onError($"{req.responseCode} {req.error}");
+            }
+        }
+
+        private static string Match(string text, string pattern)
+        {
+            var m = Regex.Match(text, pattern);
+            return m.Success ? m.Groups[1].Value.TrimEnd('.') : null;
         }
 
         private static bool IsNewer(string latest, string current)
