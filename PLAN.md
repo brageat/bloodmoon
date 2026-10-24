@@ -1,9 +1,9 @@
 # Bloodmoon: Plan
 
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
-Repo: https://github.com/brageat/bloodmoon (private)
+Repo: https://github.com/brageat/bloodmoon (public since v0.13.0)
 
-**Current version:** v0.13.0 (update checker). It's installed in PEAK. Grouped Items, statue amulets and noclip are waiting to be tested.
+**Current version:** v0.13.0. Public, released, and the update check works. Grouped Items, statue amulets and noclip are waiting to be tested.
 
 ---
 
@@ -61,7 +61,9 @@ Checked off as each one is completed.
 - [x] v0.12.0 + v0.12.1 installed (in v0.13.0)
 - [ ] Grouped Items, statue amulets and noclip tested in-game
 - [x] v0.12.1: Noclip toggle under Fly, using the game's `ragdoll.ToggleCollision` (built)
-- [x] v0.13.0: Update checker (Misc tab, a notice at startup, a line in the menu header) (built and installed; it can only see releases once they're public)
+- [x] v0.13.0: Update checker (Misc tab, a notice at startup, a line in the menu header) (built and installed)
+- [x] Repo made public, so the update check works and anyone can download
+- [x] Release v0.13.0 published (the download button gives v0.13.0)
 
 ### Docs
 - [x] GitHub Release v0.11.1 with `Bloodmoon.dll` to download

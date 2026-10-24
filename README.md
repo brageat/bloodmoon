@@ -113,7 +113,7 @@ Launch PEAK, join a game and press **Insert**. See [Controls](#controls).
 | Menu doesn't appear | Check `PEAK\BepInEx\LogOutput.log` for a "Bloodmoon ... has risen" line. If it isn't there, the plugin didn't load. |
 
 ## Config
-**Update check:** it reads `ReleaseApiUrl` (GitHub's latest-release API for this repo). While the repo is private, GitHub won't answer, so the menu says "couldn't check". It starts working as soon as the release is public.
+**Update check:** when the game starts it reads `ReleaseApiUrl` (GitHub's latest-release API for this repo). Turn it off with `CheckOnStart = false`.
 
 `PEAK\BepInEx\config\com.brageat.bloodmoon.cfg` is created on first launch. You can change the toggle key and the default speed there.
 
