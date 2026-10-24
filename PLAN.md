@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.9.0. It's installed but not yet tested. Everything up to v0.8.0 is tested and working.
+**Current version:** v0.9.1. It's built but not yet installed. Everything up to v0.9.0 is tested and working.
 
 ---
 
