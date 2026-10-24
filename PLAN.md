@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.7.0 (stop rising fog). It's built, but not yet installed or tested in-game.
+**Current version:** v0.7.0 (stop rising fog). It's installed and loading in PEAK, but not yet tested in-game.
 
 ---
 
@@ -29,9 +29,11 @@ Checked off as each one is completed.
 - [x] v0.5.0 installed and loading in PEAK (the log shows 4 modules)
 - [ ] v0.5.0 tested in-game (see [the test list](#now-test-v050-in-game))
 - [x] v0.6.0: Flying (built)
-- [ ] v0.6.0 installed and tested in-game
+- [x] v0.6.0 installed (loading in PEAK)
+- [ ] v0.6.0 tested in-game
 - [x] v0.7.0: Stop rising fog (built)
-- [ ] v0.7.0 installed and tested in-game
+- [x] v0.7.0 installed (log: 6 modules loaded)
+- [ ] v0.7.0 tested in-game
 - [ ] More mods from [Ideas for later](#ideas-for-later)
 
 ### Docs
