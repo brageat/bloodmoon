@@ -20,6 +20,8 @@ namespace Bloodmoon
 
         private readonly List<Rigidbody> gravityDisabled = new List<Rigidbody>();
         private bool flying;
+        private float targetY;            // the height we should be at; drift is pulled back to it
+        private const float HoldStrength = 10f; // how hard drift gets corrected (per second)
         private float graceUntil;
 
         public override void Init(ConfigFile config, List<MenuItem> items)
@@ -70,6 +72,7 @@ namespace Bloodmoon
 
             if (enabled.Value)
             {
+                if (!flying) targetY = character.Center.y; // start holding where we took off
                 Fly(character);
                 flying = true;
             }
@@ -109,6 +112,14 @@ namespace Bloodmoon
 
             float s = speed.Value * (input.sprintIsPressed ? SprintBoost : 1f);
             Vector3 velocity = dir * s;
+
+            // PEAK keeps pushing the body upright (up), and with gravity off nothing cancels that,
+            // so we drift up. Track the height we *meant* to reach and steer back to it.
+            float y = character.Center.y;
+            targetY += velocity.y * Time.fixedDeltaTime;
+            targetY = Mathf.Clamp(targetY, y - 2f, y + 2f); // if a ceiling or floor stops us, don't build up a jump
+            float drift = targetY - y;
+            velocity.y += Mathf.Clamp(drift * HoldStrength, -s, s);
 
             foreach (var part in character.refs.ragdoll.partList)
             {

@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (public since v0.13.0)
 
-**Current version:** **v1.0.0**, the first stable version. **Every feature is tested and working, and all checkpoints are done.**
+**Current version:** v1.0.1 (fly drift fix). It's built but not yet installed.
 
 ---
 
@@ -60,6 +60,8 @@ Checked off as each one is completed.
 - [x] v0.12.0: Items tab grouped (Scout statue, Endgame, Healing, Climbing, Utility) with the 3 statue amulets and Scout's Honor added (built)
 - [x] v0.12.0 + v0.12.1 installed (in v0.13.0)
 - [x] Grouped Items, statue amulets and noclip tested in-game: all work
+- [x] Bug found: flying drifts upward. Fixed in v1.0.1 with a height hold (built)
+- [ ] v1.0.1 installed and tested; release published
 - [x] v0.12.1: Noclip toggle under Fly, using the game's `ragdoll.ToggleCollision` (built)
 - [x] v0.13.0: Update checker (Misc tab, a notice at startup, a line in the menu header) (built and installed)
 - [x] Repo made public, so the update check works and anyone can download
@@ -102,7 +104,8 @@ Checked off as each one is completed.
 | 0.12.0 | `956a1e2` | Items tab grouped under headings; added the 3 scout statue amulets and Scout's Honor; menus can have section headings |
 | 0.12.1 | `42509d9` | Noclip (while flying) |
 | 0.13.0 | `537d890` | Update checker: GitHub latest release, startup notice, Misc tab |
-| **1.0.0** | see git log | First stable version (same features as 0.13.0) |
+| **1.0.0** | `fc82cdd` | First stable version (same features as 0.13.0) |
+| 1.0.1 | see git log | Fix: flying no longer drifts upward (height hold) |
 
 ## Mods in the menu
 
