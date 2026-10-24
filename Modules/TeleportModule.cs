@@ -54,7 +54,7 @@ namespace Bloodmoon
                 {
                     Category = Category.Teleport,
                     Name = "TP to " + name,
-                    Description = $"Teleports to the {name} campfire area and lights the campfires before it, so the run and fog move on properly. Moves EVERYONE in the lobby (host only; otherwise it asks the host).",
+                    Description = $"Current or earlier biome: teleports only you to the {name} campfire and lights nothing. Later biome: lights the campfires on the way and moves EVERYONE there (host only).",
                     OnPress = () => JumpToBiome(target),
                 });
             }
@@ -137,6 +137,14 @@ namespace Bloodmoon
         {
             if (!MapHandler.Exists) return;
 
+            // Same or earlier biome: just move ourselves. Lighting campfires / jumping would
+            // drag the whole lobby along and leave anyone who isn't there to the fog.
+            if (target <= MapHandler.CurrentSegmentNumber)
+            {
+                WarpToCampfire(target);
+                return;
+            }
+
             // Light every campfire before the target that the jump would skip, without the "reveal" cutscene
             // (one broken campfire must not stop the jump, so each is guarded)
             for (int i = 0; i < (int)target; i++)
@@ -155,6 +163,26 @@ namespace Bloodmoon
 
             MapHandler.JumpToSegment(target);
             Plugin.Log.LogInfo($"TP to biome: jumped to {target}");
+        }
+
+        // Teleport only the local player next to a biome's campfire, without touching it
+        private static void WarpToCampfire(Segment segment)
+        {
+            var character = Character.localCharacter;
+            if (character == null) return;
+
+            var root = MapHandler.GetCampfireRoot((int)segment);
+            var fire = root != null ? root.GetComponentInChildren<Campfire>(true) : null;
+            if (fire == null)
+            {
+                Plugin.Log.LogInfo($"TP to biome: no campfire found for {segment}");
+                return;
+            }
+
+            // Beside the fire, not in it
+            Vector3 spot = fire.Center() + fire.transform.forward * 2.5f + Vector3.up * 1.5f;
+            Warp(character, spot);
+            Plugin.Log.LogInfo($"TP to biome: moved only you to the {segment} campfire");
         }
     }
 }

@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon (private)
 
-**Current version:** v0.10.2. It's built but not yet installed. Everything works except TP on E (the fix is waiting to be tested).
+**Current version:** v0.10.3. It's built but not yet installed. Everything works except TP on E (the fix is waiting to be tested).
 
 ---
 
@@ -48,7 +48,8 @@ Checked off as each one is completed.
 - [x] v0.10.1: menu fits as many rows as there's room for (Movement shows all 6); bigger ▲/▼ "more" text (built)
 - [x] v0.10.0 tested: Instant campfire and TP to biomes work; **TP on E didn't work**
 - [x] v0.10.2: TP on E fix (PEAK's camera isn't `Camera.main`, so it now uses `MainCamera.instance` + look direction), TP-to-biome campfire guard, settings-save logging (built)
-- [ ] v0.10.2 installed
+- [x] v0.10.3: TP to a current or earlier biome moves only you to its campfire and lights nothing, so friends aren't left in the fog. Only later biomes do the full lobby jump. (built)
+- [ ] v0.10.3 installed
 - [ ] TP on E tested in-game
 - [ ] Settings save when the menu closes (they haven't saved since 4:42 PM)
 - [ ] More mods from [Ideas for later](#ideas-for-later)
@@ -78,7 +79,8 @@ Checked off as each one is completed.
 | 0.9.1 | `64e9a03` | Show each effect is off by default |
 | 0.10.0 | `3c98029` | **Teleport** tab: TP on E, Instant campfire, TP to each biome |
 | 0.10.1 | `f06d1ec` | Rows fill the available height, measured from real row sizes, instead of a fixed 5. Bigger ▲/▼ "more" hints. |
-| 0.10.2 | see git log | TP on E fix (camera), guard for each campfire in TP to biome, logging for TP and settings saves |
+| 0.10.2 | `58e3b73` | TP on E fix (camera), guard for each campfire in TP to biome, logging for TP and settings saves |
+| 0.10.3 | see git log | TP to a current or earlier biome only moves you and lights nothing, so friends are safe |
 
 ## Mods in the menu
 
@@ -129,6 +131,11 @@ If anything fails, check `PEAK\BepInEx\LogOutput.log` for `[Error : Bloodmoon]` 
 - [x] WASD follows the camera, Space goes up, Ctrl goes down, Shift is faster
 - [x] Letting go of all keys makes you hover
 - [x] Turning Fly off drops you to the ground with no fall damage
+
+## Test v0.10.3
+- [ ] TP on E teleports you to where you look
+- [ ] TP to the biome you're in moves only you, and the campfire stays unlit
+- [ ] Settings are saved (the log shows "Settings saved" when you close the menu)
 
 ## Test v0.10.0: Teleport tab
 - [ ] TP on E: look somewhere, press E, and you teleport there

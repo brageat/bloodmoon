@@ -18,7 +18,7 @@ A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 | Movement | Fly speed | 2 to 40 m/s |
 | Teleport | TP on E (where you look) | While on, **E** teleports you to the spot you're looking at (up to 1000 m). E still interacts too. Change the key with `TeleportKey` in the config. |
 | Teleport | Instant campfire | Lights the nearest unlit campfire instantly, with no holding and no waiting for everyone |
-| Teleport | TP to Beach / Tropics / Alpine-Mesa / Caldera / The Kiln / Peak | Uses the game's own segment jump and lights the skipped campfires, so the run and fog move on properly. **Moves everyone in the lobby.** Host only; otherwise it asks the host. |
+| Teleport | TP to Beach / Tropics / Alpine-Mesa / Caldera / The Kiln / Peak | **Current or earlier biome:** teleports only you to that biome's campfire and lights nothing, so friends aren't affected. **Later biome:** lights the skipped campfires and uses the game's segment jump, which **moves everyone in the lobby** (host only). |
 | World | Stop rising fog | Freezes the rising fog and holds its countdown at 0. Works solo or as host. Turning it off restarts the countdown. |
 | Player | Infinite stamina | Never run out of stamina while sprinting, jumping or climbing |
 | Player | Infinite health | Blocks all damage and clears every effect (the all-in-one switch) |
