@@ -41,7 +41,7 @@ namespace Bloodmoon
 
             items.Add(new ButtonItem
             {
-                Category = Category.Teleport,
+                Category = Category.World,
                 Name = "Instant campfire",
                 Description = "Instantly lights the nearest unlit campfire, with no holding and no waiting for everyone. Lighting it moves the run on to the next biome, as normal.",
                 OnPress = LightNearestCampfire,
