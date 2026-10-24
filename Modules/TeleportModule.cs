@@ -2,15 +2,12 @@ using System.Collections.Generic;
 using BepInEx.Configuration;
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Bloodmoon
 {
     internal sealed class TeleportModule : Module
     {
         public override string Name => "Teleport";
-
-        private const float MaxLookDistance = 1000f;
 
         // Biomes in climbing order. Segment 2 is Alpine or Mesa depending on the run.
         private static readonly (Segment segment, string name)[] Biomes =
@@ -23,22 +20,8 @@ namespace Bloodmoon
             (Segment.Peak, "Peak"),
         };
 
-        private ConfigEntry<bool> lookTeleport;
-        private ConfigEntry<Key> teleportKey;
-
         public override void Init(ConfigFile config, List<MenuItem> items)
         {
-            lookTeleport = config.Bind("Teleport", "TeleportOnKey", false, "Teleport to where you look when pressing the teleport key");
-            teleportKey = config.Bind("Teleport", "TeleportKey", Key.E, "Key for teleporting to where you look");
-
-            items.Add(new ToggleItem
-            {
-                Category = Category.Teleport,
-                Name = $"TP on {teleportKey.Value} (where you look)",
-                Description = $"While on, pressing {teleportKey.Value} teleports you to the spot you're looking at (up to {MaxLookDistance:0} m). {teleportKey.Value} still interacts too. Change the key in the config file.",
-                Entry = lookTeleport,
-            });
-
             items.Add(new ButtonItem
             {
                 Category = Category.World,
@@ -58,53 +41,6 @@ namespace Bloodmoon
                     OnPress = () => JumpToBiome(target),
                 });
             }
-        }
-
-        public override void Tick()
-        {
-            if (!lookTeleport.Value || Plugin.MenuOpen) return;
-            var kb = Keyboard.current;
-            if (kb == null || teleportKey.Value == Key.None || !kb[teleportKey.Value].wasPressedThisFrame) return;
-
-            var character = Character.localCharacter;
-            if (character == null) return;
-            if (TryGetLookPoint(character, out Vector3 point))
-            {
-                Warp(character, point);
-                Plugin.Log.LogInfo($"TP to {point}");
-            }
-            else Plugin.Log.LogInfo("TP: nothing in range where you're looking");
-        }
-
-        // ---- teleport to where you look ----
-
-        private static bool TryGetLookPoint(Character character, out Vector3 point)
-        {
-            point = default;
-
-            // PEAK's camera isn't tagged MainCamera (Camera.main is null), so use its own MainCamera,
-            // aimed along the character's look direction
-            var mainCam = MainCamera.instance;
-            Vector3 origin = mainCam != null ? mainCam.transform.position : character.Center + Vector3.up * 0.6f;
-            Vector3 dir = character.data.lookDirection;
-            if (dir.sqrMagnitude < 0.01f) return false;
-
-            var ray = new Ray(origin, dir.normalized);
-            var hits = Physics.RaycastAll(ray, MaxLookDistance, ~0, QueryTriggerInteraction.Ignore);
-            float best = float.MaxValue;
-            bool found = false;
-
-            foreach (var hit in hits)
-            {
-                // Skip our own body
-                if (hit.collider.GetComponentInParent<Character>() == character) continue;
-                if (hit.distance >= best) continue;
-                best = hit.distance;
-                // A little off the surface and up, so we don't land inside it
-                point = hit.point + hit.normal * 0.5f + Vector3.up * 1f;
-                found = true;
-            }
-            return found;
         }
 
         private static void Warp(Character character, Vector3 position)
