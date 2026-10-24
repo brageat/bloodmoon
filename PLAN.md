@@ -33,7 +33,7 @@ Checked off as each one is completed.
 - [x] v0.6.0 tested in-game: flying works
 - [x] v0.7.0: Stop rising fog (built)
 - [x] v0.7.0 installed (log: 6 modules loaded)
-- [ ] v0.7.0 tested in-game
+- [x] v0.7.0 tested in-game: fog stays still (the "fog rises" message still shows)
 - [ ] More mods from [Ideas for later](#ideas-for-later)
 
 ### Docs
@@ -66,7 +66,7 @@ Checked off as each one is completed.
 | Movement | Reset climb speed | Sets climb speed back to 1x | ⬜ |
 | Movement | Fly | Turns gravity off on every ragdoll body part (`Bodypart.Rig`) and sets their velocity from WASD, Space, Ctrl and Shift each physics step. Resets `sinceGrounded` and `fallSeconds` so there's no fall damage. | ✅ v0.6 |
 | Movement | Fly speed (2–40 m/s) | Shift doubles it | ⬜ |
-| World | Stop rising fog | Holds `OrbFogHandler.currentWaitTime` at 0 and sets `speed` to 0. Also freezes the height-based `Fog` (`fogSpeed`, plus its private `sinceStop` timer). Only the host decides when fog moves. | ⬜ |
+| World | Stop rising fog | Holds `OrbFogHandler.currentWaitTime` at 0 and sets `speed` to 0. Also freezes the height-based `Fog` (`fogSpeed`, plus its private `sinceStop` timer). Only the host decides when fog moves. | ✅ v0.7 |
 | Player | Infinite stamina | Turns on the game's own `Character.infiniteStam` switch and refills stamina to max | ⬜ |
 | Player | Infinite health | Turns on the private `CharacterData.isInvincible` flag (through reflection) and clears harmful afflictions | ⬜ |
 | Player | Set health (10–100%) | Clears afflictions, then sets Injury to `1 - health` | ⬜ |
