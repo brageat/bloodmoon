@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Bloodmoon
 {
     // Sidebar tabs, shown in this order
-    internal enum Category { Movement, Player, World, Visuals, Misc }
+    internal enum Category { Movement, Player, Effects, World, Visuals, Misc }
 
     // One row in the menu. Modules create these in Init().
     internal abstract class MenuItem

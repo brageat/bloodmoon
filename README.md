@@ -3,7 +3,7 @@
 A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 
 ## Features
-- Large menu with a procedurally drawn blood moon, a sidebar of categories (Movement, Player, World, Visuals, Misc) and a description of whichever row is selected.
+- Large menu with a procedurally drawn blood moon, a sidebar of categories (Movement, Player, Effects, World, Visuals, Misc) and a description of whichever row is selected. Long tabs scroll to follow your selection.
 - **Keyboard only**, so the mouse cursor never appears.
 - Each mod is its own module, so adding new ones is easy (see [Adding a new mod](#adding-a-new-mod)).
 
@@ -18,9 +18,10 @@ A black-and-red mod menu for **PEAK**, written as a BepInEx 5 plugin in C#.
 | Movement | Fly speed | 2 to 40 m/s |
 | World | Stop rising fog | Freezes the rising fog and holds its countdown at 0. Works solo or as host. Turning it off restarts the countdown. |
 | Player | Infinite stamina | Never run out of stamina while sprinting, jumping or climbing |
-| Player | Infinite health | Blocks damage and instantly clears injury, hunger, cold, poison, heat, drowsiness, curse and spores |
-| Player | Set health | 10% to 100%. Clears afflictions, then adds injury to match the chosen health |
-| Player | Heal fully | Clears all damage once |
+| Player | Infinite health | Blocks all damage and clears every effect (the all-in-one switch) |
+| Player | Set health | 10% to 100%. Only changes injury; other effects stay |
+| Player | Heal fully | Clears injury and every other effect once |
+| Effects | Block injury / hunger / cold / poison / heat / drowsy / curse / spores | A separate toggle for each effect. It stops that one effect and leaves the others alone. |
 
 PEAK has no HP bar. Damage comes as afflictions that fill up the stamina bar, and you pass out when it's full, so the health mods work on those.
 

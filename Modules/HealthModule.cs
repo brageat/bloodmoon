@@ -10,11 +10,18 @@ namespace Bloodmoon
     {
         public override string Name => "Health";
 
-        // The afflictions that count as damage. Weight, webs, etc. are left to the game.
-        private static readonly STATUSTYPE[] Harmful =
+        // The afflictions that count as damage, each with its own Block toggle in the Effects tab.
+        // Weight, webs, etc. are left to the game.
+        private static readonly (STATUSTYPE type, string name, string what)[] Effects =
         {
-            STATUSTYPE.Injury, STATUSTYPE.Hunger, STATUSTYPE.Cold, STATUSTYPE.Poison,
-            STATUSTYPE.Curse, STATUSTYPE.Drowsy, STATUSTYPE.Hot, STATUSTYPE.Spores,
+            (STATUSTYPE.Injury, "Injury", "damage from falls, hits and other injuries"),
+            (STATUSTYPE.Hunger, "Hunger", "getting hungry over time"),
+            (STATUSTYPE.Cold, "Cold", "freezing in snow, wind and at night"),
+            (STATUSTYPE.Poison, "Poison", "poison from food, plants and creatures"),
+            (STATUSTYPE.Hot, "Heat", "overheating in the sun and near lava"),
+            (STATUSTYPE.Drowsy, "Drowsy", "getting sleepy"),
+            (STATUSTYPE.Curse, "Curse", "curses"),
+            (STATUSTYPE.Spores, "Spores", "spores from mushrooms"),
         };
 
         // CharacterData.isInvincible is private, so set it through reflection
@@ -23,25 +30,26 @@ namespace Bloodmoon
 
         private ConfigEntry<bool> godMode;
         private ConfigEntry<float> health;
+        private readonly ConfigEntry<bool>[] blocks = new ConfigEntry<bool>[Effects.Length];
         private bool applied;
 
         public override void Init(ConfigFile config, List<MenuItem> items)
         {
-            godMode = config.Bind("Player", "InfiniteHealth", false, "Block damage and clear afflictions");
+            godMode = config.Bind("Player", "InfiniteHealth", false, "Block all damage and clear every effect");
             health = config.Bind("Player", "SetHealth", 100f, "Last value used by the Set health slider");
 
             items.Add(new ToggleItem
             {
                 Category = Category.Player,
                 Name = "Infinite health",
-                Description = "Blocks damage, and instantly clears injury, hunger, cold, poison, heat, drowsiness, curse and spores.",
+                Description = "Blocks all damage and clears every effect. To block only some effects, use the Effects tab instead.",
                 Entry = godMode,
             });
             items.Add(new SliderItem
             {
                 Category = Category.Player,
                 Name = "Set health",
-                Description = "Sets your health right away: clears afflictions, then adds injury to match. 100% is full health.",
+                Description = "Sets how injured you are: 100% = no injury. Only changes injury; your other effects stay.",
                 Entry = health,
                 Min = 10f, Max = 100f, Step = 10f,
                 Format = "0", Suffix = "%",
@@ -51,20 +59,34 @@ namespace Bloodmoon
             {
                 Category = Category.Player,
                 Name = "Heal fully",
-                Description = "Clears all damage once, back to full health.",
-                OnPress = () => { health.Value = 100f; SetHealth(100f); },
+                Description = "Clears injury and every other effect once, back to full health.",
+                OnPress = () => { health.Value = 100f; HealFully(); },
             });
+
+            for (int i = 0; i < Effects.Length; i++)
+            {
+                var (_, name, what) = Effects[i];
+                blocks[i] = config.Bind("Effects", "Block" + name, false, $"Block {name.ToLowerInvariant()}");
+                items.Add(new ToggleItem
+                {
+                    Category = Category.Effects,
+                    Name = "Block " + name.ToLowerInvariant(),
+                    Description = $"Stops {what}, and clears it if you already have it. Other effects still work.",
+                    Entry = blocks[i],
+                });
+            }
         }
 
         public override void Tick()
         {
             var character = Character.localCharacter;
             if (character == null) return;
+            var afflictions = character.refs.afflictions;
 
+            // Invincibility blocks everything, so only Infinite health uses it
             if (godMode.Value)
             {
                 SetInvincible(character, true);
-                ClearHarmful(character.refs.afflictions);
                 applied = true;
             }
             else if (applied)
@@ -72,6 +94,10 @@ namespace Bloodmoon
                 SetInvincible(character, false);
                 applied = false;
             }
+
+            for (int i = 0; i < Effects.Length; i++)
+                if (godMode.Value || blocks[i].Value)
+                    Clear(afflictions, Effects[i].type);
         }
 
         // If a game update renames the field, the affliction clearing still keeps you alive
@@ -80,23 +106,26 @@ namespace Bloodmoon
             InvincibleField?.SetValue(character.data, value);
         }
 
-        private static void ClearHarmful(CharacterAfflictions afflictions)
+        // Only touch statuses that are actually set, so we don't spam network updates every frame
+        private static void Clear(CharacterAfflictions afflictions, STATUSTYPE type)
         {
-            // Only touch statuses that are actually set, so we don't spam network updates every frame
-            foreach (var type in Harmful)
-                if (afflictions.GetCurrentStatus(type) > 0f)
-                    afflictions.SetStatus(type, 0f, true);
+            if (afflictions.GetCurrentStatus(type) > 0f)
+                afflictions.SetStatus(type, 0f, true);
         }
 
         private static void SetHealth(float percent)
         {
             var character = Character.localCharacter;
             if (character == null) return;
+            character.refs.afflictions.SetStatus(STATUSTYPE.Injury, 1f - percent / 100f, true);
+        }
 
-            var afflictions = character.refs.afflictions;
-            ClearHarmful(afflictions);
-            float damage = 1f - percent / 100f;
-            if (damage > 0f) afflictions.SetStatus(STATUSTYPE.Injury, damage, true);
+        private static void HealFully()
+        {
+            var character = Character.localCharacter;
+            if (character == null) return;
+            foreach (var effect in Effects)
+                Clear(character.refs.afflictions, effect.type);
         }
     }
 }

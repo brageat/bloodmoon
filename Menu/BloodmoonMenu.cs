@@ -11,7 +11,9 @@ namespace Bloodmoon
         public bool Open;
 
         private const int WindowId = 0xB100D;
-        private const float Width = 580, Height = 420, SidebarWidth = 150;
+        private const float Width = 580, Height = 500, SidebarWidth = 150;
+        private const int MaxVisibleRows = 5; // longer tabs scroll to follow the selection
+        private int scrollTop;
         private Rect windowRect = new Rect(40, 40, Width, Height);
 
         private readonly List<MenuItem> allItems;
@@ -48,6 +50,7 @@ namespace Bloodmoon
                 int step = kb.shiftKey.isPressed ? -1 : 1;
                 categoryIndex = (categoryIndex + step + categories.Length) % categories.Length;
                 selected = 0;
+                scrollTop = 0;
                 RefreshVisible();
             }
 
@@ -162,7 +165,15 @@ namespace Bloodmoon
                 GUILayout.Label("Nothing here yet. New mods will show up in this tab.", muted);
             }
 
-            for (int i = 0; i < visible.Count; i++)
+            // Keep the selected row inside the visible window
+            if (selected < scrollTop) scrollTop = selected;
+            if (selected >= scrollTop + MaxVisibleRows) scrollTop = selected - MaxVisibleRows + 1;
+            scrollTop = Mathf.Clamp(scrollTop, 0, Mathf.Max(0, visible.Count - MaxVisibleRows));
+            int end = Mathf.Min(visible.Count, scrollTop + MaxVisibleRows);
+
+            if (scrollTop > 0) GUILayout.Label($"+{scrollTop} more above", more);
+
+            for (int i = scrollTop; i < end; i++)
             {
                 bool lit = i == selected;
                 switch (visible[i])
@@ -172,6 +183,8 @@ namespace Bloodmoon
                     case ButtonItem b: DrawButton(b, lit); break;
                 }
             }
+
+            if (end < visible.Count) GUILayout.Label($"+{visible.Count - end} more below", more);
 
             GUILayout.FlexibleSpace();
             GUILayout.EndVertical();
@@ -232,7 +245,7 @@ namespace Bloodmoon
         // ---- styles ----
 
         private bool stylesReady;
-        private GUIStyle window, title, subtitle, badge, section, label, labelLit, value, hint, muted, description, footer, divider;
+        private GUIStyle window, title, subtitle, badge, section, label, labelLit, value, hint, muted, more, description, footer, divider;
         private GUIStyle sidebar, tab, tabLit, tabText, tabTextLit, count, row, rowLit, pillOn, pillOff;
         private Texture2D moon, trackTex, fillTex, thumbTex, thumbLitTex;
 
@@ -262,6 +275,9 @@ namespace Bloodmoon
             hint = Text(10, Theme.RedBright, FontStyle.Bold);
             muted = Text(12, Theme.Muted);
             muted.wordWrap = true;
+            more = Text(10, Theme.Red, FontStyle.Bold);
+            more.alignment = TextAnchor.MiddleCenter;
+            more.margin = new RectOffset(0, 0, 2, 2);
             description = Text(12, Theme.Text);
             description.wordWrap = true;
             description.fixedHeight = 34;
