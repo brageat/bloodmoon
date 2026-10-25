@@ -245,6 +245,8 @@ namespace Bloodmoon
         // Re-warp onto MapHandler.respawnThePeak (the game's own Peak landing spot) after it has loaded
         private static IEnumerator SettleOnPeak(bool everyone)
         {
+            // It takes a moment, so say so on screen
+            Plugin.Toast("Teleporting to the summit... wait a sec", PeakSafeTime);
             float until = Time.time + PeakSafeTime;
             float warpAt = Time.time + (everyone ? PeakLoadWait : 0f);
             bool warped = false;
@@ -278,6 +280,7 @@ namespace Bloodmoon
                                         Warp(c, p + new Vector3((++i % 2 == 0 ? 1f : -1f) * (1 + i / 2) * 1.2f, 0f, 0f));
                             }
                             Plugin.Log.LogInfo($"TP to Peak: placed on the summit at {p}");
+                            Plugin.Toast("You're on the summit!", 2f);
                         }
                     }
                 }

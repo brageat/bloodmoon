@@ -97,6 +97,7 @@ namespace Bloodmoon
             {
                 if (menu.Open) menu.Draw();
                 else DrawUpdateNotice();
+                DrawToast(); // short messages from modules, shown even with the menu open
             }
             catch (System.Exception e) { LogOnce("menu", e); }
         }
@@ -106,12 +107,35 @@ namespace Bloodmoon
         private float noticeUntil = -1f;
         private UnityEngine.GUIStyle noticeStyle;
 
+        // A short message at the top of the screen, e.g. "Teleporting to the summit..."
+        private static string toastText;
+        private static float toastUntil;
+
+        internal static void Toast(string text, float seconds)
+        {
+            toastText = text;
+            toastUntil = UnityEngine.Time.unscaledTime + seconds;
+        }
+
+        internal static void HideToast() => toastUntil = 0f;
+
+        private void DrawToast()
+        {
+            if (toastText == null || UnityEngine.Time.unscaledTime > toastUntil) return;
+            DrawBanner(toastText, 20f);
+        }
+
         private void DrawUpdateNotice()
         {
             if (!UpdateModule.UpdateAvailable) return;
             if (noticeUntil < 0f) noticeUntil = UnityEngine.Time.unscaledTime + NoticeSeconds;
             if (UnityEngine.Time.unscaledTime > noticeUntil) return;
+            DrawBanner($"BLOODMOON UPDATE: v{UpdateModule.LatestVersion} is out (you have v{Version}). Open the menu ({ToggleKey.Value}) > Misc to download.", 70f);
+        }
 
+        // Black box with a red border and red text, centred near the top of the screen
+        private void DrawBanner(string text, float y)
+        {
             if (noticeStyle == null)
             {
                 noticeStyle = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.box)
@@ -126,9 +150,8 @@ namespace Bloodmoon
                 noticeStyle.normal.textColor = Theme.RedBright;
             }
 
-            var text = $"BLOODMOON UPDATE: v{UpdateModule.LatestVersion} is out (you have v{Version}). Open the menu ({ToggleKey.Value}) > Misc to download.";
             var size = noticeStyle.CalcSize(new UnityEngine.GUIContent(text));
-            UnityEngine.GUI.Box(new UnityEngine.Rect((UnityEngine.Screen.width - size.x) / 2f, 20f, size.x, size.y), text, noticeStyle);
+            UnityEngine.GUI.Box(new UnityEngine.Rect((UnityEngine.Screen.width - size.x) / 2f, y, size.x, size.y), text, noticeStyle);
         }
 
         private void SaveSettings()
