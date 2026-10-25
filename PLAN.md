@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon-peak (public since v0.13.0)
 
-**Current version:** **v1.1.0** (respawn buttons). Released, every feature is tested and working, and all checkpoints are done.
+**Current version:** v1.2.0 (player TPs, hide mountain TPs). It's installed but not yet tested (testing with Dad) or released.
 
 ---
 
@@ -75,6 +75,9 @@ Checked off as each one is completed.
 - [x] Respawn tested in-game: works
 - [x] Release 1.1.0 published (zip only, labeled)
 
+- [x] v1.2.0: TP to players, bring player / everyone to me, Hide mountain TPs toggle (on by default) (built and installed)
+- [ ] v1.2.0 tested in multiplayer (with Dad), then publish the 1.2.0 release
+
 ### Docs
 - [x] Releases ship as **Bloodmoon.zip** (folders already set up, plus a HOW TO INSTALL.txt) because browsers warn less about zips. Download button and README point at the zip.
 - [x] Clear step-by-step download and install instructions in the README, on the page and in the zip
@@ -117,6 +120,7 @@ Checked off as each one is completed.
 | **1.0.0** | `fc82cdd` | First stable version (same features as 0.13.0) |
 | 1.0.1 | `ddc7b4f` | Fix: flying no longer drifts upward (height hold). Update check falls back to the releases page when GitHub's API rate limit is hit. |
 | 1.1.0 | see git log | Respawn at campfire / where you died (Player tab) |
+| 1.2.0 | see git log | Teleport tab: TP to each player, bring a player or everyone to you; Hide mountain TPs (on by default) |
 
 ## Mods in the menu
 
