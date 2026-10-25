@@ -96,7 +96,9 @@ namespace Bloodmoon
                 {
                     Category = Category.Teleport,
                     Name = "TP to " + name,
-                    Description = $"Current or earlier biome: teleports only you to the {name} campfire and lights nothing. Later biome: lights the campfires on the way and moves EVERYONE there (host only).",
+                    Description = segment == Segment.Peak
+                        ? "Takes you to the summit, next to the rescue flare. Wait a second after pressing: you land lower first, then get placed on top (no fall damage). From an earlier biome it moves EVERYONE (host only)."
+                        : $"Current or earlier biome: teleports only you to the {name} campfire and lights nothing. Later biome: lights the campfires on the way and moves EVERYONE there (host only).",
                     OnPress = () => JumpToBiome(target),
                     IsShown = () => !hideMountain.Value,
                 });

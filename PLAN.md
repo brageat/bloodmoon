@@ -80,7 +80,11 @@ Checked off as each one is completed.
 - [x] v1.2.1: after the jump, wait for the Peak to load, then re-warp onto `MapHandler.respawnThePeak`, with fall protection (built)
 - [x] v1.2.1 tested: the re-warp ran, but `respawnThePeak` is at the foot of the final climb (in front of the Kiln), not the top
 - [x] v1.3.0: TP to Peak targets the summit flare box instead; Reset all settings button in Misc (built)
-- [ ] v1.3.0 installed; TP to Peak, Reset all and the player TPs tested (with Dad), then publish the release
+- [x] v1.3.0 installed
+- [x] TP to Peak tested: works (it takes a second to place you on top, so the button's description now says so)
+- [ ] Reset all settings tested
+- [ ] ⏰ **REMINDER: test the player TPs with Dad** (TP to Dad, Bring Dad to me, Bring everyone to me)
+- [ ] Then publish the release
 
 ### Docs
 - [x] Releases ship as **Bloodmoon.zip** (folders already set up, plus a HOW TO INSTALL.txt) because browsers warn less about zips. Download button and README point at the zip.
