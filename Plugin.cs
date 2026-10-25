@@ -119,10 +119,30 @@ namespace Bloodmoon
 
         internal static void HideToast() => toastUntil = 0f;
 
+        private UnityEngine.GUIStyle toastStyle;
+
+        // Big and in the upper middle of the screen, so it's hard to miss
         private void DrawToast()
         {
             if (toastText == null || UnityEngine.Time.unscaledTime > toastUntil) return;
-            DrawBanner(toastText, 20f);
+
+            if (toastStyle == null)
+            {
+                toastStyle = new UnityEngine.GUIStyle(UnityEngine.GUI.skin.box)
+                {
+                    fontSize = 30,
+                    fontStyle = UnityEngine.FontStyle.Bold,
+                    alignment = UnityEngine.TextAnchor.MiddleCenter,
+                    padding = new UnityEngine.RectOffset(36, 36, 20, 20),
+                    border = new UnityEngine.RectOffset(3, 3, 3, 3),
+                };
+                toastStyle.normal.background = Theme.Bordered(Theme.Black, Theme.RedBright);
+                toastStyle.normal.textColor = Theme.RedBright;
+            }
+
+            var size = toastStyle.CalcSize(new UnityEngine.GUIContent(toastText));
+            float y = UnityEngine.Screen.height * 0.22f;
+            UnityEngine.GUI.Box(new UnityEngine.Rect((UnityEngine.Screen.width - size.x) / 2f, y, size.x, size.y), toastText, toastStyle);
         }
 
         private void DrawUpdateNotice()

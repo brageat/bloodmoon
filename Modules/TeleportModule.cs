@@ -280,7 +280,7 @@ namespace Bloodmoon
                                         Warp(c, p + new Vector3((++i % 2 == 0 ? 1f : -1f) * (1 + i / 2) * 1.2f, 0f, 0f));
                             }
                             Plugin.Log.LogInfo($"TP to Peak: placed on the summit at {p}");
-                            Plugin.Toast("You're on the summit!", 2f);
+                            Plugin.Toast("You're on the summit!", 3f);
                         }
                     }
                 }
