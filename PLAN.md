@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon-peak (public since v0.13.0)
 
-**Current version:** v1.1.0 (respawn buttons). It's installed but not yet tested or released.
+**Current version:** **v1.1.0** (respawn buttons). Released, every feature is tested and working, and all checkpoints are done.
 
 ---
 
@@ -72,7 +72,8 @@ Checked off as each one is completed.
 - [x] **v1.0.0** released, the first stable version
 
 - [x] v1.1.0: Respawn at campfire + Respawn where you died, using the game's own `RPCA_ReviveAtPosition`; only when dead or passed out (built and installed)
-- [ ] Respawn tested in-game, then publish the 1.1.0 release (zip only, labeled)
+- [x] Respawn tested in-game: works
+- [x] Release 1.1.0 published (zip only, labeled)
 
 ### Docs
 - [x] Releases ship as **Bloodmoon.zip** (folders already set up, plus a HOW TO INSTALL.txt) because browsers warn less about zips. Download button and README point at the zip.
