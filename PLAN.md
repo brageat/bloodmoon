@@ -84,7 +84,7 @@ Checked off as each one is completed.
 - [x] TP to Peak tested: works (it takes a second to place you on top, so the button's description now says so)
 - [x] Reset all settings tested: works
 - [x] On-screen message while TP to Peak works: "At the Kiln for a sec... moving you up to the summit!", then "You're on the summit!" (built and installed)
-- [ ] On-screen TP to Peak message tested
+- [x] On-screen TP to Peak message tested: works (made bigger and moved to the upper middle so it is easy to see)
 - [ ] ⏰ **REMINDER: test the player TPs with Dad** (TP to Dad, Bring Dad to me, Bring everyone to me)
 - [ ] Then publish the release
 
