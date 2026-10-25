@@ -57,6 +57,8 @@ No need to build anything to just play. The build steps below are only for chang
 | Player | Infinite health | Blocks all damage and clears every effect (the all-in-one switch) |
 | Player | Set health | 10% to 100%. Only changes injury; other effects stay |
 | Player | Heal fully | Heals all injury once. Other effects stay. |
+| Player | Respawn at campfire | When you're dead or passed out: revives you next to the lit campfire closest to where you died (the same revive the Scout effigy uses; you drop your items) |
+| Player | Respawn where you died | The same, but at the spot you died |
 | Effects | Block injury / hunger / cold / poison / heat / drowsy / curse / spores | A separate toggle for each effect. It stops that one effect and leaves the others alone. |
 | Effects | Block all effects | One switch that keeps every effect away (lighter than Infinite health) |
 | Effects | Clear all effects | Clears every effect once |
