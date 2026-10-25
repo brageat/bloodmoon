@@ -222,6 +222,21 @@ namespace Bloodmoon
             if (target == Segment.Peak) Plugin.Runner.StartCoroutine(SettleOnPeak(everyone: true));
         }
 
+        // The real top of the mountain: next to the rescue flare box. MapHandler.respawnThePeak
+        // sounds right but is actually at the foot of the final climb, in front of the Kiln.
+        private static Vector3? SummitSpot()
+        {
+            var peak = PeakHandler.Instance;
+            if (peak != null && peak.flareBox != null)
+                return peak.flareBox.transform.position + Vector3.up * 1f + peak.flareBox.transform.forward * 2f;
+
+            var flare = Object.FindAnyObjectByType<Peak.EndgameFlareSpawner>(FindObjectsInactive.Include);
+            if (flare != null) return flare.transform.position + Vector3.up * 1f;
+
+            var map = MapHandler.Instance;
+            return map != null && map.respawnThePeak != null ? map.respawnThePeak.position : (Vector3?)null;
+        }
+
         private const float PeakLoadWait = 2.5f;   // seconds for the Peak's ground to load
         private const float PeakSafeTime = 6f;     // seconds of no fall damage around the move
 
@@ -244,11 +259,10 @@ namespace Bloodmoon
                     if (!warped && Time.time >= warpAt)
                     {
                         warped = true;
-                        var map = MapHandler.Instance;
-                        var spot = map != null && map.respawnThePeak != null ? map.respawnThePeak.position : (Vector3?)null;
+                        var spot = SummitSpot();
                         if (spot == null)
                         {
-                            Plugin.Log.LogWarning("TP to Peak: couldn't find the Peak's landing spot");
+                            Plugin.Log.LogWarning("TP to Peak: couldn't find the summit");
                         }
                         else
                         {
@@ -261,7 +275,7 @@ namespace Bloodmoon
                                     if (c != null && !c.IsLocal && !c.data.dead)
                                         Warp(c, p + new Vector3((++i % 2 == 0 ? 1f : -1f) * (1 + i / 2) * 1.2f, 0f, 0f));
                             }
-                            Plugin.Log.LogInfo($"TP to Peak: placed on the Peak at {p}");
+                            Plugin.Log.LogInfo($"TP to Peak: placed on the summit at {p}");
                         }
                     }
                 }

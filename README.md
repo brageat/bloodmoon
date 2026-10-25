@@ -50,6 +50,7 @@ No need to build anything to just play. The build steps below are only for chang
 | World | Instant campfire | Lights the nearest unlit campfire instantly, with no holding and no waiting for everyone |
 | Misc | Update status | Checks GitHub's latest release when the game starts. If there's a newer version, a red notice shows at the top of the screen and in the menu header. Enter opens the download page. |
 | Misc | Check for updates | Asks GitHub again |
+| Misc | Reset all settings | Puts every mod back to default (speeds 1x, every toggle off). Keeps your menu key and update settings. |
 | Teleport | TP to <player> | A button for each other player in your lobby; teleports you to them |
 | Teleport | Bring <player> to me / Bring everyone to me | Teleports other players to you, spread out in front of you (dead players are skipped) |
 | Teleport | Hide mountain TPs | **On by default.** Hides the TP-to-biome buttons so nobody jumps the lobby by accident |

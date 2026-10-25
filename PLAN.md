@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon-peak (public since v0.13.0)
 
-**Current version:** v1.2.1 (TP to Peak fix). It's installed and loading in PEAK, but not yet tested or released.
+**Current version:** v1.3.0 (TP to Peak goes to the real summit, Reset all). It's built but not yet installed, tested or released.
 
 ---
 
@@ -78,7 +78,9 @@ Checked off as each one is completed.
 - [x] v1.2.0: TP to players, bring player / everyone to me, Hide mountain TPs toggle (on by default) (built and installed)
 - [x] Bug found: TP to Peak lands you in the air and you fall (the game warps you before the Peak's ground has loaded)
 - [x] v1.2.1: after the jump, wait for the Peak to load, then re-warp onto `MapHandler.respawnThePeak`, with fall protection (built)
-- [ ] v1.2.1 installed; TP to Peak and the player TPs tested (with Dad), then publish the release
+- [x] v1.2.1 tested: the re-warp ran, but `respawnThePeak` is at the foot of the final climb (in front of the Kiln), not the top
+- [x] v1.3.0: TP to Peak targets the summit flare box instead; Reset all settings button in Misc (built)
+- [ ] v1.3.0 installed; TP to Peak, Reset all and the player TPs tested (with Dad), then publish the release
 
 ### Docs
 - [x] Releases ship as **Bloodmoon.zip** (folders already set up, plus a HOW TO INSTALL.txt) because browsers warn less about zips. Download button and README point at the zip.
@@ -124,6 +126,7 @@ Checked off as each one is completed.
 | 1.1.0 | see git log | Respawn at campfire / where you died (Player tab) |
 | 1.2.0 | see git log | Teleport tab: TP to each player, bring a player or everyone to you; Hide mountain TPs (on by default) |
 | 1.2.1 | see git log | Fix: TP to Peak no longer drops you. After the jump it re-places everyone on the game's Peak landing spot once the Peak has loaded, with no fall damage. |
+| 1.3.0 | see git log | TP to Peak lands at the real summit (next to the rescue flare box, `PeakHandler.flareBox`). New: Reset all settings (Misc). |
 
 ## Mods in the menu
 
