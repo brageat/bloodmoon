@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using BepInEx.Configuration;
 using Photon.Pun;
@@ -192,7 +193,8 @@ namespace Bloodmoon
             // drag the whole lobby along and leave anyone who isn't there to the fog.
             if (target <= MapHandler.CurrentSegmentNumber)
             {
-                WarpToCampfire(target);
+                if (target == Segment.Peak) Plugin.Runner.StartCoroutine(SettleOnPeak(everyone: false));
+                else WarpToCampfire(target);
                 return;
             }
 
@@ -214,6 +216,57 @@ namespace Bloodmoon
 
             MapHandler.JumpToSegment(target);
             Plugin.Log.LogInfo($"TP to biome: jumped to {target}");
+
+            // The game warps everyone to the Peak before its ground has loaded, so people fall.
+            // Put them back on the Peak's landing spot once it's there.
+            if (target == Segment.Peak) Plugin.Runner.StartCoroutine(SettleOnPeak(everyone: true));
+        }
+
+        private const float PeakLoadWait = 2.5f;   // seconds for the Peak's ground to load
+        private const float PeakSafeTime = 6f;     // seconds of no fall damage around the move
+
+        // Re-warp onto MapHandler.respawnThePeak (the game's own Peak landing spot) after it has loaded
+        private static IEnumerator SettleOnPeak(bool everyone)
+        {
+            float until = Time.time + PeakSafeTime;
+            float warpAt = Time.time + (everyone ? PeakLoadWait : 0f);
+            bool warped = false;
+
+            while (Time.time < until)
+            {
+                var me = Character.localCharacter;
+                if (me != null)
+                {
+                    // No fall damage while the Peak loads in
+                    me.data.sinceGrounded = 0f;
+                    me.data.fallSeconds = 0f;
+
+                    if (!warped && Time.time >= warpAt)
+                    {
+                        warped = true;
+                        var map = MapHandler.Instance;
+                        var spot = map != null && map.respawnThePeak != null ? map.respawnThePeak.position : (Vector3?)null;
+                        if (spot == null)
+                        {
+                            Plugin.Log.LogWarning("TP to Peak: couldn't find the Peak's landing spot");
+                        }
+                        else
+                        {
+                            Vector3 p = spot.Value + Vector3.up * 1.5f;
+                            Warp(me, p);
+                            if (everyone)
+                            {
+                                int i = 0;
+                                foreach (var c in Character.AllCharacters)
+                                    if (c != null && !c.IsLocal && !c.data.dead)
+                                        Warp(c, p + new Vector3((++i % 2 == 0 ? 1f : -1f) * (1 + i / 2) * 1.2f, 0f, 0f));
+                            }
+                            Plugin.Log.LogInfo($"TP to Peak: placed on the Peak at {p}");
+                        }
+                    }
+                }
+                yield return null;
+            }
         }
 
         // Teleport only the local player next to a biome's campfire, without touching it
