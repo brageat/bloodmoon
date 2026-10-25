@@ -246,7 +246,7 @@ namespace Bloodmoon
         private static IEnumerator SettleOnPeak(bool everyone)
         {
             // It takes a moment, so say so on screen
-            Plugin.Toast("Teleporting to the summit... wait a sec", PeakSafeTime);
+            Plugin.Toast("At the Kiln for a sec... moving you up to the summit!", PeakSafeTime);
             float until = Time.time + PeakSafeTime;
             float warpAt = Time.time + (everyone ? PeakLoadWait : 0f);
             bool warped = false;
