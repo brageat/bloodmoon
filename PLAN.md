@@ -82,7 +82,7 @@ Checked off as each one is completed.
 - [x] v1.3.0: TP to Peak targets the summit flare box instead; Reset all settings button in Misc (built)
 - [x] v1.3.0 installed
 - [x] TP to Peak tested: works (it takes a second to place you on top, so the button's description now says so)
-- [ ] Reset all settings tested
+- [x] Reset all settings tested: works
 - [ ] ⏰ **REMINDER: test the player TPs with Dad** (TP to Dad, Bring Dad to me, Bring everyone to me)
 - [ ] Then publish the release
 
