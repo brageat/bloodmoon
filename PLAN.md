@@ -3,7 +3,7 @@
 A black and red mod menu for **PEAK** (BepInEx 5, C#).
 Repo: https://github.com/brageat/bloodmoon-peak (public since v0.13.0)
 
-**Current version:** v1.3.0 (TP to Peak goes to the real summit, Reset all). It's installed and loading in PEAK, but not yet tested or released.
+**Current version:** **v1.3.0**. Released, every feature is tested and working, and all checkpoints are done.
 
 ---
 
@@ -85,8 +85,8 @@ Checked off as each one is completed.
 - [x] Reset all settings tested: works
 - [x] On-screen message while TP to Peak works: "At the Kiln for a sec... moving you up to the summit!", then "You're on the summit!" (built and installed)
 - [x] On-screen TP to Peak message tested: works (made bigger and moved to the upper middle so it is easy to see)
-- [ ] ⏰ **REMINDER: test the player TPs with Dad** (TP to Dad, Bring Dad to me, Bring everyone to me)
-- [ ] Then publish the release
+- [x] Player TPs tested with Dad: TP to Dad, Bring Dad to me and Bring everyone to me all work
+- [x] Release 1.3.0 published (zip only, labeled)
 
 ### Docs
 - [x] Releases ship as **Bloodmoon.zip** (folders already set up, plus a HOW TO INSTALL.txt) because browsers warn less about zips. Download button and README point at the zip.
